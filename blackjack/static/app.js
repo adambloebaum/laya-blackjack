@@ -5,6 +5,7 @@ const escape = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;
 let sessionId, data, busy = false, playing = false, timer, jobTimer;
 let config = { players:3, decks:6, seed:42, samples:256 };
 let checkpointAvailable = false;
+let overnightRunning = false, localJobRunning = false;
 
 async function api(path, body) {
   const response = await fetch(path, body === undefined ? {} : {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
@@ -172,8 +173,8 @@ async function pollJob(id) {
     $('job-status').textContent=`${job.kind.toUpperCase()} · ${job.status.toUpperCase()}`;
     $('job-log').textContent=job.log;
     $('job-log').scrollTop=$('job-log').scrollHeight;
-    const running=job.status==='running';
-    $('train-button').disabled=running; $('benchmark-button').disabled=running;
+    const running=job.status==='running';localJobRunning=running;
+    $('train-button').disabled=running||overnightRunning; $('benchmark-button').disabled=running||overnightRunning;
     if (running) jobTimer=setTimeout(()=>pollJob(id),2500);
     else if (job.status==='failed') {notice(`Experiment failed: ${job.error}. See the console for details.`,true);localStorage.removeItem('laya-job');}
     else {
@@ -181,7 +182,28 @@ async function pollJob(id) {
       else renderBenchmark(job.result);
       localStorage.removeItem('laya-job');
     }
-  } catch(err) {notice(err.message,true);localStorage.removeItem('laya-job');$('train-button').disabled=false;$('benchmark-button').disabled=false;}
+  } catch(err) {notice(err.message,true);localStorage.removeItem('laya-job');localJobRunning=false;$('train-button').disabled=overnightRunning;$('benchmark-button').disabled=overnightRunning;}
+}
+async function pollOvernight() {
+  try {
+    const run=await api('/api/overnight');
+    $('overnight-panel').hidden=!run.available;
+    overnightRunning=['running','unresponsive'].includes(run.status);
+    $('train-button').disabled=overnightRunning||localJobRunning;
+    $('benchmark-button').disabled=overnightRunning||localJobRunning;
+    if(run.available){
+      $('overnight-status').textContent=`${run.stage.replaceAll('_',' ').toUpperCase()} · ${run.status.toUpperCase()}`;
+      const deadline=new Date(run.deadline_unix*1000).toLocaleString();
+      $('overnight-summary').textContent=`${run.run} · elapsed ${(run.elapsed_seconds/3600).toFixed(2)} hours · stops by ${deadline}`;
+      const rows=Object.entries(run.progress).map(([name,p])=>{
+        const detail=p.stage==='generation'?Object.entries(p.states).map(([s,n])=>`${s}: ${n.toLocaleString()}`).join(' · '):`updates: ${p.updates.toLocaleString()}${p.planned_updates?` / ${p.planned_updates.toLocaleString()}`:''}${p.loss!==undefined?` · loss ${p.loss.toFixed(4)}`:''}`;
+        return `<tr><td>${escape(name)}</td><td>${escape(detail)}</td></tr>`;
+      });
+      $('overnight-progress').innerHTML=`<table class="report-table"><tbody>${rows.join('')}</tbody></table>`;
+      $('overnight-note').textContent=run.error|| (run.status==='unresponsive'?'Progress updates stopped. Check the local service before restarting.':'Candidates are compared on separate selection games. Final test results are reported afterward; the live model stays unchanged until a candidate is reviewed.');
+    }
+  } catch { $('overnight-note').textContent='Unable to refresh overnight progress.'; }
+  setTimeout(pollOvernight,5000);
 }
 function renderBenchmark(report) {
   $('benchmark-results').innerHTML=`<table class="report-table"><thead><tr><th>Policy</th><th>Rounds</th><th>Mean net units</th><th>95% interval</th></tr></thead><tbody>${Object.entries(report.results).map(([name,r])=>`<tr><td>${escape(name)}</td><td>${r.rounds}</td><td>${signed(r.mean_units,3)}</td><td>${signed(r.ci95[0],3)} to ${signed(r.ci95[1],3)}</td></tr>`).join('')}</tbody></table><p class="footnote">${escape(report.sampling)}. ${report.rules.players} players; S17; 3:2; DAS; surrender.</p>`;
@@ -220,3 +242,4 @@ async function init() {
   }catch(err){notice(`Could not connect to the laboratory: ${err.message}`,true);}
 }
 init();
+pollOvernight();

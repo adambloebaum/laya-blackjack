@@ -32,6 +32,20 @@ job_lock = threading.Lock()
 jobs: dict[str, dict] = {}
 
 
+@app.get("/api/overnight")
+def overnight_status():
+    paths = list(ARTIFACTS.glob("overnight/*/status.json"))
+    if not paths:
+        return {"available": False}
+    path = max(paths, key=lambda p: p.stat().st_mtime)
+    result = json.loads(path.read_text())
+    result.update(available=True, run=path.parent.name)
+    result["heartbeat_age_seconds"] = max(0, time.time() - result["updated_unix"])
+    if result["status"] == "running" and result["heartbeat_age_seconds"] > 60:
+        result["status"] = "unresponsive"
+    return result
+
+
 class TableConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
     players: int = Field(default=3, ge=1, le=7)
@@ -288,6 +302,8 @@ def run_job(jid: str, request: JobRequest):
 
 @app.post("/api/jobs")
 def create_job(request: JobRequest):
+    if overnight_status().get("status") in ("running", "unresponsive"):
+        raise HTTPException(409, "An overnight experiment is active. Check its status before starting another job.")
     if request.kind == "train":
         from importlib.util import find_spec
 

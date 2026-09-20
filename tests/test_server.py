@@ -45,6 +45,29 @@ def test_invalid_config_and_not_found():
     assert client.get("/").status_code == 200
 
 
+def test_overnight_status_survives_server_restart_and_marks_stale_heartbeat(monkeypatch, tmp_path):
+    import json
+    import time
+
+    from blackjack import server
+
+    monkeypatch.setattr(server, "ARTIFACTS", tmp_path)
+    assert client.get("/api/overnight").json() == {"available": False}
+    path = tmp_path / "overnight" / "example" / "status.json"
+    path.parent.mkdir(parents=True)
+    run = {"status": "running", "stage": "generation", "updated_unix": time.time()}
+    path.write_text(json.dumps(run))
+    assert client.get("/api/overnight").json()["status"] == "running"
+    assert client.post("/api/jobs", json={"kind": "benchmark"}).status_code == 409
+    run["updated_unix"] -= 120
+    path.write_text(json.dumps(run))
+    assert client.get("/api/overnight").json()["status"] == "unresponsive"
+    run["status"] = "complete"
+    path.write_text(json.dumps(run))
+    assert client.get("/api/overnight").json()["status"] == "complete"
+    assert server.latest_checkpoint() is None
+
+
 def test_export_reconstructs_entire_session():
     table = new_table(seed=71, players=7)
     for _ in range(30):

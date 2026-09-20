@@ -1,0 +1,31 @@
+{
+  "purpose": "Execution validation only; too small for strategy conclusions",
+  "states": {
+    "train": 32,
+    "selection": 8,
+    "calibration": 8,
+    "test": 8
+  },
+  "workers": 24,
+  "batch_size": 8,
+  "elapsed_seconds": 75.6305296421051,
+  "return_evaluation_completed": true,
+  "gpus": {
+    "0": {
+      "device": "cuda:0",
+      "updates": 12,
+      "elapsed_seconds": 28.079894787166268,
+      "gpu_peak_allocated_gb": 8.45396224,
+      "learning_rate": 1e-05
+    },
+    "1": {
+      "device": "cuda:1",
+      "updates": 12,
+      "elapsed_seconds": 27.7583054760471,
+      "gpu_peak_allocated_gb": 8.45396224,
+      "learning_rate": 5e-06
+    }
+  },
+  "sdk_reload_agreement_matches_offline": true,
+  "interruption_recovery": "Separate same-seed smoke resumed epoch 0, shard 2, batch 2 and completed 12 updates."
+}

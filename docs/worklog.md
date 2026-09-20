@@ -13,6 +13,17 @@
 
 This new repository has no pre-existing worklog hook; this entry is maintained manually.
 
+## 2026-09-20 — Overnight scaling pipeline
+
+- Authorized scope: local compute only, up to 12 hours, increased workers and both local GPUs. Configured 24 simulation workers and independent candidates on both RTX 4090s.
+- Optimized sampled-world cloning and continuation observation construction. A fixed 12-state/128-rollout comparison preserved exact outputs and reduced runtime from 2.242 to 0.377 seconds (5.95×). Regression tests compare deep-copy/public-policy trajectories across all tablemate behaviors.
+- Added whole-shoe reservoir sampling, rare-state emphasis for training, adaptive paired action-value sampling, independent selection/calibration/test groups, deterministic parallel shards, source manifests, atomic receipts, and hash-verified recovery.
+- Added shard-streamed training, mixed precision, gradient checkpointing, weighted action labels, warmup/cosine learning rates, optimizer/RNG/batch recovery, atomic best-checkpoint publication, and separate selection/calibration/final reporting.
+- Added a shared-budget supervisor, parallel GPU candidates, complete-candidate comparison, optional return evaluation, and persistent dashboard progress. Overnight candidates remain separate from live checkpoint discovery.
+- Verified an actual interruption/restart: GPU 0 restored epoch 0, shard 2, batch 2 and finished all 12 smoke-test updates. Both GPUs completed batch-8 training concurrently. These tiny smoke results validate execution only.
+- Passed 36 engine/data/API tests and three browser tests, including parallel reproducibility, tamper rejection, adaptive/fixed sample equivalence, stale heartbeat display, and dual-GPU progress on mobile.
+- Enabled user lingering for the durable systemd launch. The launch uses an immutable source snapshot, a 12-hour process-group limit, lower CPU priority, and a 28 GiB host-memory ceiling. Actual run identifiers and status are recorded with the launch artifacts.
+
 ### Replay follow-up
 
 - Added a regression test that replays random tablemate actions over multiple shoe shuffles. Isolated behavior RNG from shuffle RNG so the action trace fully determines future cards.
@@ -26,3 +37,5 @@ This new repository has no pre-existing worklog hook; this entry is maintained m
 - Fixed inference cache version capture during model reload and long-session chart/counter presentation.
 - Created the private personal GitHub repository as adambloebaum. Model weights and raw datasets remain local; small experiment reports are tracked.
 - Set dashboard training to full-model adaptation by default (six epochs, 0.00002 learning rate), with an explicit decision-layer-only option; CLI defaults retain the lightweight pilot.
+
+- The final supervisor smoke completed generation, both GPU candidates, atomic publication, selection, and return evaluation in 75.6 seconds. Each GPU peaked at 8.45 GB allocated; SDK reload reproduced offline action agreement. Small execution metrics are saved in `docs/results/scaling-smoke.json`.

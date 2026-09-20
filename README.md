@@ -64,6 +64,18 @@ Training uses supervised cross-entropy distillation, a proper probability scorin
 
 Checkpoint publication happens only after model files, tokenizer, config, and the evaluation report are complete. The dashboard loads the most recently completed local checkpoint. A completed run is not automatically activated; click **Load trained Laya** to switch.
 
+### Larger local experiments
+
+The overnight pipeline uses 24 simulation workers, then both local GPUs for two independent full-model candidates (learning rates 0.00001 and 0.000005, same seed). It targets **100,000 training states**, plus **2,000 selection**, **2,000 calibration**, and **5,000 final test** states from disjoint games. The current full-model pilot is the warm start.
+
+```bash
+uv run --no-sync blackjack overnight --output artifacts/overnight/my-run --source artifacts/checkpoints/blackjack-full --hours 12 --workers 24 --gpus 0,1
+```
+
+Run this under a durable process manager for unattended use; the CLI alone remains attached to its terminal. The provisioned local run uses a user systemd service with a hard 12-hour limit. **Experiments → Overnight experiment** displays progress across dashboard restarts. See [the scaling experiment](docs/scaling-experiment.md) for monitoring, resume commands, and evaluation details.
+
+Generation stops scheduling new shards after 28% of the budget, preserving time for training and evaluation; the actual training set may be smaller than the target. Saved optimizer/RNG state and deterministic batches support recovery. A resumed run retains its original deadline. Completed overnight candidates stay outside dashboard checkpoint discovery until reviewed; the existing pilot remains the available live model.
+
 ## Evaluate and replay
 
 ```bash
@@ -108,6 +120,9 @@ blackjack/engine.py       Rules, shoe, hands, payouts, public observations
 blackjack/reference.py    Conditional hidden-world sampling and rollout EVs
 blackjack/model.py        Pinned Laya loading, prompts, context checks, inference
 blackjack/training.py     Data generation, distillation, calibration, benchmarks
+blackjack/experiment_data.py  Parallel whole-shoe sampling, shard receipts, split verification
+blackjack/experiment_train.py Streaming fine-tuning, optimizer recovery, selection/calibration/test
+blackjack/overnight.py        Shared wall-clock budget and dual-GPU supervision
 blackjack/server.py       Versioned browser tables, model loading, experiment jobs
 blackjack/static/         Responsive dashboard (plain HTML/CSS/JavaScript)
 docs/                    Design, worklog, and measured experiment reports
