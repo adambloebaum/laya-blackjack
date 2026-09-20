@@ -61,7 +61,8 @@ class JobRequest(BaseModel):
     kind: Literal["train", "benchmark"]
     states: int = Field(default=500, ge=50, le=20000)
     samples: int = Field(default=256, ge=32, le=2048)
-    epochs: int = Field(default=3, ge=1, le=20)
+    epochs: int = Field(default=6, ge=1, le=20)
+    full_model: bool = True
     rounds: int = Field(default=200, ge=25, le=10000)
     players: int = Field(default=3, ge=1, le=7)
 
@@ -108,6 +109,7 @@ def snapshot(session: Session):
         except Exception as exc:
             inference = {"available": False, "reason": f"Inference failed: {exc}"}
         status = policy.status()
+        inference_version = model_version
     session.cached = {
         "state": obs,
         "reference": ref,
@@ -117,7 +119,7 @@ def snapshot(session: Session):
         "history": session.game.history,
         "events": session.game.events[-30:],
     }
-    session.cache_model_version = model_version
+    session.cache_model_version = inference_version
     return session.cached
 
 
@@ -255,6 +257,8 @@ def run_job(jid: str, request: JobRequest):
                 ],
             ]
             report = directory / "model" / "training_report.json"
+            if request.full_model:
+                commands[-1] += ["--full-model", "--learning-rate", "0.00002"]
         else:
             command = base + [
                 "benchmark",

@@ -18,3 +18,4 @@
 - FastAPI routes are sync functions so CPU rollouts and PyTorch work run off the event loop. Lock table mutations and check revisions. Loading/prediction share a model lock; failed loads preserve the existing model.
 - Session metadata, model loading, and jobs are in-process. Use one Uvicorn worker. The app is a localhost personal lab, not a multiuser deployment.
 - Unit/card-conservation and hidden-state invariance tests are critical when changing engine or policy code. CI must work without Laya extras or checkpoint downloads.
+- Shuffle and tablemate behavior use separate RNG streams. Replaying explicit actions does not call the behavior policy, so sharing its RNG with shuffling corrupts later shoes even when early replay rounds match.

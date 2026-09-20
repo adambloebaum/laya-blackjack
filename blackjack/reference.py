@@ -53,6 +53,7 @@ def sample_world(obs: dict, rng: random.Random) -> Game:
     g.rules = Rules(**obs["rules"])
     g.seed = 0
     g.rng = random.Random(rng.getrandbits(64))
+    g.behavior_rng = g.rng  # Single-round branches never shuffle; preserve paired rollout behavior.
     g.round = obs["round"]
     g.shoe_number = obs["shoe_number"]
     g.phase = "playing"

@@ -1,3 +1,4 @@
+import pytest
 from fastapi.testclient import TestClient
 
 from blackjack.engine import Game, Rules
@@ -58,3 +59,29 @@ def test_export_reconstructs_entire_session():
         game.deal() if action == "deal" else game.step(action)
     assert game.observation() == replay["state"]
     assert game.history == replay["history"]
+
+
+@pytest.mark.parametrize("full_model", [False, True])
+def test_training_job_runs_selected_mode_and_publishes_report(monkeypatch, tmp_path, full_model):
+    from blackjack import server
+
+    monkeypatch.setattr(server, "ARTIFACTS", tmp_path)
+    calls = []
+
+    def process(command, **kwargs):
+        calls.append(command)
+        if "train" in command:
+            report = tmp_path / "runs" / "test-job" / "model" / "training_report.json"
+            report.parent.mkdir()
+            report.write_text('{"test": {"teacher_agreement": 0.8}}')
+
+    monkeypatch.setattr(server.subprocess, "run", process)
+    server.jobs["test-job"] = {"status": "running"}
+    try:
+        server.run_job("test-job", server.JobRequest(kind="train", full_model=full_model))
+        assert server.jobs["test-job"]["status"] == "complete"
+        assert len(calls) == 2
+        assert ("--full-model" in calls[1]) == full_model
+        assert server.jobs["test-job"]["result"]["test"]["teacher_agreement"] == 0.8
+    finally:
+        server.jobs.pop("test-job")

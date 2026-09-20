@@ -1,0 +1,49 @@
+{
+  "results": {
+    "basic": {
+      "rounds": 200,
+      "mean_units": -0.0425,
+      "ci95": [
+        -0.1987353448001576,
+        0.11373534480015757
+      ],
+      "positive_rounds": 81,
+      "voids": 0
+    },
+    "reference": {
+      "rounds": 200,
+      "mean_units": -0.0675,
+      "ci95": [
+        -0.22325581181635842,
+        0.08825581181635841
+      ],
+      "positive_rounds": 80,
+      "voids": 0
+    },
+    "laya": {
+      "rounds": 200,
+      "mean_units": -0.0375,
+      "ci95": [
+        -0.19922387519795964,
+        0.12422387519795963
+      ],
+      "positive_rounds": 82,
+      "voids": 0
+    }
+  },
+  "seed": 12345,
+  "rules": {
+    "players": 3,
+    "decks": 6,
+    "hit_soft_17": false,
+    "double_after_split": true,
+    "surrender": true,
+    "blackjack_payout": 1.5,
+    "penetration": 0.75,
+    "max_hands": 4,
+    "tablemate_policy": "basic"
+  },
+  "sampling": "Independent fresh shoes per round, paired initial seeds across policies",
+  "samples": 256,
+  "model": "artifacts/checkpoints/blackjack-full"
+}

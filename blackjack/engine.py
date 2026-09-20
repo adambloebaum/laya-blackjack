@@ -74,6 +74,9 @@ class Game:
         self.rules = rules or Rules()
         self.seed = seed  # Never included in a model observation.
         self.rng = random.Random(seed)
+        # Behavior sampling must not advance future shuffle randomness. Replays apply
+        # explicit actions and therefore do not repeat policy-selection RNG calls.
+        self.behavior_rng = random.Random(seed ^ 0xB1AC)
         self.round = 0
         self.shoe_number = 0
         self.phase = "ready"
@@ -341,7 +344,7 @@ def basic_action(obs: dict) -> str:
 def tablemate_action(game: Game):
     obs = game.observation()
     if game.rules.tablemate_policy == "random":
-        return game.rng.choice(obs["legal_actions"])
+        return game.behavior_rng.choice(obs["legal_actions"])
     if game.rules.tablemate_policy == "conservative":
         seat, hi = game.active
         return "stand" if total(game.hands[seat][hi].cards)[0] >= 12 else "hit"

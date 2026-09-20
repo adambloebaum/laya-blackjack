@@ -69,9 +69,9 @@ function render() {
   const net = $('net-return');
   net.innerHTML = `${signed(s.bankroll)} <small>units</small>`;
   net.className = s.bankroll < 0 ? 'negative-number' : 'positive-number';
-  $('rounds').textContent = history.length;
+  $('rounds').textContent = s.round - (isPlaying ? 1 : 0);
   const positive = history.filter(x => x.profit > 0).length;
-  $('round-note').textContent = history.length ? `${positive} positive · ${history.filter(x=>x.profit === 0).length} zero · ${history.filter(x=>x.profit < 0).length} negative` : 'Your experiment starts here';
+  $('round-note').textContent = history.length ? `${history.length >= 1000 ? 'Last 1k: ' : ''}${positive} positive · ${history.filter(x=>x.profit === 0).length} zero · ${history.filter(x=>x.profit < 0).length} negative` : 'Your experiment starts here';
   $('remaining').innerHTML = `${s.cards_remaining} <small>cards</small>`;
   $('shoe-note').textContent = `${s.rules.decks} decks · shuffle at ${pct(s.rules.penetration)} or reserve`;
   $('true-count').textContent = signed(s.true_count,1);
@@ -105,8 +105,9 @@ function render() {
 }
 function renderChart(history) {
   $('chart-caption').textContent = `${history.length} rounds · player 01`;
+  $('chart-start').textContent = history.length ? history[0].round - 1 : '0';
   if (!history.length) { $('chart').innerHTML='<div class="empty">Play a few rounds to trace the session.</div>'; return; }
-  const values=[0,...history.map(h=>h.bankroll)], min=Math.min(-1,...values), max=Math.max(1,...values);
+  const values=[history[0].bankroll-history[0].profit,...history.map(h=>h.bankroll)], min=Math.min(-1,...values), max=Math.max(1,...values);
   const y = v => 88 - (v - min)/(max-min)*76;
   const points=values.map((v,i)=>`${i/(values.length-1)*500},${y(v)}`).join(' ');
   const color=values.at(-1)>=0?'#c8e9a6':'#df988c';
@@ -159,7 +160,7 @@ async function loadModel() {
 async function runJob(kind) {
   pause();
   try {
-    const body=kind==='train'?{kind,states:Number($('train-states').value),epochs:Number($('train-epochs').value),samples:Number($('train-samples').value)}:{kind,rounds:Number($('benchmark-rounds').value),players:Number($('benchmark-players').value),samples:128};
+    const body=kind==='train'?{kind,states:Number($('train-states').value),epochs:Number($('train-epochs').value),samples:Number($('train-samples').value),full_model:$('train-scope').value==='full'}:{kind,rounds:Number($('benchmark-rounds').value),players:Number($('benchmark-players').value),samples:128};
     const job=await api('/api/jobs',body);
     localStorage.setItem('laya-job',job.id);pollJob(job.id);
   } catch(err) { notice(err.message,true); }
@@ -206,6 +207,7 @@ $('export').onclick=async()=>{
   try{const result=await api(`/api/sessions/${sessionId}/export`);const blob=new Blob([JSON.stringify(result,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`laya-session-${data.state.round}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(err){notice(err.message,true);}
 };
 $('train-button').onclick=()=>runJob('train');
+$('train-scope').onchange=()=>{$('train-epochs').value=$('train-scope').value==='full'?'6':'3';};
 $('benchmark-button').onclick=()=>runJob('benchmark');
 async function init() {
   try {

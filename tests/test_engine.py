@@ -4,7 +4,7 @@ from copy import deepcopy
 
 import pytest
 
-from blackjack.engine import Game, Hand, Rules, basic_action, total, value
+from blackjack.engine import Game, Hand, Rules, basic_action, tablemate_action, total, value
 from blackjack.reference import analyze, hit_bust_probability, next_card_probabilities, sample_world
 
 
@@ -190,3 +190,17 @@ def test_illegal_action_is_transactionally_rejected():
     with pytest.raises(ValueError):
         g.step("insurance")
     assert g.observation() == before
+
+
+def test_random_tablemate_replay_survives_future_shuffles():
+    rules = Rules(players=7, decks=2, tablemate_policy="random")
+    game, replay = Game(rules, 319), Game(rules, 319)
+    for _ in range(40):
+        game.deal()
+        replay.deal()
+        while game.phase == "playing":
+            action = tablemate_action(game)
+            game.step(action)
+            replay.step(action)
+        assert game.observation() == replay.observation()
+    assert game.shoe_number > 2

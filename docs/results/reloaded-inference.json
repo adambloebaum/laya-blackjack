@@ -1,0 +1,8 @@
+{
+  "test_states": 100,
+  "reloaded_sdk_teacher_agreement": 0.85,
+  "reloaded_sdk_teacher_ev_regret": 0.0135546875,
+  "latency_median_ms": 19.10506607964635,
+  "checkpoint": "blackjack-full",
+  "note": "Measured with other local workloads running; includes all three questions per call."
+}

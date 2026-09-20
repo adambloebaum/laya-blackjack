@@ -2,7 +2,9 @@
 
 A local blackjack research sandbox with a finite-shoe simulator, an interactive table, real [Laya](https://huggingface.co/convaiinnovations/laya) inference, and a reproducible training/evaluation pipeline.
 
-**Status:** working first release. The reference is Monte Carlo policy improvement with basic-strategy continuations. Laya is an experimental learned approximation, not a proven optimal blackjack player.
+**Status:** working first release. A local full-model pilot reached 85% agreement with the approximate reference on 100 held-out states; see [measured results](docs/experiments.md). The reference is Monte Carlo policy improvement with basic-strategy continuations. Laya is an experimental learned approximation, not a proven optimal blackjack player.
+
+![Laya blackjack dashboard with live model inference](docs/dashboard.png)
 
 ## Run
 
@@ -31,7 +33,7 @@ All inference and simulation are local. Font files may be fetched from Google Fo
 
 ## Train
 
-Start a small run from the **Experiments** tab, or run the same pipeline through the CLI:
+Start a run from the **Experiments** tab (full model, six epochs by default), or run a smaller decision-layer pilot through the CLI:
 
 ```bash
 uv run --no-sync blackjack generate --states 500 --samples 256
@@ -40,7 +42,7 @@ uv run --no-sync blackjack train --device cuda:0 --epochs 3
 
 This creates `artifacts/data/blackjack/{train,validation,test}.jsonl`, a data manifest, and an SDK-compatible checkpoint in `artifacts/checkpoints/blackjack/`. Output directories must be new to avoid overwriting experiments.
 
-The default training job freezes the encoder and trains the decision layers. To adapt the encoder too:
+The CLI default freezes the encoder and trains the decision layers. The dashboard offers both modes and defaults to full-model training because it performed better in the pilot. To adapt the encoder too:
 
 ```bash
 uv run --no-sync blackjack train --dataset artifacts/data/blackjack --output artifacts/checkpoints/blackjack-full --device cuda:0 --full-model --epochs 6 --learning-rate 0.00002
@@ -72,6 +74,8 @@ uv run --no-sync blackjack replay path/to/laya-session.json
 Benchmarks compare basic strategy, reference, and (when supplied) Laya on independent fresh-shoe rounds, with paired initial seeds across policies. Different actions consume different cards, so later card trajectories can diverge. Round-level 95% normal intervals describe sampling variation; small runs are smoke tests and do not establish profitability. Live sessions do continue through shoes; benchmarks deliberately start fresh shoes for independent-round uncertainty estimates.
 
 Replay re-applies recorded actions and verifies both the final public state and retained result history. Replay files contain the seed for reproducibility; the seed never enters model observations.
+
+Tablemate behavior and shoe shuffles use separate random streams, so exported explicit actions reproduce later shuffles even when tablemates were playing randomly.
 
 ## Game and information contracts
 
