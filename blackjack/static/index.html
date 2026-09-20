@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101713">
+  <title>Laya — Blackjack Laboratory</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%23101713'/%3E%3Ctext x='9' y='36' font-size='38' fill='%23c8e9a6'%3E♠%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/style.css">
+  <script type="module" src="/static/app.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="/" aria-label="Laya home"><span class="brand-mark">♠</span><span>laya<span class="brand-sub">BLACKJACK LABORATORY</span></span></a>
+    <nav aria-label="Main navigation"><button class="nav active" data-view="simulation">Simulation</button><button class="nav" data-view="experiments">Experiments</button><button class="nav" id="about-button">Methodology ↗</button></nav>
+    <div class="local-badge"><span class="dot"></span> LOCAL RESEARCH ENVIRONMENT</div>
+  </header>
+  <main>
+    <section class="page-heading"><div><div class="eyebrow">A GAME OF IMPERFECT INFORMATION</div><h1>Play the hand. <em>Study the decision.</em></h1><p>A finite shoe. A changing table. Every decision, made visible.</p></div><button class="quiet" id="configure">⚙ &nbsp; Table settings</button></section>
+    <div id="notice" role="status" aria-live="polite" hidden></div>
+    <div id="simulation-view">
+      <section class="metrics" aria-label="Session statistics">
+        <div><span class="metric-label">SESSION RETURN</span><strong id="net-return">+0.00 <small>units</small></strong><span class="metric-note">Net profit · one unit per initial bet</span></div>
+        <div><span class="metric-label">ROUNDS SETTLED</span><strong id="rounds">0</strong><span class="metric-note" id="round-note">Your experiment starts here</span></div>
+        <div><span class="metric-label">SHOE REMAINING</span><strong id="remaining">— <small>cards</small></strong><span class="metric-note" id="shoe-note">6 decks · 75% penetration</span></div>
+        <div><span class="metric-label">HI-LO TRUE COUNT</span><strong id="true-count">—</strong><span class="metric-note" id="count-note">Based on exposed cards only</span></div>
+      </section>
+      <div class="workspace">
+        <div class="table-column">
+          <section class="table-panel">
+            <div class="panel-top"><div><span class="dot" id="play-dot"></span><span class="section-label">LIVE TABLE</span><span id="round-badge" class="badge">ROUND 01</span></div><span id="rule-summary" class="muted mono">6D · S17 · DAS · 3:2</span></div>
+            <div class="felt" id="felt"><div class="felt-outline"></div><div class="table-watermark"><span>laya</span><b>BLACKJACK PAYS <span id="felt-payout">3 TO 2</span></b><small id="felt-rule">DEALER STANDS ON SOFT 17</small></div><div class="dealer" id="dealer"></div><div id="seats"></div><div id="round-result" class="round-result" hidden></div></div>
+            <div class="decision-controls"><div class="turn-info"><span class="metric-label">AT THE TABLE</span><span id="turn-label">Preparing the shoe…</span></div><div class="manual-actions" id="manual-actions"></div></div>
+            <div class="transport"><div class="policy-control"><label for="policy-select">PLAYER 01 POLICY</label><select id="policy-select"><option value="reference">Monte Carlo reference</option><option value="laya">Laya model</option><option value="basic">Basic strategy</option></select></div><div class="transport-buttons"><button class="quiet" id="export" title="Download a deterministic session replay">Export ↗</button><button class="secondary" id="step">Step →</button><button class="primary" id="autoplay">▶ &nbsp; Play</button></div></div>
+          </section>
+          <div class="below-table">
+            <section class="panel returns-panel"><div class="panel-title"><h2>Session trajectory</h2><span class="unit-label">NET UNITS</span></div><div id="chart" class="chart"><div class="empty">Play a few rounds to trace the session.</div></div><div class="chart-footer"><span>0</span><span id="chart-caption">0 rounds · player 01</span></div></section>
+            <section class="panel shoe-panel"><div class="panel-title"><h2>Unseen composition</h2><span id="unseen-total" class="unit-label">— CARDS</span></div><div id="shoe-chart" class="shoe-chart"></div><p class="footnote">Includes the concealed dealer card. Tens combine 10, J, Q, K.</p></section>
+          </div>
+          <section class="panel log-panel"><div class="panel-title"><h2>Table activity</h2><span class="unit-label">CURRENT ROUND</span></div><div id="events" class="events"></div></section>
+        </div>
+        <aside class="inference-panel" aria-label="Model inference and state probabilities">
+          <div class="inference-heading"><div><div class="eyebrow">INSIDE THE DECISION</div><h2>Inference monitor</h2></div><span class="inference-icon">⌘</span></div>
+          <div class="model-status"><span class="dot" id="model-dot"></span><span id="model-name">Laya not loaded</span><span id="latency">— ms</span></div>
+          <button class="load-button" id="load-model">Load Laya checkpoint ↗</button>
+          <div id="model-message" class="footnote">Real model outputs appear after loading a checkpoint.</div>
+          <section class="inference-section"><div class="panel-title"><h3>Action preference</h3><span class="unit-label">LAYA</span></div><div id="model-actions" class="model-actions"><div class="empty">Waiting for model inference</div></div><p class="footnote">Model preference is not the probability of winning.</p></section>
+          <section class="inference-section"><div class="panel-title"><h3>Expected return</h3><span class="unit-label" id="sample-label">256 ROLLOUTS</span></div><div id="action-values"></div><div class="recommendation" id="recommendation">Waiting for a decision</div><p class="footnote">Net units per initial bet. Hover for 95% intervals. Basic-strategy continuation.</p></section>
+          <section class="inference-section"><div class="panel-title"><h3>State probabilities</h3><span class="legend"><i></i> REF <i class="model"></i> LAYA</span></div><div class="risk-line"><span>Bust on next hit</span><strong id="bust-ref">—</strong><span id="bust-model">—</span></div><h4>DEALER FINISH</h4><div id="dealer-probs"></div><p class="footnote">Conditional on a negative peek, with no further player draws.</p></section>
+          <section class="inference-section outcome-section"><div class="panel-title"><h3>Reference action outcome</h3></div><div class="outcome-bar" id="outcome-bar"></div><div id="outcomes" class="outcomes"></div><p class="footnote">Net return across the active seat’s hands, including splits. Voided rounds return zero.</p></section>
+          <div class="observation-note"><span>◈</span><p>Public information only.<br><span>No hole card. No future deck order.</span></p></div>
+        </aside>
+      </div>
+    </div>
+    <div id="experiments-view" hidden>
+      <div class="research-grid">
+        <section class="panel experiment-card"><div class="eyebrow">01 / SIMULATION DISTILLATION</div><h2>Teach Laya the table.</h2><p>Generate diverse blackjack states, estimate action values, then train Laya’s decision layers. Calibrate on separate games and evaluate on held-out seeds.</p><div class="form-grid"><label>Training states<input id="train-states" type="number" min="50" max="20000" value="500"></label><label>Epochs<input id="train-epochs" type="number" min="1" max="20" value="3"></label><label>Rollouts per action<select id="train-samples"><option>128</option><option selected>256</option><option>512</option><option>1024</option></select></label></div><button class="primary" id="train-button">Start training run ↗</button><p class="footnote">Runs locally on an available GPU or CPU. Checkpoints and datasets stay in artifacts/. Full encoder tuning is available through the CLI.</p></section>
+        <section class="panel experiment-card"><div class="eyebrow">02 / POLICY EVALUATION</div><h2>Let the results speak.</h2><p>Compare basic strategy, Monte Carlo, and your trained checkpoint using independent fresh-shoe rounds with paired initial seeds.</p><div class="form-grid"><label>Rounds per policy<input id="benchmark-rounds" type="number" min="25" max="10000" value="200"></label><label>Players<select id="benchmark-players"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label></div><button class="secondary" id="benchmark-button">Run comparison →</button><p class="footnote">Returns include 95% intervals. Small runs are workflow checks, not evidence of a betting edge.</p></section>
+      </div>
+      <section class="panel report-panel"><div class="panel-title"><h2>Training evaluation</h2><span class="badge" id="report-badge">NO CHECKPOINT LOADED</span></div><div id="training-report" class="empty">Load a trained checkpoint or complete a training run to see held-out metrics.</div></section>
+      <section class="panel report-panel"><div class="panel-title"><h2>Experiment console</h2><span class="badge" id="job-status">IDLE</span></div><pre id="job-log">Ready for an experiment.</pre><div id="benchmark-results"></div></section>
+    </div>
+    <footer><span>LAYA / BLACKJACK LABORATORY</span><span>Reproducible by design. Uncertain by nature.</span><span>v0.1 &nbsp; ◈</span></footer>
+  </main>
+  <dialog id="settings"><form id="settings-form"><div class="dialog-heading"><div><div class="eyebrow">DEFINE THE ENVIRONMENT</div><h2>Table settings</h2></div><button type="button" class="icon-button" data-close="settings" aria-label="Close settings">×</button></div><p>Applying settings starts a new session. Export your current session to keep a replay.</p><div class="form-grid">
+    <label>Players at the table<select name="players"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+    <label>Decks in the shoe<select name="decks"><option>1</option><option>2</option><option>4</option><option selected>6</option><option>8</option></select></label>
+    <label>Dealer soft 17<select name="hit_soft_17"><option value="false">Stand (S17)</option><option value="true">Hit (H17)</option></select></label>
+    <label>Blackjack payout<select name="blackjack_payout"><option value="1.5">3:2</option><option value="1.2">6:5</option></select></label>
+    <label>Double after split<select name="double_after_split"><option value="true">Allowed</option><option value="false">Not allowed</option></select></label>
+    <label>Late surrender<select name="surrender"><option value="true">Allowed</option><option value="false">Not allowed</option></select></label>
+    <label>Tablemate strategy<select name="tablemate_policy"><option value="basic">Basic strategy</option><option value="random">Random legal actions</option><option value="conservative">Stand on 12+</option></select></label>
+    <label>Shuffle penetration<select name="penetration"><option value="0.5">50%</option><option value="0.65">65%</option><option value="0.75" selected>75%</option><option value="0.85">85%</option></select></label>
+    <label>Random seed<input name="seed" type="number" value="42" min="0" max="2147483647" required></label>
+    <label>Reference rollouts<select name="samples"><option>64</option><option>128</option><option selected>256</option><option>512</option><option>1024</option><option>2048</option></select></label>
+  </div><div class="dialog-footer"><button type="button" class="quiet" data-close="settings">Cancel</button><button class="primary" type="submit">Start new session →</button></div></form></dialog>
+  <dialog id="about"><div class="dialog-heading"><div><div class="eyebrow">WHAT THE NUMBERS MEAN</div><h2>A laboratory, with a reference.</h2></div><button class="icon-button" data-close="about" aria-label="Close methodology">×</button></div><div class="method-copy"><p><b>The simulator</b> tracks every card in a finite shoe. American hole-card rules, dealer peek, one-card split aces, up to four hands, and doubles on any first two cards. No insurance, side bets, bankroll sizing, or resplitting aces.</p><p><b>The reference</b> samples possible hidden cards and shoe orders using only exposed information. Each legal action is evaluated with basic-strategy continuations. It is an approximate policy improvement method, not an exact optimal solver. Intervals show Monte Carlo sampling uncertainty.</p><p><b>Laya</b> predicts an action preference, next-hit bust probability, and dealer finish distribution. Base model probabilities are not blackjack calibrated. Training uses simulator labels and fits temperatures on a separate validation split. Agreement with this teacher does not prove optimality.</p><p><b>The unseen shoe</b> includes the dealer’s concealed card. A negative ace/ten peek changes the probabilities of the next draw. The model never sees the simulation seed, hidden card, or future deck order.</p><p><b>Small shoes</b> use an early shuffle reserve. A rare mid-round exhaustion voids the whole round, returns all bets, and is recorded explicitly.</p><p><a href="https://huggingface.co/convaiinnovations/laya" target="_blank" rel="noreferrer">Laya model and model card ↗</a> &nbsp; <a href="/docs" target="_blank" rel="noreferrer">Local API reference ↗</a></p></div></dialog>
+</body>
+</html>

@@ -1,0 +1,68 @@
+{
+  "source": "convaiinnovations/laya",
+  "base_revision": "1c5edc17a7acd8701df6fc341c0d179f1c62c982",
+  "method": "supervised simulator distillation / soft cross entropy",
+  "full_model": false,
+  "epochs": 3,
+  "batch_size": 4,
+  "learning_rate": 0.0001,
+  "seed": 42,
+  "device": "cuda:0",
+  "loss": [
+    1.1984263435999551,
+    1.1569613574345907,
+    1.1628434964021046
+  ],
+  "baseline": {
+    "action_brier": 0.6784563992627035,
+    "teacher_agreement": 0.43,
+    "teacher_ev_regret": 0.1849609375,
+    "hit_bust_brier": 0.6090788152182597,
+    "dealer_brier": 0.2286006924617454,
+    "teacher_action_ece": 0.21594362795352937
+  },
+  "test": {
+    "action_brier": 0.618669803965548,
+    "teacher_agreement": 0.47,
+    "teacher_ev_regret": 0.1843359375,
+    "hit_bust_brier": 0.20695027020378545,
+    "dealer_brier": 0.051988526852360044,
+    "teacher_action_ece": 0.05394704267382623
+  },
+  "temperature_by_options": {
+    "choice:3-5": 2.818382931264455,
+    "noul:2": 1.0,
+    "choice:6-10": 0.8413951416451951,
+    "choice:2": 10.0
+  },
+  "states": {
+    "train": 500,
+    "validation": 100,
+    "test": 100
+  },
+  "dataset": {
+    "seed": 42,
+    "states": 500,
+    "samples": 256,
+    "splits": {
+      "train": {
+        "states": 500,
+        "groups": 125,
+        "sha256": "5857c4a89ce2aa8205637bcba97a625185c13f5e587a8d0eec2e60594ee9ff32"
+      },
+      "validation": {
+        "states": 100,
+        "groups": 25,
+        "sha256": "f24e746d04f4570e2fc639976322ac3ae5df9709494430177f48551a41f18d6e"
+      },
+      "test": {
+        "states": 100,
+        "groups": 25,
+        "sha256": "8501c482dca9696b62a892979a9f1634c516607232fb2b71ed4a044524692cd5"
+      }
+    },
+    "teacher": "finite-shoe MC, basic continuation; approximate policy improvement"
+  },
+  "elapsed_seconds": 38.14137847116217,
+  "limitations": "Teacher is approximate. Metrics measure held-out teacher agreement, not casino profitability or proven optimality."
+}

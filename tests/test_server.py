@@ -1,0 +1,60 @@
+from fastapi.testclient import TestClient
+
+from blackjack.engine import Game, Rules
+from blackjack.server import app
+
+client = TestClient(app)
+
+
+def new_table(**kwargs):
+    response = client.post("/api/sessions", json={"samples": 32, **kwargs})
+    assert response.status_code == 200
+    return response.json()
+
+
+def test_sessions_are_isolated_and_stale_writes_rejected():
+    a = new_table(seed=42)
+    b = new_table(seed=42)
+    response = client.post(f"/api/sessions/{a['id']}/step", json={"revision": 0, "action": "stand"})
+    assert response.status_code == 200
+    assert response.json()["revision"] == 1
+    assert client.get(f"/api/sessions/{b['id']}").json()["state"] == b["state"]
+    assert client.post(f"/api/sessions/{a['id']}/step", json={"revision": 0}).status_code == 409
+
+
+def test_real_model_required_for_laya_policy():
+    from blackjack import server
+
+    old = server.policy.agent
+    server.policy.agent = None
+    try:
+        table = new_table(seed=42)
+        response = client.post(f"/api/sessions/{table['id']}/step", json={"revision": 0, "policy": "laya"})
+        assert response.status_code == 409
+        assert client.get(f"/api/sessions/{table['id']}").json()["revision"] == 0
+    finally:
+        server.policy.agent = old
+
+
+def test_invalid_config_and_not_found():
+    assert client.post("/api/sessions", json={"players": 8}).status_code == 422
+    assert client.post("/api/sessions", json={"samples": 100000}).status_code == 422
+    assert client.get("/api/sessions/missing").status_code == 404
+    assert client.get("/api/health").json()["ok"]
+    assert client.get("/").status_code == 200
+
+
+def test_export_reconstructs_entire_session():
+    table = new_table(seed=71, players=7)
+    for _ in range(30):
+        response = client.post(
+            f"/api/sessions/{table['id']}/step", json={"revision": table["revision"], "policy": "basic"}
+        )
+        assert response.status_code == 200
+        table.update(response.json())
+    replay = client.get(f"/api/sessions/{table['id']}/export").json()
+    game = Game(Rules(**replay["rules"]), replay["seed"])
+    for action in replay["actions"]:
+        game.deal() if action == "deal" else game.step(action)
+    assert game.observation() == replay["state"]
+    assert game.history == replay["history"]
