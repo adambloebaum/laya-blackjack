@@ -150,7 +150,7 @@ function renderReport(report) {
   $('training-report').classList.remove('empty');
   const calibration=report.states.calibration||report.states.validation;
   const selection=report.states.selection?` ${report.states.selection.toLocaleString()} separate selection states chose the checkpoint.`:'';
-  $('training-report').innerHTML=`<table class="report-table"><thead><tr><th>Frozen test metric · trainer</th><th>${report.states.selection?'Warm start':'Base / raw'}</th><th>Trained / calibrated</th></tr></thead><tbody>${rows.map(([label,key,up,percent])=>{const a=report.baseline[key],b=report.test[key];return `<tr><td>${label}</td><td>${percent?pct(a,1):a.toFixed(4)}</td><td class="${(up?b>a:b<a)?'improved':'worse'}">${percent?pct(b,1):b.toFixed(4)}</td></tr>`;}).join('')}</tbody></table><p class="footnote">${escape(report.limitations)}${selection} ${calibration.toLocaleString()} separate calibration states fitted temperatures.</p>`;
+  $('training-report').innerHTML=`<table class="report-table"><thead><tr><th>Frozen test metric · ${report.test_inference?'SDK':'trainer'}</th><th>${report.states.selection?'Warm start':'Base / raw'}</th><th>Trained / calibrated</th></tr></thead><tbody>${rows.map(([label,key,up,percent])=>{const a=report.baseline[key],b=report.test[key];return `<tr><td>${label}</td><td>${percent?pct(a,1):a.toFixed(4)}</td><td class="${(up?b>a:b<a)?'improved':'worse'}">${percent?pct(b,1):b.toFixed(4)}</td></tr>`;}).join('')}</tbody></table><p class="footnote">${escape(report.limitations)}${selection} ${calibration.toLocaleString()} separate calibration states fitted temperatures.</p>`;
 }
 async function loadModel() {
   pause();

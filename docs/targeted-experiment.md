@@ -32,6 +32,10 @@ Basic strategy, the release, and the selected candidate then play paired fresh a
 
 Raw candidates retain sealed-test metadata and are ineligible for dashboard discovery or release packaging. Completion creates a separate `evaluated-candidate` with final serving metrics and preserved weight/config identities. The live model and private Hugging Face release stay unchanged pending review of the resulting evidence. No profitability or improvement claim is made in advance.
 
+## Active local run
+
+Run `20260921-051623-composition` launched at 22:16 Pacific on September 20 from code revision `c4920ba4850f1f53d37de8061ad41f65b494bcac`. Its original hard deadline is 10:16 Pacific on September 21. This is an active experiment; no full-run performance result is available yet. The release remains unchanged.
+
 ## Run and monitor
 
 ```bash
