@@ -1,0 +1,46 @@
+{
+  "status": "complete",
+  "elapsed_seconds": 101.8267593383789,
+  "smoke": true,
+  "scope": "Execution validation only; no comparative model-performance claim.",
+  "seed": 50260924,
+  "objectives": [
+    "imitation",
+    "cost-sensitive"
+  ],
+  "learning_rates": [
+    5e-06,
+    5e-06
+  ],
+  "states": {
+    "train": 128,
+    "selection": 128,
+    "calibration": 64,
+    "test": 128
+  },
+  "teacher_counts": {
+    "train": {
+      "exact": 13,
+      "monte_carlo": 115
+    },
+    "selection": {
+      "exact": 18,
+      "monte_carlo": 110
+    },
+    "calibration": {
+      "exact": 2,
+      "monte_carlo": 62
+    },
+    "test": {
+      "exact": 12,
+      "monte_carlo": 116
+    }
+  },
+  "activated": false,
+  "published": false,
+  "trainer_final_test_predictions": false,
+  "sdk_action_mismatches": {
+    "candidate": 0,
+    "baseline": 0
+  }
+}

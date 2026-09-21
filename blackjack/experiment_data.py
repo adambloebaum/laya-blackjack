@@ -14,6 +14,7 @@ from dataclasses import replace
 from pathlib import Path
 
 from .engine import Game, Rules, basic_action, tablemate_action
+from .exact_reference import hybrid_analyze
 from .model import model_state, questions
 from .reference import analyze
 
@@ -120,7 +121,7 @@ def generate_shard(task: dict) -> dict:
     temporary = path.with_suffix(".partial")
     count = resolved = total_rollouts = 0
     group = 0
-    players, categories, depths = {}, {}, {}
+    players, categories, depths, teachers = {}, {}, {}, {}
     started = time.monotonic()
     with temporary.open("w") as stream:
         while count < task["states"]:
@@ -130,7 +131,9 @@ def generate_shard(task: dict) -> dict:
                 if profile == "composition-v1" and task["split"] != "calibration" and task["index"] % 2
                 else "general"
             )
-            seed = game_seed(task["seed"], task["split"], task["index"], group, profile)
+            teacher = task.get("teacher", "monte-carlo")
+            namespace = profile if teacher == "monte-carlo" else f"{profile}/{teacher}"
+            seed = game_seed(task["seed"], task["split"], task["index"], group, namespace)
             group += 1
             if group > max(10000, task["states"] * 1000):
                 raise RuntimeError(
@@ -139,7 +142,8 @@ def generate_shard(task: dict) -> dict:
             for position, obs in enumerate(sample_observations(seed, task["split"] == "train", focus)):
                 if count >= task["states"]:
                     break
-                ref = analyze(obs, task["samples"], seed=seed + position, max_samples=task["max_samples"])
+                reference = analyze if teacher == "monte-carlo" else hybrid_analyze
+                ref = reference(obs, task["samples"], seed=seed + position, max_samples=task["max_samples"])
                 if ref["dealer_unresolved"]:
                     continue
                 targets = {
@@ -159,6 +163,8 @@ def generate_shard(task: dict) -> dict:
                     row["stratum"] = focus
                 stream.write(json.dumps(row, separators=(",", ":")) + "\n")
                 count += 1
+                kind = ref.get("teacher_kind", "monte_carlo")
+                teachers[kind] = teachers.get(kind, 0) + 1
                 resolved += ref["label_quality"]["resolved"]
                 total_rollouts += ref["samples"]
                 p = str(obs["rules"]["players"])
@@ -181,6 +187,7 @@ def generate_shard(task: dict) -> dict:
         "players": players,
         "categories": categories,
         "depth_percent": depths,
+        "teachers": teachers,
         "elapsed_seconds": time.monotonic() - started,
         "identity": identity,
     }
@@ -203,12 +210,15 @@ def generate_large_dataset(
     seed=20260921,
     deadline: float | None = None,
     profile="standard",
+    teacher="monte-carlo",
 ):
     counts = dict(zip(SPLITS, [states, selection, calibration, test], strict=True))
     if min(counts.values()) < 1 or workers < 1 or shard_size < 1:
         raise ValueError("Dataset sizes, worker count, and shard size must be positive.")
     if profile not in ("standard", "composition-v1"):
         raise ValueError("Unknown dataset profile.")
+    if teacher not in ("monte-carlo", "hybrid-exact-v1"):
+        raise ValueError("Unknown reference teacher.")
     if profile == "composition-v1" and any(
         count % (2 * shard_size) for split, count in counts.items() if split != "calibration"
     ):
@@ -222,6 +232,7 @@ def generate_large_dataset(
     plan = {
         "version": DATA_VERSION,
         "profile": profile,
+        "teacher": teacher,
         "counts": counts,
         "shard_size": shard_size,
         "seed": seed,
@@ -231,7 +242,7 @@ def generate_large_dataset(
         "evaluation_max_samples": evaluation_max_samples,
         "code": {
             name: digest(Path(__file__).with_name(name))
-            for name in ("engine.py", "reference.py", "model.py", "experiment_data.py")
+            for name in ("engine.py", "reference.py", "exact_reference.py", "model.py", "experiment_data.py")
         },
     }
     plan_path = output / "plan.json"
@@ -250,6 +261,7 @@ def generate_large_dataset(
                     "states": min(shard_size, counts[split] - offset),
                     "seed": seed,
                     "profile": profile,
+                    "teacher": teacher,
                     "samples": samples if split == "train" else evaluation_samples,
                     "max_samples": max_samples if split == "train" else evaluation_max_samples,
                 }
@@ -292,6 +304,15 @@ def generate_large_dataset(
         "elapsed_seconds": time.monotonic() - started,
         "teacher": "Public-state finite-shoe Monte Carlo, basic continuation, paired adaptive sampling",
         "selection": "Complete-shoe reservoir; rare-state weighting only in training split",
+    }
+    if teacher == "hybrid-exact-v1":
+        manifest["teacher"] = (
+            "Exact optimal finite-shoe single-player unsplit decisions within 50000 cache misses; "
+            "explicit basic-continuation Monte Carlo fallback otherwise. Per-row method/coverage recorded."
+        )
+    manifest["teacher_counts"] = {
+        s: {k: sum(r.get("teachers", {}).get(k, 0) for r in rows) for k in ("exact", "monte_carlo")}
+        for s, rows in splits.items()
     }
     if profile == "composition-v1":
         manifest["selection"] = (

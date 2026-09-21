@@ -116,3 +116,34 @@ def test_composition_strata_are_balanced_worker_independent_and_group_disjoint(t
                     assert composition_focus(row["observation"])
         assert strata.count("depleted") == (0 if split == "calibration" else len(strata) // 2)
     assert verify_dataset(tmp_path / "a")["complete"]
+
+
+def test_hybrid_teacher_records_coverage_and_uses_distinct_seed_namespace(tmp_path):
+    options = dict(
+        states=16,
+        selection=16,
+        calibration=8,
+        test=16,
+        shard_size=8,
+        samples=16,
+        max_samples=16,
+        evaluation_samples=16,
+        evaluation_max_samples=16,
+        profile="composition-v1",
+        teacher="hybrid-exact-v1",
+    )
+    a = generate_large_dataset(tmp_path / "a", workers=1, **options)
+    b = generate_large_dataset(tmp_path / "b", workers=2, **options)
+    exact = 0
+    for split in a["splits"]:
+        assert sum(a["teacher_counts"][split].values()) == a["actual_states"][split]
+        assert [s["sha256"] for s in a["splits"][split]] == [s["sha256"] for s in b["splits"][split]]
+        exact += a["teacher_counts"][split]["exact"]
+        for shard in a["splits"][split]:
+            row = json.loads((tmp_path / "a" / shard["path"]).read_text().splitlines()[0])
+            assert row["reference"]["teacher_kind"] in ("exact", "monte_carlo")
+    assert exact > 0
+    assert verify_dataset(tmp_path / "a")["complete"]
+    assert game_seed(42, "test", 0, 0, "composition-v1/hybrid-exact-v1") != game_seed(
+        42, "test", 0, 0, "composition-v1"
+    )

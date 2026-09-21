@@ -58,6 +58,7 @@ def audit_model(
             record = {
                 "index": index,
                 "stratum": row.get("stratum", "general"),
+                "teacher_kind": ref.get("teacher_kind", "monte_carlo"),
                 "group_seed": row["group_seed"],
                 "players": obs["rules"]["players"],
                 "decks": obs["rules"]["decks"],
@@ -115,7 +116,16 @@ def audit_model(
         }
 
     grouped = {}
-    for field in ("players", "decks", "hit_soft_17", "category", "depth", "resolved", "stratum"):
+    for field in (
+        "players",
+        "decks",
+        "hit_soft_17",
+        "category",
+        "depth",
+        "resolved",
+        "stratum",
+        "teacher_kind",
+    ):
         groups = defaultdict(list)
         for record in records:
             groups[str(record[field])].append(record)
@@ -155,7 +165,8 @@ def audit_model(
         "largest_regrets": worst,
         "elapsed_seconds": time.monotonic() - started,
         "scope": "Descriptive analysis of the already frozen final test, not a new independent validation or a basis for selecting this release. Reusing these examples for tuning requires a new final test set.",
-        "uncertainty": "Game-cluster bootstrap; conditions on the approximate Monte Carlo labels, excluding teacher sampling uncertainty.",
+        "reference_method": manifest["teacher"],
+        "uncertainty": "Game-cluster bootstrap; conditional on recorded reference values and their stated scope. Excludes Monte Carlo label uncertainty where sampling is used.",
     }
     atomic_json(output / "report.json", summary)
     atomic_json(output / "decisions.json", records)

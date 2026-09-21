@@ -72,13 +72,15 @@ The simulator uses American hole-card rules, fixed unit wagers, and no insurance
 
 Start with the [training and evaluation commands](docs/usage.md), [overnight experiment guide](docs/scaling-experiment.md), and [next research questions](docs/roadmap.md). Machine-readable reports and plotting code accompany the release claims; historical pilot results remain [archived](docs/experiments.md).
 
-The next [composition-focused experiment](docs/targeted-experiment.md) uses new games, balanced general/depleted training, and a final test sealed until both candidates are selected:
+The completed [composition-focused experiment](docs/targeted-experiment.md) improved reference agreement on fresh general/depleted games; its return comparison remains inconclusive. Its candidate is retained locally for further research. The protocol seals final-test predictions until both candidates are selected:
 
 ```bash
 uv run --no-sync blackjack targeted --output artifacts/overnight/composition-run --source artifacts/checkpoints/released --hours 12 --workers 24
 ```
 
 It uses both local GPUs and retains the released model while generating comparison evidence. Run unattended jobs under a process manager; the CLI stays attached to its terminal.
+
+The [exact-reference and decision-cost follow-up](docs/teacher-cost-experiment.md) compares ordinary imitation with a loss that penalizes costly action choices. It uses exact finite-shoe values for supported single-hand states and explicitly labeled Monte Carlo fallbacks elsewhere. Both arms use fresh games and keep final predictions sealed through selection. Intermediate checkpoints stay private; the project will publish one final selected model.
 
 ```bash
 uv run --no-sync pytest -q

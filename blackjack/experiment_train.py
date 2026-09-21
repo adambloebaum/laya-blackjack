@@ -23,6 +23,7 @@ def scores(predictions, temperatures):
     values = {}
     per_players = {}
     per_stratum = {}
+    per_teacher = {}
     action_p, action_y = [], []
     resolved_correct, unresolved_correct = [], []
     for item, logits in predictions:
@@ -41,6 +42,7 @@ def scores(predictions, temperatures):
         values.setdefault("teacher_ev_regret", []).append(regret)
         per_players.setdefault(str(item["players"]), []).append((correct, regret))
         per_stratum.setdefault(item.get("stratum", "general"), []).append((correct, regret))
+        per_teacher.setdefault(item.get("teacher_kind", "monte_carlo"), []).append((correct, regret))
         action_p.append(float(p.max()))
         action_y.append(correct)
         (resolved_correct if item["resolved"] else unresolved_correct).append(correct)
@@ -75,6 +77,14 @@ def scores(predictions, temperatures):
                 "teacher_ev_regret": float(np.mean([x[1] for x in v])),
             }
             for k, v in per_stratum.items()
+        },
+        "by_teacher": {
+            k: {
+                "states": len(v),
+                "teacher_agreement": float(np.mean([x[0] for x in v])),
+                "teacher_ev_regret": float(np.mean([x[1] for x in v])),
+            }
+            for k, v in per_teacher.items()
         },
     }
 
@@ -123,7 +133,7 @@ class ShardItems:
             "max_len": agent.cfg["max_len"],
             "head_max_len": agent.cfg["head_max_len"],
             "tokenizer": agent.tok.backend_tokenizer.to_str(),
-            "version": 2,
+            "version": 3,
         }
         contract_path = cache / "contract.json"
         if contract_path.exists() and json.loads(contract_path.read_text()) != contract:
@@ -171,12 +181,35 @@ class ShardItems:
                             players=row["observation"]["rules"]["players"],
                             resolved=resolved,
                             stratum=row.get("stratum", "general"),
+                            teacher_kind=row["reference"].get("teacher_kind", "monte_carlo"),
                         )
                     items.append(item)
         temporary = path.with_suffix(".tmp")
         torch.save({"items": items, "source_hash": shard["sha256"]}, temporary)
         temporary.replace(path)
         return items
+
+
+def decision_loss(logits, target, items, objective="imitation"):
+    """Retain probability losses; optionally penalize estimated action regret.
+
+    The additional term is 0.25 * E[min(reference regret, 1 unit)] / 0.1 unit.
+    It uses the existing resolution weights and never interprets EV as probability.
+    """
+    import torch
+
+    if objective not in ("imitation", "cost-sensitive"):
+        raise ValueError("Unknown training objective.")
+    weights = torch.tensor([it["weight"] for it in items], device=logits.device)
+    losses = -(target * torch.log_softmax(logits, -1)).sum(-1)
+    if objective == "cost-sensitive":
+        costs = torch.zeros_like(logits)
+        for i, it in enumerate(items):
+            if it["qid"] == "action":
+                values = torch.tensor(it["ev"], device=logits.device)
+                costs[i, : len(values)] = (values.max() - values).clamp(0, 1) / 0.1
+        losses = losses + 0.25 * (torch.softmax(logits, -1) * costs).sum(-1)
+    return (losses * weights).sum() / weights.sum()
 
 
 def train_large(
@@ -192,6 +225,7 @@ def train_large(
     deadline: float | None = None,
     defer_test=False,
     general_margin: float | None = None,
+    objective="imitation",
 ):
     import torch
     from laya.common import collate_items
@@ -205,6 +239,8 @@ def train_large(
         raise ValueError("Epochs, batch size, learning rate, and checkpoint interval must be positive.")
     if general_margin is not None and (not math.isfinite(general_margin) or general_margin < 0):
         raise ValueError("General-play selection margin must be finite and nonnegative.")
+    if objective not in ("imitation", "cost-sensitive"):
+        raise ValueError("Unknown training objective.")
     output.mkdir(parents=True, exist_ok=True)
     manifest = verify_dataset(dataset)
     config = {
@@ -222,6 +258,7 @@ def train_large(
         "version": 1,
         "defer_test": defer_test,
         "general_margin": general_margin,
+        "objective": objective,
     }
     if (output / "config.json").exists() and json.loads((output / "config.json").read_text()) != config:
         raise ValueError("Resume training configuration changed.")
@@ -379,8 +416,7 @@ def train_large(
                     group["lr"] = learning_rate * scale
                 optimizer.zero_grad(set_to_none=True)
                 logits, target = forward(chunk)
-                weights = torch.tensor([it["weight"] for it in chunk], device=agent.device)
-                loss = (-(target * torch.log_softmax(logits, -1)).sum(-1) * weights).sum() / weights.sum()
+                loss = decision_loss(logits, target, chunk, objective)
                 if not torch.isfinite(loss):
                     raise RuntimeError("Non-finite loss; refusing to publish candidate.")
                 loss.backward()
@@ -461,6 +497,9 @@ def train_large(
     report = {
         "source": source,
         "method": "Full-model simulation distillation, uncertainty-weighted action loss",
+        "objective": objective,
+        "reference_method": manifest["teacher"],
+        "teacher_counts": manifest.get("teacher_counts"),
         "full_model": True,
         "epochs": epochs,
         "batch_size": batch_size,
@@ -481,7 +520,7 @@ def train_large(
         "selected": best["record"],
         "elapsed_seconds": time.monotonic() - started,
         "gpu_peak_allocated_gb": torch.cuda.max_memory_allocated(agent.device) / 1e9,
-        "limitations": "Approximate basic-continuation teacher; sequential sampling uses a heuristic stopping rule. Teacher agreement does not establish optimality or profit. Candidate is not auto-activated.",
+        "limitations": "Reference scope is recorded in reference_method. Monte Carlo fallbacks use basic continuation and heuristic stopping. Teacher agreement does not establish global optimality or profit. Candidate is not auto-activated.",
     }
     staging = output / "candidate.staging"
     staging.mkdir(exist_ok=True)

@@ -1,0 +1,23 @@
+{
+  "scope": "Development diagnostic, independent of all training/selection/calibration/final seeds; not model performance.",
+  "games": 256,
+  "samples_per_mc_state": 8192,
+  "counts": {
+    "unsupported_scope": 732,
+    "exact": 120,
+    "node_budget": 35
+  },
+  "seconds": 13.773192238993943,
+  "changed_recommendations": 0,
+  "max_continuation_gain": 0.014398821335099732,
+  "fixed_policy_comparisons": 363,
+  "fixed_policy_within_four_se": 363,
+  "uncertainty": "Four-standard-error Monte Carlo agreement is a diagnostic, not a simultaneous statistical guarantee. Exactness is additionally checked by independent exhaustive engine tests.",
+  "source": {
+    "engine.py": "4315a3b0738a78cecacd4afc3af5e9c65cefc3c978e0e5f0b758a6e7562b1ff4",
+    "reference.py": "b65d8181953634543072500bfb2abd2a678b5d57c1b92201e0cc45c21680ecb3",
+    "exact_reference.py": "08f4ee81fe0ec0970684a542798a6f9f488bae471cec79836a625a7caaec63de"
+  },
+  "mean_abs_mc_error": 0.007692700516125277,
+  "exact_state_share": 0.13528748590755355
+}

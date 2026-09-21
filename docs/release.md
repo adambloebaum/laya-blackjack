@@ -2,6 +2,8 @@
 
 The project lives on [GitHub](https://github.com/adambloebaum/laya-blackjack); the model lives on [Hugging Face](https://huggingface.co/adambloebaum/laya-blackjack). Their versions are linked by the pinned Hub commit in `blackjack/model_release.json`.
 
+The owner wants **one final public model**, chosen after research is complete. Existing private packages are research artifacts, not commitments to publish multiple versions. Keep intermediate checkpoint weights private; comparative reports can accompany the one selected model.
+
 ## Before publication
 
 1. Freeze the selected checkpoint and preserve the criterion used to select it. Final-test results must not become a new selection criterion.
@@ -31,6 +33,8 @@ The packaged `evaluation/` directory includes compressed synthetic training and 
 
 ## Public release
 
-Keep both repositories private through release review. When ready, publish the corresponding GitHub tag/release and make the model repository public. Link the release notes, model card, evaluation reports, license, and demo in both directions. Publishing the model does not provision hosted inference or expose the local training API.
+Keep both repositories private through release review. Stage the final checkpoint in a clean model repository history containing only the selected weights, retaining the existing experimental repository privately. Do not simply change the experimental repository's visibility: Hub repositories retain [version history](https://huggingface.co/docs/hub/repositories-getting-started), so replacing current files does not exclude older checkpoints from publication. Any final repository naming/move must preserve private backups and update the explicit app pin and links.
 
-Released checkpoints are immutable. A later model, calibration change, or edited inventory requires a new Hub revision and an updated explicit pin. Prior versions remain reproducible.
+At public release, publish the corresponding GitHub tag/release and the single selected model package. Link release notes, model card, evaluation reports, license, and demo in both directions. Publishing the model does not provision hosted inference or expose the local training API.
+
+Checkpoint packages are immutable. A calibration change or edited inventory requires a new revision and explicit pin. Private experiment history remains reproducible without publishing its weights. The public release policy is one selected model unless the owner changes that scope.

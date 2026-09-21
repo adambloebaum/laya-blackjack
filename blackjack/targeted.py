@@ -35,7 +35,7 @@ def compare_audits(candidate: Path, baseline: Path):
         if (c["index"], c["group_seed"], c["stratum"]) != (b["index"], b["group_seed"], b["stratum"]):
             raise ValueError("SDK audit decision identities differ.")
         delta = [c["regret"] - b["regret"], float(c["correct"]) - float(b["correct"])]
-        for stratum in ("overall", c["stratum"]):
+        for stratum in ("overall", c["stratum"], "teacher:" + c.get("teacher_kind", "monte_carlo")):
             groups[stratum][c["group_seed"]].append(delta)
     rng = np.random.default_rng(20260926)
     result = {}
@@ -76,6 +76,7 @@ def freeze_selection(output, source):
                 "config_sha256": digest(path / "rl_agent_config.json"),
                 "selected": report["selected"],
                 "baseline_selection": report["baseline_selection"],
+                "objective": report.get("objective", "imitation"),
             }
         )
     selected = min(candidates, key=lambda c: c["selected"]["selection"]["teacher_ev_regret"])
@@ -158,9 +159,14 @@ def run_targeted(
     fresh_units=100000,
     blocks=1000,
     smoke=False,
+    study="composition",
 ):
     if not 0 < hours <= 12 or not 1 <= workers <= 32 or epochs < 1:
         raise ValueError("Use up to 12 hours, 1–32 workers, and positive epochs.")
+    if study not in ("composition", "teacher-cost"):
+        raise ValueError("Unknown targeted study.")
+    if study == "teacher-cost":
+        seed += 20000000  # Also separates return suites from previous experiments.
     source = str(Path(source).absolute())
     verify_model(Path(source))
     if smoke:
@@ -186,7 +192,10 @@ def run_targeted(
         "fresh_units": fresh_units,
         "blocks": blocks,
         "smoke": smoke,
-        "learning_rates": [2e-6, 5e-6],
+        "learning_rates": [5e-6, 5e-6] if study == "teacher-cost" else [2e-6, 5e-6],
+        "objectives": ["imitation", "cost-sensitive"] if study == "teacher-cost" else ["imitation"] * 2,
+        "teacher": "hybrid-exact-v1" if study == "teacher-cost" else "monte-carlo",
+        "study": study,
         "general_margin": 0.0005,
         "code": {p.name: digest(p) for p in sorted(Path(__file__).parent.glob("*.py"))},
     }
@@ -214,7 +223,7 @@ def run_targeted(
             {
                 "status": state,
                 "stage": current_stage,
-                "experiment": "composition-v1",
+                "experiment": study,
                 "smoke": smoke,
                 "started_unix": started,
                 "updated_unix": time.time(),
@@ -284,6 +293,8 @@ def run_targeted(
                         str(dataset),
                         "--profile",
                         "composition-v1",
+                        "--teacher",
+                        config["teacher"],
                         "--states",
                         str(states),
                         "--selection",
@@ -345,6 +356,8 @@ def run_targeted(
                 "--defer-test",
                 "--general-margin",
                 str(config["general_margin"]),
+                "--objective",
+                config["objectives"][gpu],
             ]
         if commands:
             stage(commands, min(deadline - 30, train_until + 300))
@@ -371,6 +384,11 @@ def run_targeted(
             ]
         if commands:
             stage(commands, deadline - 30)
+        if any(
+            json.loads((output / "audit" / name / "report.json").read_text())["batched_action_mismatches"]
+            for name in ("candidate", "baseline")
+        ):
+            raise ValueError("Serving and batched actions differ; investigate before paired return evaluation.")
         sdk = compare_audits(output / "audit" / "candidate", output / "audit" / "baseline")
         atomic_json(output / "sdk-comparison.json", sdk)
         current_stage = "paired_returns"

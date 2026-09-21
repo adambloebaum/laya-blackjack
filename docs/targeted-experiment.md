@@ -32,9 +32,15 @@ Basic strategy, the release, and the selected candidate then play paired fresh a
 
 Raw candidates retain sealed-test metadata and are ineligible for dashboard discovery or release packaging. Completion creates a separate `evaluated-candidate` with final serving metrics and preserved weight/config identities. The live model and private Hugging Face release stay unchanged pending review of the resulting evidence. No profitability or improvement claim is made in advance.
 
-## Active local run
+## Completed local run
 
-Run `20260921-051623-composition` launched at 22:16 Pacific on September 20 from code revision `c4920ba4850f1f53d37de8061ad41f65b494bcac`. Its original hard deadline is 10:16 Pacific on September 21. This is an active experiment; no full-run performance result is available yet. The release remains unchanged.
+Run `20260921-051623-composition` launched at 22:16 Pacific on September 20 from code revision `c4920ba4850f1f53d37de8061ad41f65b494bcac` and completed successfully at 03:05 Pacific on September 21, in 4 hours 49 minutes. All 79,872 planned states, both three-epoch candidates, SDK audits, and 600,000 return rounds completed before the original 10:16 deadline. Selection chose learning rate 5e-6, epoch three.
+
+On the same new 8,192-state SDK test, the previous model and candidate measured 92.37% versus 94.53% reference agreement and 0.003329 versus 0.001708 units of reference regret. General agreement improved from 94.65% to 96.17%; depleted agreement improved from 90.09% to 92.90%. The paired overall agreement difference was +2.16 percentage points (95% game-bootstrap interval +1.68 to +2.64). This enriched test is not directly comparable to the older 5,000-state release test.
+
+Candidate-minus-previous returns were -0.054 units per 100 fresh rounds (95% paired interval -0.182 to +0.074) and -0.008 units per 100 continuous rounds (-0.415 to +0.399). Neither these comparisons nor comparisons with basic strategy established a return gain. Both SDK audits had zero action disagreements with the guarded batched evaluator on the audited states.
+
+The evaluated candidate is saved locally. The active model and private Hugging Face package remain unchanged. Follow-up priorities and the owner's single-public-model requirement are recorded in the [roadmap](roadmap.md). The test has now been inspected for diagnostics; subsequent tuning requires a new locked final test.
 
 ## Run and monitor
 
