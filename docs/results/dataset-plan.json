@@ -1,0 +1,21 @@
+{
+  "version": "shoe-reservoir-v1",
+  "counts": {
+    "train": 100000,
+    "selection": 2000,
+    "calibration": 2000,
+    "test": 5000
+  },
+  "shard_size": 64,
+  "seed": 20260921,
+  "samples": 1024,
+  "max_samples": 4096,
+  "evaluation_samples": 4096,
+  "evaluation_max_samples": 8192,
+  "code": {
+    "engine.py": "4315a3b0738a78cecacd4afc3af5e9c65cefc3c978e0e5f0b758a6e7562b1ff4",
+    "reference.py": "b65d8181953634543072500bfb2abd2a678b5d57c1b92201e0cc45c21680ecb3",
+    "model.py": "8609d240db47656e7076be57e7ea2f8d8cb7edea70b568627fab4c1abec6922c",
+    "experiment_data.py": "65447846c014d8003f64f49f6f4cef3770977170462b84552b7fb612f4ad3f34"
+  }
+}

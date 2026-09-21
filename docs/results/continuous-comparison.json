@@ -1,0 +1,633 @@
+{
+  "identity": {
+    "version": "paired-policy-v1",
+    "scenarios": {
+      "s17-6d-1p": {
+        "players": 1,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-6d-2p": {
+        "players": 2,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-6d-3p": {
+        "players": 3,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-6d-4p": {
+        "players": 4,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-6d-5p": {
+        "players": 5,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-6d-6p": {
+        "players": 6,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-6d-7p": {
+        "players": 7,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "h17-no-das-6to5": {
+        "players": 3,
+        "decks": 6,
+        "hit_soft_17": true,
+        "double_after_split": false,
+        "surrender": true,
+        "blackjack_payout": 1.2,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-2d-3p": {
+        "players": 3,
+        "decks": 2,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "random-tablemates-7p": {
+        "players": 7,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "random"
+      }
+    },
+    "mode": "continuous",
+    "units": 1000,
+    "rounds_per_unit": 100,
+    "seed": 20260922
+  },
+  "results": {
+    "basic": {
+      "mean_units_per_round": -0.0013100000000000008,
+      "ci95": [
+        -0.008350050649725972,
+        0.00573005064972597
+      ],
+      "rounds": 100000,
+      "voids": 0,
+      "by_scenario": {
+        "s17-6d-1p": {
+          "mean_units_per_round": 0.0035499999999999993,
+          "standard_error": 0.010798029889519176,
+          "ci95": [
+            -0.017614138583457582,
+            0.024714138583457584
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-2p": {
+          "mean_units_per_round": 0.008100000000000003,
+          "standard_error": 0.011356878394553974,
+          "ci95": [
+            -0.014159481653325784,
+            0.03035948165332579
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-3p": {
+          "mean_units_per_round": 0.01835,
+          "standard_error": 0.011585225483129343,
+          "ci95": [
+            -0.00435704194693351,
+            0.04105704194693351
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-4p": {
+          "mean_units_per_round": -0.015149999999999999,
+          "standard_error": 0.011731089446251767,
+          "ci95": [
+            -0.03814293531465346,
+            0.007842935314653464
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-5p": {
+          "mean_units_per_round": -0.003799999999999998,
+          "standard_error": 0.010931171257029372,
+          "ci95": [
+            -0.025225095663777567,
+            0.01762509566377757
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-6p": {
+          "mean_units_per_round": 0.0014999999999999974,
+          "standard_error": 0.011533547904817807,
+          "ci95": [
+            -0.021105753893442904,
+            0.0241057538934429
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-7p": {
+          "mean_units_per_round": -0.01615,
+          "standard_error": 0.010953034494899788,
+          "ci95": [
+            -0.03761794761000359,
+            0.005317947610003582
+          ],
+          "independent_units": 100
+        },
+        "h17-no-das-6to5": {
+          "mean_units_per_round": -0.02420000000000001,
+          "standard_error": 0.011707305842977288,
+          "ci95": [
+            -0.04714631945223549,
+            -0.0012536805477645248
+          ],
+          "independent_units": 100
+        },
+        "s17-2d-3p": {
+          "mean_units_per_round": -0.0072,
+          "standard_error": 0.010479253192606211,
+          "ci95": [
+            -0.02773933625750817,
+            0.013339336257508173
+          ],
+          "independent_units": 100
+        },
+        "random-tablemates-7p": {
+          "mean_units_per_round": 0.021900000000000003,
+          "standard_error": 0.012384574145592442,
+          "ci95": [
+            -0.0023737653253611823,
+            0.04617376532536119
+          ],
+          "independent_units": 100
+        }
+      },
+      "model_hash": null
+    },
+    "baseline": {
+      "mean_units_per_round": -0.015194,
+      "ci95": [
+        -0.021962475641850776,
+        -0.008425524358149222
+      ],
+      "rounds": 100000,
+      "voids": 0,
+      "by_scenario": {
+        "s17-6d-1p": {
+          "mean_units_per_round": -0.0326,
+          "standard_error": 0.011282524253701099,
+          "ci95": [
+            -0.05471374753725415,
+            -0.010486252462745843
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-2p": {
+          "mean_units_per_round": 0.014750000000000001,
+          "standard_error": 0.010460694831780361,
+          "ci95": [
+            -0.005752961870289506,
+            0.035252961870289506
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-3p": {
+          "mean_units_per_round": -0.007449999999999999,
+          "standard_error": 0.0121230007203104,
+          "ci95": [
+            -0.03121108141180838,
+            0.016311081411808384
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-4p": {
+          "mean_units_per_round": -0.02235,
+          "standard_error": 0.01043364192592327,
+          "ci95": [
+            -0.04279993817480961,
+            -0.0019000618251903863
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-5p": {
+          "mean_units_per_round": -0.02175,
+          "standard_error": 0.011004446989074624,
+          "ci95": [
+            -0.04331871609858626,
+            -0.00018128390141373615
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-6p": {
+          "mean_units_per_round": -0.009149999999999998,
+          "standard_error": 0.011633948711691256,
+          "ci95": [
+            -0.03195253947491486,
+            0.013652539474914863
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-7p": {
+          "mean_units_per_round": -0.02475,
+          "standard_error": 0.011028973550415178,
+          "ci95": [
+            -0.046366788158813746,
+            -0.003133211841186253
+          ],
+          "independent_units": 100
+        },
+        "h17-no-das-6to5": {
+          "mean_units_per_round": -0.02874000000000001,
+          "standard_error": 0.010951893153074661,
+          "ci95": [
+            -0.05020571058002635,
+            -0.007274289419973674
+          ],
+          "independent_units": 100
+        },
+        "s17-2d-3p": {
+          "mean_units_per_round": -0.028499999999999998,
+          "standard_error": 0.009417772796391112,
+          "ci95": [
+            -0.04695883468092658,
+            -0.010041165319073418
+          ],
+          "independent_units": 100
+        },
+        "random-tablemates-7p": {
+          "mean_units_per_round": 0.008600000000000002,
+          "standard_error": 0.010642273243907045,
+          "ci95": [
+            -0.012258855558057806,
+            0.029458855558057807
+          ],
+          "independent_units": 100
+        }
+      },
+      "model_hash": "a029213cda64c2e2f6706b540a11daa467213dcab5466843e50e70dbd0519c05"
+    },
+    "candidate": {
+      "mean_units_per_round": -0.002399000000000001,
+      "ci95": [
+        -0.00946780141724954,
+        0.004669801417249538
+      ],
+      "rounds": 100000,
+      "voids": 0,
+      "by_scenario": {
+        "s17-6d-1p": {
+          "mean_units_per_round": -0.0038499999999999967,
+          "standard_error": 0.011213235100279554,
+          "ci95": [
+            -0.025827940796547922,
+            0.01812794079654793
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-2p": {
+          "mean_units_per_round": 0.010299999999999998,
+          "standard_error": 0.012003328662912592,
+          "ci95": [
+            -0.01322652417930868,
+            0.033826524179308676
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-3p": {
+          "mean_units_per_round": 0.013300000000000003,
+          "standard_error": 0.011111514639137078,
+          "ci95": [
+            -0.00847856869270867,
+            0.03507856869270867
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-4p": {
+          "mean_units_per_round": -0.022649999999999997,
+          "standard_error": 0.01070647283684317,
+          "ci95": [
+            -0.04363468676021261,
+            -0.001665313239787386
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-5p": {
+          "mean_units_per_round": -0.0021499999999999996,
+          "standard_error": 0.010822081569409347,
+          "ci95": [
+            -0.023361279876042317,
+            0.01906127987604232
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-6p": {
+          "mean_units_per_round": 0.00285,
+          "standard_error": 0.011420620859133746,
+          "ci95": [
+            -0.019534416883902145,
+            0.02523441688390214
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-7p": {
+          "mean_units_per_round": -0.018400000000000007,
+          "standard_error": 0.01074659448054559,
+          "ci95": [
+            -0.03946332518186936,
+            0.002663325181869347
+          ],
+          "independent_units": 100
+        },
+        "h17-no-das-6to5": {
+          "mean_units_per_round": -0.022790000000000008,
+          "standard_error": 0.012606918855545277,
+          "ci95": [
+            -0.04749956095686875,
+            0.0019195609568687343
+          ],
+          "independent_units": 100
+        },
+        "s17-2d-3p": {
+          "mean_units_per_round": -0.0072,
+          "standard_error": 0.011017506729993612,
+          "ci95": [
+            -0.028794313190787478,
+            0.01439431319078748
+          ],
+          "independent_units": 100
+        },
+        "random-tablemates-7p": {
+          "mean_units_per_round": 0.026600000000000002,
+          "standard_error": 0.012224515854576321,
+          "ci95": [
+            0.002639948925030413,
+            0.050560051074969595
+          ],
+          "independent_units": 100
+        }
+      },
+      "model_hash": "04e4b4fb3bf7332d1df15e6d61d2ec23173f35111aa3afe23898fbc453a36dd7"
+    }
+  },
+  "candidate": "candidate",
+  "paired_candidate_minus": {
+    "basic": {
+      "mean_difference": -0.0010890000000000008,
+      "ci95": [
+        -0.004982097852818525,
+        0.0028040978528185235
+      ],
+      "by_scenario": {
+        "s17-6d-1p": {
+          "mean_units_per_round": -0.007400000000000001,
+          "standard_error": 0.006567627986856242,
+          "ci95": [
+            -0.020272550854238236,
+            0.005472550854238233
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-2p": {
+          "mean_units_per_round": 0.0021999999999999997,
+          "standard_error": 0.005823723686418989,
+          "ci95": [
+            -0.009214498425381218,
+            0.013614498425381219
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-3p": {
+          "mean_units_per_round": -0.0050500000000000015,
+          "standard_error": 0.005975748547844923,
+          "ci95": [
+            -0.01676246715377605,
+            0.006662467153776048
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-4p": {
+          "mean_units_per_round": -0.0075000000000000015,
+          "standard_error": 0.005038488229257228,
+          "ci95": [
+            -0.017375436929344165,
+            0.002375436929344164
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-5p": {
+          "mean_units_per_round": 0.001649999999999999,
+          "standard_error": 0.004667778547195289,
+          "ci95": [
+            -0.007498845952502768,
+            0.010798845952502766
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-6p": {
+          "mean_units_per_round": 0.0013499999999999996,
+          "standard_error": 0.0046790177463552195,
+          "ci95": [
+            -0.00782087478285623,
+            0.01052087478285623
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-7p": {
+          "mean_units_per_round": -0.002250000000000001,
+          "standard_error": 0.0047833755673354576,
+          "ci95": [
+            -0.011625416111977496,
+            0.007125416111977495
+          ],
+          "independent_units": 100
+        },
+        "h17-no-das-6to5": {
+          "mean_units_per_round": 0.0014099999999999998,
+          "standard_error": 0.005641550309887336,
+          "ci95": [
+            -0.009647438607379178,
+            0.012467438607379177
+          ],
+          "independent_units": 100
+        },
+        "s17-2d-3p": {
+          "mean_units_per_round": -3.4694469519536144e-19,
+          "standard_error": 0.004697947112378668,
+          "ci95": [
+            -0.00920797634026219,
+            0.00920797634026219
+          ],
+          "independent_units": 100
+        },
+        "random-tablemates-7p": {
+          "mean_units_per_round": 0.004699999999999997,
+          "standard_error": 0.011658616270095408,
+          "ci95": [
+            -0.018150887889387003,
+            0.027550887889386994
+          ],
+          "independent_units": 100
+        }
+      }
+    },
+    "baseline": {
+      "mean_difference": 0.012794999999999997,
+      "ci95": [
+        0.005850291632538415,
+        0.01973970836746158
+      ],
+      "by_scenario": {
+        "s17-6d-1p": {
+          "mean_units_per_round": 0.02875,
+          "standard_error": 0.013111675535702343,
+          "ci95": [
+            0.0030511159500234072,
+            0.054448884049976595
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-2p": {
+          "mean_units_per_round": -0.004449999999999998,
+          "standard_error": 0.012005868724852186,
+          "ci95": [
+            -0.027981502700710283,
+            0.019081502700710285
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-3p": {
+          "mean_units_per_round": 0.020749999999999998,
+          "standard_error": 0.010944389965510719,
+          "ci95": [
+            -0.0007010043324010111,
+            0.04220100433240101
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-4p": {
+          "mean_units_per_round": -0.00030000000000000014,
+          "standard_error": 0.00988106545598472,
+          "ci95": [
+            -0.01966688829373005,
+            0.019066888293730048
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-5p": {
+          "mean_units_per_round": 0.019600000000000003,
+          "standard_error": 0.011491472464133541,
+          "ci95": [
+            -0.0029232860297017382,
+            0.042123286029701744
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-6p": {
+          "mean_units_per_round": 0.012,
+          "standard_error": 0.010153866756118582,
+          "ci95": [
+            -0.00790157884199242,
+            0.03190157884199242
+          ],
+          "independent_units": 100
+        },
+        "s17-6d-7p": {
+          "mean_units_per_round": 0.006349999999999999,
+          "standard_error": 0.009300769762864694,
+          "ci95": [
+            -0.011879508735214803,
+            0.0245795087352148
+          ],
+          "independent_units": 100
+        },
+        "h17-no-das-6to5": {
+          "mean_units_per_round": 0.005949999999999996,
+          "standard_error": 0.011384344868318427,
+          "ci95": [
+            -0.01636331594190412,
+            0.028263315941904114
+          ],
+          "independent_units": 100
+        },
+        "s17-2d-3p": {
+          "mean_units_per_round": 0.0213,
+          "standard_error": 0.007771555230909106,
+          "ci95": [
+            0.006067751747418151,
+            0.03653224825258185
+          ],
+          "independent_units": 100
+        },
+        "random-tablemates-7p": {
+          "mean_units_per_round": 0.018,
+          "standard_error": 0.014502002648189002,
+          "ci95": [
+            -0.010423925190450444,
+            0.04642392519045044
+          ],
+          "independent_units": 100
+        }
+      }
+    }
+  },
+  "inference": "Fixed equal-weight strata; normal 95% intervals over independent rounds or 100-round blocks. Scenario intervals are exploratory, without multiplicity correction.",
+  "pairing": "Identical initial RNG seeds per unit; different actions can diverge subsequent trajectories.",
+  "limitations": "The basic policy is a multi-deck heuristic. Fixed wagers, no insurance; these simulator results do not establish optimality or real-world profitability."
+}

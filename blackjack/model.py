@@ -82,6 +82,10 @@ def resolve_checkpoint(source: str, revision: str = BASE_REVISION) -> str:
 
 
 def load_agent(source: str = BASE_MODEL, device: str | None = None):
+    if (Path(source) / "manifest.json").exists():
+        from .releases import verify_model
+
+        verify_model(Path(source))
     os.environ.setdefault("USE_TF", "0")
     os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
     import laya

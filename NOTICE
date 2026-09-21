@@ -1,0 +1,18 @@
+Laya Blackjack Laboratory
+Copyright 2026 Laya Blackjack contributors
+
+This project includes adaptations of and model weights derived from:
+
+Laya, by Convai Innovations and its contributors
+https://huggingface.co/convaiinnovations/laya
+https://github.com/NandhaKishorM/laya
+Upstream checkpoint revision: 1c5edc17a7acd8701df6fc341c0d179f1c62c982
+Licensed under the Apache License, Version 2.0.
+
+ModernBERT-large, by Answer.AI, LightOn, and their collaborators
+https://huggingface.co/answerdotai/ModernBERT-large
+Licensed under the Apache License, Version 2.0.
+
+The blackjack simulator, application, synthetic training pipeline, evaluation
+tools, and domain fine-tuning are modifications by this project's contributors.
+This project is independent and is not endorsed by the upstream authors.

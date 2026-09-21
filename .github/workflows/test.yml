@@ -11,8 +11,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
       - run: uv sync --frozen --extra dev
-      - run: uv run --no-sync ruff check blackjack tests
+      - run: uv run --no-sync ruff check blackjack tests scripts
       - run: uv run --no-sync pytest -q
+      - run: uv build --wheel
+      - run: uv run --no-sync python scripts/check_wheel.py
       - uses: actions/setup-node@v4
         with:
           node-version: 22

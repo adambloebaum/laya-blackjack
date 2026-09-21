@@ -30,4 +30,4 @@ Training distills three targets: reference action, next-hit bust probability, an
 
 The web app is intentionally one Python service with static assets. GPU dependencies are optional. It remains useful when the model is unloaded and visibly indicates missing inference. Version checks reject duplicate or stale actions. Synchronous FastAPI handlers keep blocking computation outside the event loop.
 
-No external messages, public deployments, remote training jobs, or hosted model uploads are part of this project.
+Training and the dashboard run locally. GitHub hosts the source and documentation; Hugging Face hosts the versioned checkpoint and reproducibility evidence. Downloads use a pinned commit, a pinned manifest digest, and per-file verification before atomic local installation. Publishing model files does not deploy hosted inference or expose the local API.

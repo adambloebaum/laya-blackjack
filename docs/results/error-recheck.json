@@ -1,0 +1,1945 @@
+{
+  "cases": [
+    {
+      "decision": {
+        "index": 4985,
+        "group_seed": 329348290018195432380551520934848373477,
+        "players": 3,
+        "decks": 8,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          3,
+          6
+        ],
+        "total": 9,
+        "dealer_up": 3,
+        "true_count": -10.584070796460178,
+        "depth": 7,
+        "action": "double",
+        "reference_action": "hit",
+        "regret": 0.19482421875,
+        "confidence": 0.6156,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.39501953125,
+          "hit": -0.0927734375,
+          "double": -0.28759765625,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.0,
+        "dealer_brier": 0.004434235104064941
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.2047,
+      "standard_error": 0.0064111017232323375,
+      "ci95": [
+        0.19213424062246462,
+        0.21726575937753537
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 2100.0,
+          "sum_squares": 16862.0,
+          "seed": 202609230000
+        },
+        {
+          "samples": 10000,
+          "sum": 2122.0,
+          "sum_squares": 17124.0,
+          "seed": 202609230001
+        },
+        {
+          "samples": 10000,
+          "sum": 1914.0,
+          "sum_squares": 16582.0,
+          "seed": 202609230002
+        },
+        {
+          "samples": 10000,
+          "sum": 2052.0,
+          "sum_squares": 16870.0,
+          "seed": 202609230003
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 3823,
+        "group_seed": 252227883108240364405023022003570308142,
+        "players": 3,
+        "decks": 6,
+        "hit_soft_17": false,
+        "category": "hard",
+        "hand": [
+          4,
+          10
+        ],
+        "total": 14,
+        "dealer_up": 3,
+        "true_count": -4.894117647058824,
+        "depth": 7,
+        "action": "stand",
+        "reference_action": "hit",
+        "regret": 0.184326171875,
+        "confidence": 0.8782,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.41796875,
+          "hit": -0.233642578125,
+          "double": -0.46728515625,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.015732079707950247,
+        "dealer_brier": 0.005018411382141113
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.172275,
+      "standard_error": 0.006737380271047339,
+      "ci95": [
+        0.15906973466874721,
+        0.1854802653312528
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1674.0,
+          "sum_squares": 18710.0,
+          "seed": 202609230004
+        },
+        {
+          "samples": 10000,
+          "sum": 1778.0,
+          "sum_squares": 18226.0,
+          "seed": 202609230005
+        },
+        {
+          "samples": 10000,
+          "sum": 1639.0,
+          "sum_squares": 18361.0,
+          "seed": 202609230006
+        },
+        {
+          "samples": 10000,
+          "sum": 1800.0,
+          "sum_squares": 18516.0,
+          "seed": 202609230007
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 2093,
+        "group_seed": 125383895436201046468124595362090829529,
+        "players": 1,
+        "decks": 1,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          6,
+          10
+        ],
+        "total": 16,
+        "dealer_up": 9,
+        "true_count": 0.0,
+        "depth": 5,
+        "action": "hit",
+        "reference_action": "stand",
+        "regret": 0.177001953125,
+        "confidence": 0.8432,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.48388671875,
+          "hit": -0.660888671875,
+          "double": -1.32177734375
+        },
+        "hit_bust_brier": 0.03214087573964501,
+        "dealer_brier": 0.010201444164733887
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.18445,
+      "standard_error": 0.006136704850011968,
+      "ci95": [
+        0.17242205849397654,
+        0.19647794150602346
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1654.0,
+          "sum_squares": 15406.0,
+          "seed": 202609230008
+        },
+        {
+          "samples": 10000,
+          "sum": 1895.0,
+          "sum_squares": 15255.0,
+          "seed": 202609230009
+        },
+        {
+          "samples": 10000,
+          "sum": 1998.0,
+          "sum_squares": 15520.0,
+          "seed": 202609230010
+        },
+        {
+          "samples": 10000,
+          "sum": 1831.0,
+          "sum_squares": 15433.0,
+          "seed": 202609230011
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 1165,
+        "group_seed": 227868654176014573101431923942210939764,
+        "players": 1,
+        "decks": 2,
+        "hit_soft_17": false,
+        "category": "hard",
+        "hand": [
+          4,
+          1,
+          9
+        ],
+        "total": 14,
+        "dealer_up": 3,
+        "true_count": -2.122448979591837,
+        "depth": 5,
+        "action": "stand",
+        "reference_action": "hit",
+        "regret": 0.1689453125,
+        "confidence": 0.9538,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.408203125,
+          "hit": -0.2392578125
+        },
+        "hit_bust_brier": 0.024420499999999994,
+        "dealer_brier": 0.012746620701599123
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.16015,
+      "standard_error": 0.006784813945865207,
+      "ci95": [
+        0.14685176466610417,
+        0.1734482353338958
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1526.0,
+          "sum_squares": 18728.0,
+          "seed": 202609230012
+        },
+        {
+          "samples": 10000,
+          "sum": 1789.0,
+          "sum_squares": 18683.0,
+          "seed": 202609230013
+        },
+        {
+          "samples": 10000,
+          "sum": 1765.0,
+          "sum_squares": 18735.0,
+          "seed": 202609230014
+        },
+        {
+          "samples": 10000,
+          "sum": 1326.0,
+          "sum_squares": 18532.0,
+          "seed": 202609230015
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 635,
+        "group_seed": 248830614168953944497419403425519110293,
+        "players": 2,
+        "decks": 2,
+        "hit_soft_17": false,
+        "category": "hard",
+        "hand": [
+          3,
+          9
+        ],
+        "total": 12,
+        "dealer_up": 5,
+        "true_count": -4.16,
+        "depth": 5,
+        "action": "stand",
+        "reference_action": "hit",
+        "regret": 0.158203125,
+        "confidence": 0.9337,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.2353515625,
+          "hit": -0.0771484375,
+          "double": -0.154296875,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.02437891771626297,
+        "dealer_brier": 0.004366672835693361
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.10805,
+      "standard_error": 0.006751982647285294,
+      "ci95": [
+        0.09481611401132081,
+        0.12128388598867917
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 819.0,
+          "sum_squares": 18867.0,
+          "seed": 202609230016
+        },
+        {
+          "samples": 10000,
+          "sum": 946.0,
+          "sum_squares": 18244.0,
+          "seed": 202609230017
+        },
+        {
+          "samples": 10000,
+          "sum": 1362.0,
+          "sum_squares": 18086.0,
+          "seed": 202609230018
+        },
+        {
+          "samples": 10000,
+          "sum": 1195.0,
+          "sum_squares": 18211.0,
+          "seed": 202609230019
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 501,
+        "group_seed": 16126256702191238517381027940265705910,
+        "players": 2,
+        "decks": 2,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          2,
+          9
+        ],
+        "total": 11,
+        "dealer_up": 10,
+        "true_count": -10.947368421052632,
+        "depth": 6,
+        "action": "double",
+        "reference_action": "hit",
+        "regret": 0.157470703125,
+        "confidence": 0.9485,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.5302734375,
+          "hit": 0.042724609375,
+          "double": -0.11474609375
+        },
+        "hit_bust_brier": 0.0,
+        "dealer_brier": 0.02335693012237549
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.20295,
+      "standard_error": 0.008743908956301862,
+      "ci95": [
+        0.18581193844564833,
+        0.22008806155435165
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1879.0,
+          "sum_squares": 31171.0,
+          "seed": 202609230020
+        },
+        {
+          "samples": 10000,
+          "sum": 1913.0,
+          "sum_squares": 31203.0,
+          "seed": 202609230021
+        },
+        {
+          "samples": 10000,
+          "sum": 2277.0,
+          "sum_squares": 30623.0,
+          "seed": 202609230022
+        },
+        {
+          "samples": 10000,
+          "sum": 2049.0,
+          "sum_squares": 30977.0,
+          "seed": 202609230023
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 2816,
+        "group_seed": 307114906810160674113976576100023704853,
+        "players": 6,
+        "decks": 2,
+        "hit_soft_17": true,
+        "category": "pair",
+        "hand": [
+          3,
+          3
+        ],
+        "total": 6,
+        "dealer_up": 2,
+        "true_count": 3.4666666666666663,
+        "depth": 1,
+        "action": "hit",
+        "reference_action": "split",
+        "regret": 0.150634765625,
+        "confidence": 0.5143,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.2666015625,
+          "hit": -0.175537109375,
+          "double": -0.5517578125,
+          "split": -0.02490234375
+        },
+        "hit_bust_brier": 0.0,
+        "dealer_brier": 0.00034935927154541017
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.079625,
+      "standard_error": 0.011768573998905909,
+      "ci95": [
+        0.05655859496214442,
+        0.10269140503785558
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 660.0,
+          "sum_squares": 55446.0,
+          "seed": 202609230024
+        },
+        {
+          "samples": 10000,
+          "sum": 892.0,
+          "sum_squares": 55002.0,
+          "seed": 202609230025
+        },
+        {
+          "samples": 10000,
+          "sum": 782.0,
+          "sum_squares": 55048.0,
+          "seed": 202609230026
+        },
+        {
+          "samples": 10000,
+          "sum": 851.0,
+          "sum_squares": 56351.0,
+          "seed": 202609230027
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 3651,
+        "group_seed": 48308544116136642044585426092880699274,
+        "players": 1,
+        "decks": 2,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          3,
+          6
+        ],
+        "total": 9,
+        "dealer_up": 2,
+        "true_count": -5.0,
+        "depth": 5,
+        "action": "double",
+        "reference_action": "hit",
+        "regret": 0.149658203125,
+        "confidence": 0.7784,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.39306640625,
+          "hit": -0.080322265625,
+          "double": -0.22998046875,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.0,
+        "dealer_brier": 0.006796966845092775
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.15785,
+      "standard_error": 0.006108745154013541,
+      "ci95": [
+        0.14587685949813345,
+        0.16982314050186653
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1520.0,
+          "sum_squares": 15070.0,
+          "seed": 202609230028
+        },
+        {
+          "samples": 10000,
+          "sum": 1499.0,
+          "sum_squares": 15157.0,
+          "seed": 202609230029
+        },
+        {
+          "samples": 10000,
+          "sum": 1646.0,
+          "sum_squares": 15332.0,
+          "seed": 202609230030
+        },
+        {
+          "samples": 10000,
+          "sum": 1649.0,
+          "sum_squares": 15143.0,
+          "seed": 202609230031
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 4115,
+        "group_seed": 42377238117543704800750097471274944120,
+        "players": 7,
+        "decks": 8,
+        "hit_soft_17": true,
+        "category": "pair",
+        "hand": [
+          1,
+          1
+        ],
+        "total": 12,
+        "dealer_up": 1,
+        "true_count": -5.07906976744186,
+        "depth": 4,
+        "action": "split",
+        "reference_action": "hit",
+        "regret": 0.143798828125,
+        "confidence": 0.9946,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.64404296875,
+          "hit": -0.03466796875,
+          "double": -0.71337890625,
+          "split": -0.178466796875,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.0,
+        "dealer_brier": 0.004493379681396483
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.105375,
+      "standard_error": 0.008713132370236753,
+      "ci95": [
+        0.08829726055433595,
+        0.12245273944566404
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1088.0,
+          "sum_squares": 30558.0,
+          "seed": 202609230032
+        },
+        {
+          "samples": 10000,
+          "sum": 1039.0,
+          "sum_squares": 30303.0,
+          "seed": 202609230033
+        },
+        {
+          "samples": 10000,
+          "sum": 1168.0,
+          "sum_squares": 30492.0,
+          "seed": 202609230034
+        },
+        {
+          "samples": 10000,
+          "sum": 920.0,
+          "sum_squares": 30558.0,
+          "seed": 202609230035
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 2294,
+        "group_seed": 54245280085282355692162414658446951362,
+        "players": 1,
+        "decks": 2,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          10,
+          2
+        ],
+        "total": 12,
+        "dealer_up": 5,
+        "true_count": -14.857142857142858,
+        "depth": 7,
+        "action": "stand",
+        "reference_action": "hit",
+        "regret": 0.124267578125,
+        "confidence": 0.8855,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.4541015625,
+          "hit": -0.329833984375,
+          "double": -0.65966796875
+        },
+        "hit_bust_brier": 0.01585171057851241,
+        "dealer_brier": 0.0377792693685913
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.1121,
+      "standard_error": 0.006349259608603151,
+      "ci95": [
+        0.09965545116713784,
+        0.12454454883286217
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1338.0,
+          "sum_squares": 16112.0,
+          "seed": 202609230036
+        },
+        {
+          "samples": 10000,
+          "sum": 1167.0,
+          "sum_squares": 16457.0,
+          "seed": 202609230037
+        },
+        {
+          "samples": 10000,
+          "sum": 1021.0,
+          "sum_squares": 16207.0,
+          "seed": 202609230038
+        },
+        {
+          "samples": 10000,
+          "sum": 958.0,
+          "sum_squares": 16226.0,
+          "seed": 202609230039
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 1923,
+        "group_seed": 324924446484132265507283207633383688773,
+        "players": 4,
+        "decks": 6,
+        "hit_soft_17": false,
+        "category": "hard",
+        "hand": [
+          7,
+          6
+        ],
+        "total": 13,
+        "dealer_up": 2,
+        "true_count": -4.905660377358491,
+        "depth": 8,
+        "action": "stand",
+        "reference_action": "hit",
+        "regret": 0.123046875,
+        "confidence": 0.8921,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.630126953125,
+          "hit": -0.507080078125,
+          "double": -0.760986328125
+        },
+        "hit_bust_brier": 0.02987654320987655,
+        "dealer_brier": 0.006038791535644533
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.137075,
+      "standard_error": 0.011673550998055289,
+      "ci95": [
+        0.11419484004381164,
+        0.15995515995618836
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1234.0,
+          "sum_squares": 55552.0,
+          "seed": 202609230040
+        },
+        {
+          "samples": 10000,
+          "sum": 1604.0,
+          "sum_squares": 54710.0,
+          "seed": 202609230041
+        },
+        {
+          "samples": 10000,
+          "sum": 1312.0,
+          "sum_squares": 54752.0,
+          "seed": 202609230042
+        },
+        {
+          "samples": 10000,
+          "sum": 1333.0,
+          "sum_squares": 53767.0,
+          "seed": 202609230043
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 681,
+        "group_seed": 230515874193051391102178271125587287376,
+        "players": 1,
+        "decks": 2,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          3,
+          10,
+          3
+        ],
+        "total": 16,
+        "dealer_up": 7,
+        "true_count": 7.428571428571429,
+        "depth": 5,
+        "action": "hit",
+        "reference_action": "stand",
+        "regret": 0.12255859375,
+        "confidence": 0.8418,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.41064453125,
+          "hit": -0.533203125
+        },
+        "hit_bust_brier": 0.0019672492806922697,
+        "dealer_brier": 0.00911163800201416
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.106375,
+      "standard_error": 0.006624675927368339,
+      "ci95": [
+        0.09339063518235804,
+        0.11935936481764195
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1115.0,
+          "sum_squares": 17587.0,
+          "seed": 202609230044
+        },
+        {
+          "samples": 10000,
+          "sum": 1118.0,
+          "sum_squares": 17610.0,
+          "seed": 202609230045
+        },
+        {
+          "samples": 10000,
+          "sum": 1130.0,
+          "sum_squares": 17972.0,
+          "seed": 202609230046
+        },
+        {
+          "samples": 10000,
+          "sum": 892.0,
+          "sum_squares": 17500.0,
+          "seed": 202609230047
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 3848,
+        "group_seed": 175228955677164635907204988017378918374,
+        "players": 3,
+        "decks": 6,
+        "hit_soft_17": false,
+        "category": "soft",
+        "hand": [
+          1,
+          8
+        ],
+        "total": 19,
+        "dealer_up": 5,
+        "true_count": 4.310880829015544,
+        "depth": 3,
+        "action": "stand",
+        "reference_action": "double",
+        "regret": 0.1201171875,
+        "confidence": 0.8043,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": 0.49853515625,
+          "hit": 0.309326171875,
+          "double": 0.61865234375
+        },
+        "hit_bust_brier": 0.0,
+        "dealer_brier": 0.0008919480978393549
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.08525,
+      "standard_error": 0.009392710818124489,
+      "ci95": [
+        0.06684028679647601,
+        0.103659713203524
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1075.0,
+          "sum_squares": 35299.0,
+          "seed": 202609230048
+        },
+        {
+          "samples": 10000,
+          "sum": 819.0,
+          "sum_squares": 35345.0,
+          "seed": 202609230049
+        },
+        {
+          "samples": 10000,
+          "sum": 441.0,
+          "sum_squares": 35165.0,
+          "seed": 202609230050
+        },
+        {
+          "samples": 10000,
+          "sum": 1075.0,
+          "sum_squares": 35635.0,
+          "seed": 202609230051
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 3480,
+        "group_seed": 106250221865284130723134280905263626647,
+        "players": 4,
+        "decks": 1,
+        "hit_soft_17": false,
+        "category": "hard",
+        "hand": [
+          10,
+          2
+        ],
+        "total": 12,
+        "dealer_up": 4,
+        "true_count": -3.7142857142857144,
+        "depth": 1,
+        "action": "stand",
+        "reference_action": "hit",
+        "regret": 0.117919921875,
+        "confidence": 0.6618,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.26806640625,
+          "hit": -0.150146484375,
+          "double": -0.30029296875,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.006563382249864787,
+        "dealer_brier": 0.002360818346557619
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.1218,
+      "standard_error": 0.006659127390239655,
+      "ci95": [
+        0.10874811031513028,
+        0.13485188968486972
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1262.0,
+          "sum_squares": 17682.0,
+          "seed": 202609230052
+        },
+        {
+          "samples": 10000,
+          "sum": 1474.0,
+          "sum_squares": 17674.0,
+          "seed": 202609230053
+        },
+        {
+          "samples": 10000,
+          "sum": 1132.0,
+          "sum_squares": 18052.0,
+          "seed": 202609230054
+        },
+        {
+          "samples": 10000,
+          "sum": 1004.0,
+          "sum_squares": 18134.0,
+          "seed": 202609230055
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 624,
+        "group_seed": 123872216262398630632069274196869106557,
+        "players": 2,
+        "decks": 2,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          3,
+          10
+        ],
+        "total": 13,
+        "dealer_up": 3,
+        "true_count": -1.1304347826086958,
+        "depth": 5,
+        "action": "stand",
+        "reference_action": "hit",
+        "regret": 0.111328125,
+        "confidence": 0.9225,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.35400390625,
+          "hit": -0.24267578125,
+          "double": -0.4853515625,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.007290152793119058,
+        "dealer_brier": 0.007668858182067875
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.12905,
+      "standard_error": 0.006718707536667605,
+      "ci95": [
+        0.11588133322813149,
+        0.1422186667718685
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1131.0,
+          "sum_squares": 18281.0,
+          "seed": 202609230056
+        },
+        {
+          "samples": 10000,
+          "sum": 1309.0,
+          "sum_squares": 18335.0,
+          "seed": 202609230057
+        },
+        {
+          "samples": 10000,
+          "sum": 1314.0,
+          "sum_squares": 18320.0,
+          "seed": 202609230058
+        },
+        {
+          "samples": 10000,
+          "sum": 1408.0,
+          "sum_squares": 17954.0,
+          "seed": 202609230059
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 1414,
+        "group_seed": 117770756584651201905153998767789004062,
+        "players": 5,
+        "decks": 2,
+        "hit_soft_17": false,
+        "category": "hard",
+        "hand": [
+          4,
+          6
+        ],
+        "total": 10,
+        "dealer_up": 1,
+        "true_count": 3.4098360655737703,
+        "depth": 4,
+        "action": "hit",
+        "reference_action": "double",
+        "regret": 0.111328125,
+        "confidence": 0.838,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.576171875,
+          "hit": 0.1357421875,
+          "double": 0.2470703125,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.0,
+        "dealer_brier": 0.01856015559844971
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.11165,
+      "standard_error": 0.006807680629288418,
+      "ci95": [
+        0.0983069459665947,
+        0.1249930540334053
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1140.0,
+          "sum_squares": 19052.0,
+          "seed": 202609230060
+        },
+        {
+          "samples": 10000,
+          "sum": 972.0,
+          "sum_squares": 18560.0,
+          "seed": 202609230061
+        },
+        {
+          "samples": 10000,
+          "sum": 1282.0,
+          "sum_squares": 18708.0,
+          "seed": 202609230062
+        },
+        {
+          "samples": 10000,
+          "sum": 1072.0,
+          "sum_squares": 18328.0,
+          "seed": 202609230063
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 2949,
+        "group_seed": 108262430206410524836539591577819884975,
+        "players": 1,
+        "decks": 1,
+        "hit_soft_17": false,
+        "category": "hard",
+        "hand": [
+          10,
+          6
+        ],
+        "total": 16,
+        "dealer_up": 10,
+        "true_count": -8.666666666666666,
+        "depth": 5,
+        "action": "surrender",
+        "reference_action": "hit",
+        "regret": 0.10302734375,
+        "confidence": 0.8078,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.53125,
+          "hit": -0.39697265625,
+          "double": -0.7939453125,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.01648349036336905,
+        "dealer_brier": 0.006159218971862792
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.0946,
+      "standard_error": 0.004323249733962468,
+      "ci95": [
+        0.08612643052143357,
+        0.10307356947856644
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1095.0,
+          "sum_squares": 7680.0,
+          "seed": 202609230064
+        },
+        {
+          "samples": 10000,
+          "sum": 871.0,
+          "sum_squares": 7496.0,
+          "seed": 202609230065
+        },
+        {
+          "samples": 10000,
+          "sum": 883.0,
+          "sum_squares": 7530.0,
+          "seed": 202609230066
+        },
+        {
+          "samples": 10000,
+          "sum": 935.0,
+          "sum_squares": 7556.0,
+          "seed": 202609230067
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 4043,
+        "group_seed": 128209586596671738230628480605482820319,
+        "players": 4,
+        "decks": 1,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          4,
+          5
+        ],
+        "total": 9,
+        "dealer_up": 7,
+        "true_count": -1.2380952380952381,
+        "depth": 1,
+        "action": "double",
+        "reference_action": "hit",
+        "regret": 0.102294921875,
+        "confidence": 0.5009,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.51220703125,
+          "hit": 0.143798828125,
+          "double": 0.04150390625,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.0,
+        "dealer_brier": 0.0006994945046997073
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.082675,
+      "standard_error": 0.008121277300277322,
+      "ci95": [
+        0.06675729649145645,
+        0.09859270350854354
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 810.0,
+          "sum_squares": 26408.0,
+          "seed": 202609230068
+        },
+        {
+          "samples": 10000,
+          "sum": 765.0,
+          "sum_squares": 26663.0,
+          "seed": 202609230069
+        },
+        {
+          "samples": 10000,
+          "sum": 972.0,
+          "sum_squares": 26038.0,
+          "seed": 202609230070
+        },
+        {
+          "samples": 10000,
+          "sum": 760.0,
+          "sum_squares": 26690.0,
+          "seed": 202609230071
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 4221,
+        "group_seed": 73295472262364979278332814933622319673,
+        "players": 3,
+        "decks": 4,
+        "hit_soft_17": false,
+        "category": "soft",
+        "hand": [
+          1,
+          4
+        ],
+        "total": 15,
+        "dealer_up": 4,
+        "true_count": -3.7142857142857144,
+        "depth": 5,
+        "action": "double",
+        "reference_action": "hit",
+        "regret": 0.10107421875,
+        "confidence": 0.5179,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.271484375,
+          "hit": 0.013671875,
+          "double": -0.08740234375
+        },
+        "hit_bust_brier": 0.0,
+        "dealer_brier": 0.0007945142630004876
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.07015,
+      "standard_error": 0.006505999741647394,
+      "ci95": [
+        0.057398240506371115,
+        0.0829017594936289
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 924.0,
+          "sum_squares": 17126.0,
+          "seed": 202609230072
+        },
+        {
+          "samples": 10000,
+          "sum": 610.0,
+          "sum_squares": 16684.0,
+          "seed": 202609230073
+        },
+        {
+          "samples": 10000,
+          "sum": 765.0,
+          "sum_squares": 16927.0,
+          "seed": 202609230074
+        },
+        {
+          "samples": 10000,
+          "sum": 507.0,
+          "sum_squares": 17183.0,
+          "seed": 202609230075
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 3901,
+        "group_seed": 46587795168870764130286716116542508137,
+        "players": 7,
+        "decks": 6,
+        "hit_soft_17": false,
+        "category": "hard",
+        "hand": [
+          3,
+          10
+        ],
+        "total": 13,
+        "dealer_up": 6,
+        "true_count": -10.024096385542167,
+        "depth": 7,
+        "action": "stand",
+        "reference_action": "hit",
+        "regret": 0.098876953125,
+        "confidence": 0.8386,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.3427734375,
+          "hit": -0.243896484375,
+          "double": -0.48779296875
+        },
+        "hit_bust_brier": 0.014857596371882073,
+        "dealer_brier": 0.012281250341796876
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.1276,
+      "standard_error": 0.0058710150502654145,
+      "ci95": [
+        0.11609281050147978,
+        0.1391071894985202
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1363.0,
+          "sum_squares": 14141.0,
+          "seed": 202609230076
+        },
+        {
+          "samples": 10000,
+          "sum": 1245.0,
+          "sum_squares": 13765.0,
+          "seed": 202609230077
+        },
+        {
+          "samples": 10000,
+          "sum": 1227.0,
+          "sum_squares": 14019.0,
+          "seed": 202609230078
+        },
+        {
+          "samples": 10000,
+          "sum": 1269.0,
+          "sum_squares": 13875.0,
+          "seed": 202609230079
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 4573,
+        "group_seed": 259830000188299421853059457404023670531,
+        "players": 7,
+        "decks": 4,
+        "hit_soft_17": false,
+        "category": "pair",
+        "hand": [
+          3,
+          3
+        ],
+        "total": 6,
+        "dealer_up": 4,
+        "true_count": -1.1386861313868613,
+        "depth": 3,
+        "action": "split",
+        "reference_action": "hit",
+        "regret": 0.0958251953125,
+        "confidence": 0.8138,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.27490234375,
+          "hit": -0.104736328125,
+          "double": -0.49365234375,
+          "split": -0.2005615234375
+        },
+        "hit_bust_brier": 0.0,
+        "dealer_brier": 0.0012899416720581066
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.058225,
+      "standard_error": 0.010361819599713672,
+      "ci95": [
+        0.0379158335845612,
+        0.0785341664154388
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 597.0,
+          "sum_squares": 42799.0,
+          "seed": 202609230080
+        },
+        {
+          "samples": 10000,
+          "sum": 486.0,
+          "sum_squares": 43314.0,
+          "seed": 202609230081
+        },
+        {
+          "samples": 10000,
+          "sum": 360.0,
+          "sum_squares": 42974.0,
+          "seed": 202609230082
+        },
+        {
+          "samples": 10000,
+          "sum": 886.0,
+          "sum_squares": 42832.0,
+          "seed": 202609230083
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 4690,
+        "group_seed": 25732082960936178943779745203446103553,
+        "players": 2,
+        "decks": 4,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          7,
+          9
+        ],
+        "total": 16,
+        "dealer_up": 10,
+        "true_count": -4.0344827586206895,
+        "depth": 4,
+        "action": "surrender",
+        "reference_action": "hit",
+        "regret": 0.0888671875,
+        "confidence": 0.5714,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.51806640625,
+          "hit": -0.4111328125,
+          "double": -0.822265625,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.0006511394254667805,
+        "dealer_brier": 0.0004812607736206048
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.0724,
+      "standard_error": 0.004310965159974651,
+      "ci95": [
+        0.06395050828644969,
+        0.08084949171355033
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 657.0,
+          "sum_squares": 7422.0,
+          "seed": 202609230084
+        },
+        {
+          "samples": 10000,
+          "sum": 784.0,
+          "sum_squares": 7544.0,
+          "seed": 202609230085
+        },
+        {
+          "samples": 10000,
+          "sum": 662.0,
+          "sum_squares": 7444.0,
+          "seed": 202609230086
+        },
+        {
+          "samples": 10000,
+          "sum": 793.0,
+          "sum_squares": 7534.0,
+          "seed": 202609230087
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 3130,
+        "group_seed": 90164654036881392926407672787482131632,
+        "players": 2,
+        "decks": 2,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          5,
+          4
+        ],
+        "total": 9,
+        "dealer_up": 7,
+        "true_count": 5.777777777777778,
+        "depth": 5,
+        "action": "hit",
+        "reference_action": "double",
+        "regret": 0.086181640625,
+        "confidence": 0.5414,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.447265625,
+          "hit": 0.259521484375,
+          "double": 0.345703125,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.0,
+        "dealer_brier": 0.00507297965484619
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.074275,
+      "standard_error": 0.007423549241195778,
+      "ci95": [
+        0.05972484348725627,
+        0.08882515651274372
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 723.0,
+          "sum_squares": 21979.0,
+          "seed": 202609230088
+        },
+        {
+          "samples": 10000,
+          "sum": 961.0,
+          "sum_squares": 22109.0,
+          "seed": 202609230089
+        },
+        {
+          "samples": 10000,
+          "sum": 828.0,
+          "sum_squares": 22260.0,
+          "seed": 202609230090
+        },
+        {
+          "samples": 10000,
+          "sum": 459.0,
+          "sum_squares": 22045.0,
+          "seed": 202609230091
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 3907,
+        "group_seed": 250625238888135204283076540315170629790,
+        "players": 4,
+        "decks": 4,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          10,
+          6
+        ],
+        "total": 16,
+        "dealer_up": 10,
+        "true_count": 1.793103448275862,
+        "depth": 5,
+        "action": "hit",
+        "reference_action": "stand",
+        "regret": 0.08544921875,
+        "confidence": 0.6482,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.5029296875,
+          "hit": -0.58837890625,
+          "double": -1.1767578125
+        },
+        "hit_bust_brier": 0.00044889722816752954,
+        "dealer_brier": 0.0032208790710449207
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.0827,
+      "standard_error": 0.005436428664014223,
+      "ci95": [
+        0.07204459981853212,
+        0.09335540018146787
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 718.0,
+          "sum_squares": 11956.0,
+          "seed": 202609230092
+        },
+        {
+          "samples": 10000,
+          "sum": 1029.0,
+          "sum_squares": 12047.0,
+          "seed": 202609230093
+        },
+        {
+          "samples": 10000,
+          "sum": 759.0,
+          "sum_squares": 11885.0,
+          "seed": 202609230094
+        },
+        {
+          "samples": 10000,
+          "sum": 802.0,
+          "sum_squares": 11672.0,
+          "seed": 202609230095
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 1520,
+        "group_seed": 73186850497672724762237216075932969146,
+        "players": 3,
+        "decks": 2,
+        "hit_soft_17": true,
+        "category": "pair",
+        "hand": [
+          2,
+          2
+        ],
+        "total": 4,
+        "dealer_up": 7,
+        "true_count": 0.6046511627906977,
+        "depth": 1,
+        "action": "split",
+        "reference_action": "hit",
+        "regret": 0.084716796875,
+        "confidence": 0.8653,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.5283203125,
+          "hit": -0.0595703125,
+          "double": -1.04736328125,
+          "split": -0.144287109375,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.0,
+        "dealer_brier": 0.0009327983758544922
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.01395,
+      "standard_error": 0.009744550212501915,
+      "ci95": [
+        -0.005149318416503752,
+        0.033049318416503756
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 1.0,
+          "sum_squares": 37761.0,
+          "seed": 202609230096
+        },
+        {
+          "samples": 10000,
+          "sum": 110.0,
+          "sum_squares": 38282.0,
+          "seed": 202609230097
+        },
+        {
+          "samples": 10000,
+          "sum": 87.0,
+          "sum_squares": 38147.0,
+          "seed": 202609230098
+        },
+        {
+          "samples": 10000,
+          "sum": 360.0,
+          "sum_squares": 37744.0,
+          "seed": 202609230099
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 898,
+        "group_seed": 167351636510911037352835095781840889457,
+        "players": 1,
+        "decks": 1,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          10,
+          5
+        ],
+        "total": 15,
+        "dealer_up": 9,
+        "true_count": 7.222222222222222,
+        "depth": 3,
+        "action": "hit",
+        "reference_action": "surrender",
+        "regret": 0.084228515625,
+        "confidence": 0.5729,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.59716796875,
+          "hit": -0.584228515625,
+          "double": -1.154296875,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.0016782399415631857,
+        "dealer_brier": 0.0030949587127685548
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.05305,
+      "standard_error": 0.003976026616760938,
+      "ci95": [
+        0.045256987831148565,
+        0.060843012168851435
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 480.0,
+          "sum_squares": 6376.0,
+          "seed": 202609230100
+        },
+        {
+          "samples": 10000,
+          "sum": 515.0,
+          "sum_squares": 6396.0,
+          "seed": 202609230101
+        },
+        {
+          "samples": 10000,
+          "sum": 629.0,
+          "sum_squares": 6268.0,
+          "seed": 202609230102
+        },
+        {
+          "samples": 10000,
+          "sum": 498.0,
+          "sum_squares": 6366.0,
+          "seed": 202609230103
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 4235,
+        "group_seed": 253602773599480950964538569916929969453,
+        "players": 4,
+        "decks": 2,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          2,
+          10
+        ],
+        "total": 12,
+        "dealer_up": 5,
+        "true_count": -0.7761194029850745,
+        "depth": 3,
+        "action": "hit",
+        "reference_action": "stand",
+        "regret": 0.0841064453125,
+        "confidence": 0.839,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.3232421875,
+          "hit": -0.4073486328125
+        },
+        "hit_bust_brier": 3.4984152249134946e-05,
+        "dealer_brier": 0.0004160438313293447
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": -0.001025,
+      "standard_error": 0.011740167993814572,
+      "ci95": [
+        -0.02403572926787656,
+        0.021985729267876557
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 572.0,
+          "sum_squares": 54890.0,
+          "seed": 202609230104
+        },
+        {
+          "samples": 10000,
+          "sum": -414.0,
+          "sum_squares": 55512.0,
+          "seed": 202609230105
+        },
+        {
+          "samples": 10000,
+          "sum": 168.0,
+          "sum_squares": 55830.0,
+          "seed": 202609230106
+        },
+        {
+          "samples": 10000,
+          "sum": -367.0,
+          "sum_squares": 54293.0,
+          "seed": 202609230107
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 871,
+        "group_seed": 145933759886976302595312229326667865235,
+        "players": 7,
+        "decks": 6,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          7,
+          6
+        ],
+        "total": 13,
+        "dealer_up": 4,
+        "true_count": -2.2033898305084745,
+        "depth": 6,
+        "action": "stand",
+        "reference_action": "hit",
+        "regret": 0.083984375,
+        "confidence": 0.9057,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.31494140625,
+          "hit": -0.23095703125,
+          "double": -0.4619140625,
+          "surrender": -0.5
+        },
+        "hit_bust_brier": 0.003052759076336419,
+        "dealer_brier": 0.0006394809411621098
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.0397,
+      "standard_error": 0.006072809870685327,
+      "ci95": [
+        0.02779729265345676,
+        0.051602707346543236
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 129.0,
+          "sum_squares": 14871.0,
+          "seed": 202609230108
+        },
+        {
+          "samples": 10000,
+          "sum": 337.0,
+          "sum_squares": 14815.0,
+          "seed": 202609230109
+        },
+        {
+          "samples": 10000,
+          "sum": 663.0,
+          "sum_squares": 14727.0,
+          "seed": 202609230110
+        },
+        {
+          "samples": 10000,
+          "sum": 459.0,
+          "sum_squares": 14655.0,
+          "seed": 202609230111
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 1160,
+        "group_seed": 76781334448052383862474615745419631805,
+        "players": 1,
+        "decks": 1,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          4,
+          5,
+          7
+        ],
+        "total": 16,
+        "dealer_up": 1,
+        "true_count": 8.387096774193548,
+        "depth": 4,
+        "action": "hit",
+        "reference_action": "stand",
+        "regret": 0.083984375,
+        "confidence": 0.8665,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.5322265625,
+          "hit": -0.6162109375
+        },
+        "hit_bust_brier": 0.011415117585848058,
+        "dealer_brier": 0.005704940895690918
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.07605,
+      "standard_error": 0.005847543482661718,
+      "ci95": [
+        0.06458881477398304,
+        0.08751118522601697
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 784.0,
+          "sum_squares": 13768.0,
+          "seed": 202609230112
+        },
+        {
+          "samples": 10000,
+          "sum": 781.0,
+          "sum_squares": 13631.0,
+          "seed": 202609230113
+        },
+        {
+          "samples": 10000,
+          "sum": 727.0,
+          "sum_squares": 13517.0,
+          "seed": 202609230114
+        },
+        {
+          "samples": 10000,
+          "sum": 750.0,
+          "sum_squares": 14024.0,
+          "seed": 202609230115
+        }
+      ]
+    },
+    {
+      "decision": {
+        "index": 3161,
+        "group_seed": 253675128346594616617707227985749343879,
+        "players": 2,
+        "decks": 2,
+        "hit_soft_17": true,
+        "category": "hard",
+        "hand": [
+          10,
+          3
+        ],
+        "total": 13,
+        "dealer_up": 2,
+        "true_count": 3.804878048780488,
+        "depth": 6,
+        "action": "stand",
+        "reference_action": "hit",
+        "regret": 0.08203125,
+        "confidence": 0.8834,
+        "resolved": true,
+        "correct": false,
+        "action_values": {
+          "stand": -0.3544921875,
+          "hit": -0.2724609375,
+          "double": -0.544921875
+        },
+        "hit_bust_brier": 0.0025571465306122557,
+        "dealer_brier": 0.003321424659729003
+      },
+      "fresh_worlds": 40000,
+      "teacher_minus_model_ev": 0.073625,
+      "standard_error": 0.006888671521364495,
+      "ci95": [
+        0.06012320381812559,
+        0.08712679618187441
+      ],
+      "replicates": [
+        {
+          "samples": 10000,
+          "sum": 647.0,
+          "sum_squares": 19233.0,
+          "seed": 202609230116
+        },
+        {
+          "samples": 10000,
+          "sum": 687.0,
+          "sum_squares": 19103.0,
+          "seed": 202609230117
+        },
+        {
+          "samples": 10000,
+          "sum": 871.0,
+          "sum_squares": 18611.0,
+          "seed": 202609230118
+        },
+        {
+          "samples": 10000,
+          "sum": 740.0,
+          "sum_squares": 19194.0,
+          "seed": 202609230119
+        }
+      ]
+    }
+  ],
+  "elapsed_seconds": 13.48222484625876,
+  "method": "Fixed original teacher action versus fixed model action, paired fresh hidden worlds, basic continuation. No reselection of actions from these samples.",
+  "scope": "Exploratory recheck of the 30 largest frozen-test regrets; per-case intervals are not simultaneous confidence guarantees."
+}

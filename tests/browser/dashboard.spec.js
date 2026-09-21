@@ -1,5 +1,15 @@
 const {test, expect} = require('@playwright/test');
 
+test('paired research progress distinguishes blocks from rounds', async ({page})=>{
+  await page.route('**/api/overnight', route=>route.fulfill({json:{available:true,run:'paired-test',status:'running',stage:'policy_evaluation',elapsed_seconds:600,deadline_unix:Date.now()/1000+3600,progress:{'candidate / continuous':{stage:'evaluation',mode:'continuous',completed_units:400,total_units:1000,rounds:40000}}}}));
+  await page.goto('/');
+  await page.getByRole('button',{name:'Experiments',exact:true}).click();
+  await expect(page.locator('#overnight-progress')).toContainText('400');
+  await expect(page.locator('#overnight-progress')).toContainText('blocks');
+  await expect(page.locator('#overnight-note')).toContainText('independent blocks');
+  await expect(page.locator('#train-button')).toBeDisabled();
+});
+
 test('overnight progress reports both GPUs and prevents overlapping jobs', async ({page})=>{
   await page.route('**/api/overnight', route=>route.fulfill({json:{available:true,run:'overnight-test',status:'running',stage:'training',elapsed_seconds:3600,deadline_unix:Date.now()/1000+3600,progress:{dataset:{stage:'generation',states:{train:100000,test:5000}},'gpu-0':{stage:'training',updates:50,planned_updates:1000,loss:0.42},'gpu-1':{stage:'training',updates:45,planned_updates:1000,loss:0.44}}}}));
   await page.goto('/');

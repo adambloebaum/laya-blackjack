@@ -1,16 +1,28 @@
 [project]
 name = "laya-blackjack"
-version = "0.1.0"
+version = "0.2.0"
 description = "A reproducible blackjack laboratory with Laya inference and training"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{name = "Laya Blackjack contributors"}]
 requires-python = ">=3.11,<3.14"
 dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.34,<1", "numpy>=1.26,<3", "requests>=2.32,<3"]
 
 [project.optional-dependencies]
 model = ["laya==0.3.4", "torch==2.8.0", "transformers==4.57.6"]
 dev = ["pytest>=8,<10", "httpx>=0.28,<1", "ruff>=0.12,<1"]
+analysis = [
+    "matplotlib>=3.9,<4",
+]
 
 [project.scripts]
 blackjack = "blackjack.cli:main"
+
+[project.urls]
+Repository = "https://github.com/adambloebaum/laya-blackjack"
+Documentation = "https://github.com/adambloebaum/laya-blackjack#readme"
+Issues = "https://github.com/adambloebaum/laya-blackjack/issues"
 
 [build-system]
 requires = ["hatchling"]

@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this simulator, evaluation pipeline, or adapted model, please cite this repository and the upstream Laya and ModernBERT work."
+title: "Laya Blackjack Laboratory"
+type: software
+authors:
+  - family-names: "Bloebaum"
+    given-names: "Adam"
+version: 0.2.0
+date-released: 2026-09-21
+repository-code: "https://github.com/adambloebaum/laya-blackjack"
+license: Apache-2.0

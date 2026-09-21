@@ -9,6 +9,16 @@ def main():
     serve = commands.add_parser("serve")
     serve.add_argument("--host", default="127.0.0.1")
     serve.add_argument("--port", type=int, default=8000)
+    fetch = commands.add_parser("fetch-model")
+    fetch.add_argument("--output", type=Path, default=Path("artifacts/checkpoints/released"))
+    fetch.add_argument("--repo")
+    fetch.add_argument("--revision")
+    package = commands.add_parser("package-model")
+    package.add_argument("--source", type=Path, required=True)
+    package.add_argument("--output", type=Path, required=True)
+    package.add_argument("--card", type=Path, default=Path("MODEL_CARD.md"))
+    package.add_argument("--project", type=Path, default=Path("."))
+    package.add_argument("--evidence", type=Path)
     generate = commands.add_parser("generate")
     generate.add_argument("--output", type=Path, default=Path("artifacts/data/blackjack"))
     generate.add_argument("--states", type=int, default=500)
@@ -33,6 +43,47 @@ def main():
     bench.add_argument("--model-path")
     replay = commands.add_parser("replay")
     replay.add_argument("path", type=Path)
+    evaluate = commands.add_parser("evaluate-policy")
+    evaluate.add_argument("--output", type=Path, required=True)
+    evaluate.add_argument("--policy", choices=["laya", "basic", "reference"], default="laya")
+    evaluate.add_argument("--source")
+    evaluate.add_argument("--device", default="cuda:0")
+    evaluate.add_argument("--mode", choices=["fresh", "continuous"], default="fresh")
+    evaluate.add_argument("--units", type=int, default=100000)
+    evaluate.add_argument("--seed", type=int, default=20260922)
+    evaluate.add_argument("--batch-size", type=int, default=32)
+    evaluate.add_argument("--shard-size", type=int, default=256)
+    evaluate.add_argument("--samples", type=int, default=256)
+    compare = commands.add_parser("compare-evaluations")
+    compare.add_argument("--input", action="append", required=True, help="Policy name=artifact directory")
+    compare.add_argument("--output", type=Path, required=True)
+    compare.add_argument("--candidate", default="candidate")
+    audit = commands.add_parser("audit-model")
+    audit.add_argument("--dataset", type=Path, required=True)
+    audit.add_argument("--source", required=True)
+    audit.add_argument("--output", type=Path, required=True)
+    audit.add_argument("--device", default="cuda:1")
+    audit.add_argument("--batch-size", type=int, default=32)
+    recheck = commands.add_parser("recheck-errors")
+    recheck.add_argument("--audit", type=Path, required=True)
+    recheck.add_argument("--output", type=Path, required=True)
+    recheck.add_argument("--workers", type=int, default=24)
+    recheck.add_argument("--samples", type=int, default=10000)
+    recheck.add_argument("--repeats", type=int, default=4)
+    suite = commands.add_parser("evaluate-suite")
+    suite.add_argument("--output", type=Path, required=True)
+    suite.add_argument("--policy", choices=["laya", "basic"], default="laya")
+    suite.add_argument("--source")
+    suite.add_argument("--device", default="cuda:0")
+    suite.add_argument("--fresh-units", type=int, default=100000)
+    suite.add_argument("--blocks", type=int, default=1000)
+    research = commands.add_parser("research")
+    research.add_argument("--output", type=Path, required=True)
+    research.add_argument("--candidate", required=True)
+    research.add_argument("--baseline", required=True)
+    research.add_argument("--fresh-units", type=int, default=100000)
+    research.add_argument("--blocks", type=int, default=1000)
+    research.add_argument("--hours", type=float, default=3)
     large = commands.add_parser("generate-large")
     large.add_argument("--output", type=Path, required=True)
     large.add_argument("--states", type=int, default=100000)
@@ -78,6 +129,40 @@ def main():
         import uvicorn
 
         uvicorn.run("blackjack.server:app", **args)
+    elif command == "fetch-model":
+        from .releases import fetch_model
+
+        print(f"Verified model installed at {fetch_model(**args)}")
+    elif command == "package-model":
+        from .releases import package_model
+
+        result = package_model(**args)
+        print(json.dumps({"files": len(result["files"]), "format": result["format"]}))
+    elif command == "evaluate-policy":
+        from .evaluation import evaluate_policy
+
+        result = evaluate_policy(**args)
+        print(json.dumps({"complete": True, "elapsed_seconds": result["elapsed_seconds"]}))
+    elif command == "compare-evaluations":
+        from .evaluation import compare_evaluations
+
+        inputs = dict(value.split("=", 1) for value in args.pop("input"))
+        result = compare_evaluations({k: Path(v) for k, v in inputs.items()}, **args)
+        print(json.dumps(result, indent=2))
+    elif command == "audit-model":
+        from .model_audit import audit_model
+
+        result = audit_model(**args)
+        print(json.dumps(result["metrics"], indent=2))
+    elif command == "recheck-errors":
+        from .model_audit import recheck_errors
+
+        result = recheck_errors(**args)
+        print(json.dumps({"cases": len(result["cases"]), "elapsed_seconds": result["elapsed_seconds"]}))
+    elif command in ("research", "evaluate-suite"):
+        from .research import evaluate_suite, run_research
+
+        (run_research if command == "research" else evaluate_suite)(**args)
     elif command == "replay":
         from .engine import Game, Rules
 

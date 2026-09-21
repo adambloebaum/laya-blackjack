@@ -21,7 +21,7 @@ from .engine import Game, Rules, basic_action, tablemate_action
 from .model import BASE_MODEL, LayaPolicy
 from .reference import analyze
 
-app = FastAPI(title="Laya Blackjack Laboratory", version="0.1.0")
+app = FastAPI(title="Laya Blackjack Laboratory", version="0.2.0")
 STATIC = Path(__file__).parent / "static"
 ARTIFACTS = Path("artifacts")
 policy = LayaPolicy()
@@ -34,7 +34,7 @@ jobs: dict[str, dict] = {}
 
 @app.get("/api/overnight")
 def overnight_status():
-    paths = list(ARTIFACTS.glob("overnight/*/status.json"))
+    paths = list(ARTIFACTS.glob("overnight/*/status.json")) + list(ARTIFACTS.glob("evaluations/*/status.json"))
     if not paths:
         return {"available": False}
     path = max(paths, key=lambda p: p.stat().st_mtime)
@@ -109,6 +109,7 @@ def latest_checkpoint():
     reports = list(ARTIFACTS.glob("checkpoints/*/training_report.json")) + list(
         ARTIFACTS.glob("runs/*/model/training_report.json")
     )
+    reports = [p for p in reports if not p.parent.name.startswith(".") and ".staging" not in p.parent.name]
     return str(max(reports, key=lambda p: p.stat().st_mtime).parent) if reports else None
 
 
@@ -139,7 +140,7 @@ def snapshot(session: Session):
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "version": "0.1.0"}
+    return {"ok": True, "version": app.version}
 
 
 @app.post("/api/sessions")
@@ -303,7 +304,7 @@ def run_job(jid: str, request: JobRequest):
 @app.post("/api/jobs")
 def create_job(request: JobRequest):
     if overnight_status().get("status") in ("running", "unresponsive"):
-        raise HTTPException(409, "An overnight experiment is active. Check its status before starting another job.")
+        raise HTTPException(409, "A research run is active. Check its status before starting another job.")
     if request.kind == "train":
         from importlib.util import find_spec
 

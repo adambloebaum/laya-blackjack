@@ -145,10 +145,12 @@ function renderInference(r,m,s) {
 }
 function renderReport(report) {
   if (!report) return;
-  $('report-badge').textContent=`${report.states.train} TRAIN · ${report.states.test} TEST STATES`;
+  $('report-badge').textContent=`${report.states.train.toLocaleString()} TRAIN · ${report.states.test.toLocaleString()} TEST STATES`;
   const rows=[['Teacher agreement','teacher_agreement',true,true],['Teacher EV regret','teacher_ev_regret',false,false],['Next-hit probability Brier','hit_bust_brier',false,false],['Dealer probability Brier','dealer_brier',false,false],['Action calibration error','teacher_action_ece',false,false]];
   $('training-report').classList.remove('empty');
-  $('training-report').innerHTML=`<table class="report-table"><thead><tr><th>Held-out metric</th><th>Base / raw</th><th>Trained / calibrated</th></tr></thead><tbody>${rows.map(([label,key,up,percent])=>{const a=report.baseline[key],b=report.test[key];return `<tr><td>${label}</td><td>${percent?pct(a,1):a.toFixed(4)}</td><td class="${(up?b>a:b<a)?'improved':'worse'}">${percent?pct(b,1):b.toFixed(4)}</td></tr>`;}).join('')}</tbody></table><p class="footnote">${escape(report.limitations)} ${report.states.validation} separate validation states used for temperature fitting.</p>`;
+  const calibration=report.states.calibration||report.states.validation;
+  const selection=report.states.selection?` ${report.states.selection.toLocaleString()} separate selection states chose the checkpoint.`:'';
+  $('training-report').innerHTML=`<table class="report-table"><thead><tr><th>Frozen test metric · trainer</th><th>${report.states.selection?'Warm start':'Base / raw'}</th><th>Trained / calibrated</th></tr></thead><tbody>${rows.map(([label,key,up,percent])=>{const a=report.baseline[key],b=report.test[key];return `<tr><td>${label}</td><td>${percent?pct(a,1):a.toFixed(4)}</td><td class="${(up?b>a:b<a)?'improved':'worse'}">${percent?pct(b,1):b.toFixed(4)}</td></tr>`;}).join('')}</tbody></table><p class="footnote">${escape(report.limitations)}${selection} ${calibration.toLocaleString()} separate calibration states fitted temperatures.</p>`;
 }
 async function loadModel() {
   pause();
@@ -196,13 +198,14 @@ async function pollOvernight() {
       const deadline=new Date(run.deadline_unix*1000).toLocaleString();
       $('overnight-summary').textContent=`${run.run} · elapsed ${(run.elapsed_seconds/3600).toFixed(2)} hours · stops by ${deadline}`;
       const rows=Object.entries(run.progress).map(([name,p])=>{
-        const detail=p.stage==='generation'?Object.entries(p.states).map(([s,n])=>`${s}: ${n.toLocaleString()}`).join(' · '):`updates: ${p.updates.toLocaleString()}${p.planned_updates?` / ${p.planned_updates.toLocaleString()}`:''}${p.loss!==undefined?` · loss ${p.loss.toFixed(4)}`:''}`;
+        const detail=p.completed_units!==undefined?`${p.rounds.toLocaleString()} rounds · ${p.completed_units.toLocaleString()} / ${p.total_units.toLocaleString()} independent ${p.mode==='continuous'?'blocks':'rounds'} · ${p.stage}`:p.stage==='generation'?Object.entries(p.states).map(([s,n])=>`${s}: ${n.toLocaleString()}`).join(' · '):`updates: ${p.updates.toLocaleString()}${p.planned_updates?` / ${p.planned_updates.toLocaleString()}`:''}${p.loss!==undefined?` · loss ${p.loss.toFixed(4)}`:''}`;
         return `<tr><td>${escape(name)}</td><td>${escape(detail)}</td></tr>`;
       });
       $('overnight-progress').innerHTML=`<table class="report-table"><tbody>${rows.join('')}</tbody></table>`;
-      $('overnight-note').textContent=run.error|| (run.status==='unresponsive'?'Progress updates stopped. Check the local service before restarting.':'Candidates are compared on separate selection games. Final test results are reported afterward; the live model stays unchanged until a candidate is reviewed.');
+      const evaluating=Object.values(run.progress||{}).some(p=>p.completed_units!==undefined);
+      $('overnight-note').textContent=run.error|| (run.status==='unresponsive'?'Progress updates stopped. Check the local service before restarting.':evaluating?'Policies share initial seeds. Continuous-shoe uncertainty uses independent blocks of rounds; paired results are saved when evaluation completes.':'Candidates are compared on separate selection games. Final test results are reported afterward; the live model stays unchanged until a candidate is reviewed.');
     }
-  } catch { $('overnight-note').textContent='Unable to refresh overnight progress.'; }
+  } catch { $('overnight-note').textContent='Unable to refresh research progress.'; }
   setTimeout(pollOvernight,5000);
 }
 function renderBenchmark(report) {

@@ -8,5 +8,7 @@ __pycache__/
 !.env.example
 artifacts/
 node_modules/
+dist/
+*.egg-info/
 test-results/
 .DS_Store

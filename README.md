@@ -1,134 +1,85 @@
 # Laya Blackjack Laboratory
 
-A local blackjack research sandbox with a finite-shoe simulator, an interactive table, real [Laya](https://huggingface.co/convaiinnovations/laya) inference, and a reproducible training/evaluation pipeline.
+**Watch a learned policy play. Inspect what it believes. Measure where it fails.**
 
-**Status:** working first release. A local full-model pilot reached 85% agreement with the approximate reference on 100 held-out states; see [measured results](docs/experiments.md). The reference is Monte Carlo policy improvement with basic-strategy continuations. Laya is an experimental learned approximation, not a proven optimal blackjack player.
+A finite-shoe blackjack simulator, interactive research dashboard, and reproducible training pipeline built around [Laya](https://huggingface.co/convaiinnovations/laya). One learned player shares the table with up to six simulated players. Every decision uses the cards a player can observe.
 
-![Laya blackjack dashboard with live model inference](docs/dashboard.png)
+[Model on Hugging Face](https://huggingface.co/adambloebaum/laya-blackjack) · [Measured results](docs/release-results.md) · [Usage](docs/usage.md) · [Model card](MODEL_CARD.md)
 
-## Run
+![Live table with learned predictions and reference probabilities](docs/dashboard.png)
 
-Requires [uv](https://docs.astral.sh/uv/) and Python 3.13 (uv can install it). GPU is optional; CUDA greatly speeds training. No API key or hosted inference service is required.
+## What you can explore
+
+- **Play and observe.** Step through a hand or autoplay; inspect splits, wagers, exposed cards, unseen rank counts, and the return trace. Export a deterministic replay.
+- **Compare beliefs.** The sidebar separates learned action preferences, next-hit bust probability, and dealer finish predictions from the Monte Carlo reference and its uncertainty.
+- **Change the game.** Configure 1–7 seats, 1/2/4/6/8 decks, S17/H17, 3:2 or 6:5 payout, surrender, double after split, shoe penetration, and tablemate behavior.
+- **Run experiments.** Generate independent game splits with parallel CPU workers, fine-tune candidates on separate GPUs, calibrate probabilities, and evaluate paired returns on fresh and continuous shoes.
+
+## Start locally
+
+Requires [uv](https://docs.astral.sh/uv/). Python 3.13 is the tested environment; the package permits Python 3.11–3.13. CUDA speeds inference and training; the simulator runs on CPU.
 
 ```bash
+git clone https://github.com/adambloebaum/laya-blackjack.git
+cd laya-blackjack
 uv sync --extra model --extra dev
+uv run --no-sync blackjack fetch-model
 uv run --no-sync blackjack serve
 ```
 
-Open **http://127.0.0.1:8000**. Click **Load trained Laya** if you have a local checkpoint, or **Load base Laya** on a new installation. The first base-model load downloads roughly 0.8 GB of weights and caches them. Checkpoints are intentionally excluded from Git.
+Open **http://127.0.0.1:8000** and click **Load trained Laya**. The approximately 1.7 GB model download uses an immutable Hugging Face revision and verifies every packaged file before installation. While this release is private, authenticate first with `uv run --no-sync hf auth login` using an account with repository access.
 
-For the simulator alone, use `uv sync --extra dev`. Laya remains explicitly unavailable until model dependencies are installed and a checkpoint is loaded. The app never substitutes reference results for model outputs.
+For the simulator alone, use `uv sync --extra dev` and skip the download. Model inference becomes available when dependencies and weights are installed. There is no paid inference API or frontend build step. The server is intended for localhost use and has no remote authentication.
 
-The dashboard includes:
+## Measured model quality
 
-- 1–7 players, 1/2/4/6/8 decks, fixed-seed shuffling, manual decisions, step and autoplay.
-- A Laya/reference/basic-strategy selector for player 01. Tablemates use basic, random, or conservative play.
-- Configurable S17/H17, 3:2 or 6:5 payout, double after split, late surrender, and penetration.
-- Every hand, split, wager, exposed card, unseen rank count, Hi-Lo count, round result, and return trace.
-- Laya action preferences, next-hit bust predictions, dealer finish probabilities, and inference latency.
-- Reference action EVs with Monte Carlo intervals and net-positive/zero/negative outcome probabilities.
-- Training and evaluation controls under **Experiments**, plus JSON replay export.
+The selected checkpoint was fine-tuned on **100,000 simulation states**, with separate **2,000 selection**, **2,000 calibration**, and **5,000 test** states. Two full-model candidates trained on two RTX 4090s; selection used reference EV regret on the selection split.
 
-All inference and simulation are local. Font files may be fetched from Google Fonts; the interface has system fallbacks. The server is single-process and intended for localhost use, without remote authentication. Browser tables are isolated, expire after two idle hours, and reset on server restart. The dashboard retains the most recent 1,000 round summaries; the full action replay is retained for the session.
+| Frozen test metric | Warm start | Selected model |
+| --- | ---: | ---: |
+| Reference action agreement | 87.04% | 94.74% |
+| Reference EV regret, units / decision ↓ | 0.010262 | 0.001915 |
+| Next-hit probability Brier distance ↓ | 0.011246 | 0.000821 |
+| Dealer probability Brier distance ↓ | 0.002351 | 0.001650 |
 
-## Train
+These are the trainer's batched metrics. A separate audit through the serving SDK measured **94.72% agreement** (95% game-cluster bootstrap interval: **94.08–95.34%**) and **0.001926 units of reference regret**. Small numerical differences near tied actions can change an argmax. The audit and release preserve both measurements.
 
-Start a run from the **Experiments** tab (full model, six epochs by default), or run a smaller decision-layer pilot through the CLI:
+![Measured improvement against the approximate reference](docs/figures/model-quality.svg)
 
-```bash
-uv run --no-sync blackjack generate --states 500 --samples 256
-uv run --no-sync blackjack train --device cuda:0 --epochs 3
+The reference uses Monte Carlo action values with a basic-strategy continuation. Matching it is an imitation result, not proof of optimal play or a casino advantage. See the [full evaluation](docs/release-results.md) for **600,000 simulated rounds**, paired return intervals, subgroup weaknesses, and fresh-world checks of the largest mistakes.
+
+## How it works
+
+```mermaid
+flowchart LR
+    G[Finite-shoe game] --> O[Public observation]
+    O --> L[Laya: three typed questions]
+    O --> R[Conditional Monte Carlo reference]
+    L --> D[Dashboard and policy evaluation]
+    R --> D
+    R --> T[Group-disjoint training data]
+    T --> F[Fine-tune and calibrate]
+    F --> L
 ```
 
-This creates `artifacts/data/blackjack/{train,validation,test}.jsonl`, a data manifest, and an SDK-compatible checkpoint in `artifacts/checkpoints/blackjack/`. Output directories must be new to avoid overwriting experiments.
+The model sees the active hand, legal actions, exposed table, rules, and unseen rank counts. It never receives the seed, dealer hole card, or future shoe order. The reference samples concealed cards without replacement and conditions on a negative dealer peek.
 
-The CLI default freezes the encoder and trains the decision layers. The dashboard offers both modes and defaults to full-model training because it performed better in the pilot. To adapt the encoder too:
+Training is supervised distillation. Action preferences describe the model's distribution over legal decisions; they are **not win probabilities**. The next-hit target is an exact conditional rank calculation. Dealer finish predictions assume no additional player draws. Context overflow fails explicitly rather than dropping state silently.
 
-```bash
-uv run --no-sync blackjack train --dataset artifacts/data/blackjack --output artifacts/checkpoints/blackjack-full --device cuda:0 --full-model --epochs 6 --learning-rate 0.00002
-```
+The simulator uses American hole-card rules, fixed unit wagers, and no insurance or side bets. Doubles and splits count against the original wager; split aces get one card and do not resplit. A conservative reserve may trigger an early shuffle in small crowded shoes. Rare mid-round exhaustion voids the round. The [design](docs/design.md) and [usage guide](docs/usage.md) explain the full contract.
 
-Use `--device cpu` for CPU training. Set `LAYA_DEVICE` in the shell to select the dashboard inference device. `LAYA_CPU_THREADS` defaults to 4. `.env.example` documents optional settings; the server does not automatically source it.
+## Research and development
 
-Data generation varies player count, deck count, rule sets, tablemate behavior, and shuffle penetration. It samples multiple decision points from each game. Whole game seeds stay together in one split: **train**, **validation for temperature fitting**, and untouched **test**. Manifest SHA-256 hashes are checked before training. Generation seeds and model revisions are saved.
-
-There are three training questions per state:
-
-| Question | Target | Meaning |
-| --- | --- | --- |
-| Action | One-hot argmax of estimated action EV | Imitate this approximate reference policy |
-| Next-hit bust | Exact conditional rank probability | Bust on the next draw |
-| Dealer finish | Monte Carlo distribution | Dealer final total if no more player cards are drawn |
-
-Training uses supervised cross-entropy distillation, a proper probability scoring objective. It is **not a new implementation of upstream RLCD**. Temperature scaling uses only the validation split. Action calibration is against the teacher label, not the event of winning. Reports include teacher agreement, EV regret, probability Brier distance to reference targets, and teacher-action calibration error.
-
-Checkpoint publication happens only after model files, tokenizer, config, and the evaluation report are complete. The dashboard loads the most recently completed local checkpoint. A completed run is not automatically activated; click **Load trained Laya** to switch.
-
-### Larger local experiments
-
-The overnight pipeline uses 24 simulation workers, then both local GPUs for two independent full-model candidates (learning rates 0.00001 and 0.000005, same seed). It targets **100,000 training states**, plus **2,000 selection**, **2,000 calibration**, and **5,000 final test** states from disjoint games. The current full-model pilot is the warm start.
+Start with the [training and evaluation commands](docs/usage.md), [overnight experiment guide](docs/scaling-experiment.md), and [next research questions](docs/roadmap.md). Machine-readable reports and plotting code accompany the release claims; historical pilot results remain [archived](docs/experiments.md).
 
 ```bash
-uv run --no-sync blackjack overnight --output artifacts/overnight/my-run --source artifacts/checkpoints/blackjack-full --hours 12 --workers 24 --gpus 0,1
-```
-
-Run this under a durable process manager for unattended use; the CLI alone remains attached to its terminal. The provisioned local run uses a user systemd service with a hard 12-hour limit. **Experiments → Overnight experiment** displays progress across dashboard restarts. See [the scaling experiment](docs/scaling-experiment.md) for monitoring, resume commands, and evaluation details.
-
-Generation stops scheduling new shards after 28% of the budget, preserving time for training and evaluation; the actual training set may be smaller than the target. Saved optimizer/RNG state and deterministic batches support recovery. A resumed run retains its original deadline. Completed overnight candidates stay outside dashboard checkpoint discovery until reviewed; the existing pilot remains the available live model.
-
-## Evaluate and replay
-
-```bash
-uv run --no-sync blackjack benchmark --rounds 1000 --players 3 --samples 256 --model-path artifacts/checkpoints/blackjack-full
-uv run --no-sync blackjack replay path/to/laya-session.json
-```
-
-Benchmarks compare basic strategy, reference, and (when supplied) Laya on independent fresh-shoe rounds, with paired initial seeds across policies. Different actions consume different cards, so later card trajectories can diverge. Round-level 95% normal intervals describe sampling variation; small runs are smoke tests and do not establish profitability. Live sessions do continue through shoes; benchmarks deliberately start fresh shoes for independent-round uncertainty estimates.
-
-Replay re-applies recorded actions and verifies both the final public state and retained result history. Replay files contain the seed for reproducibility; the seed never enters model observations.
-
-Tablemate behavior and shoe shuffles use separate random streams, so exported explicit actions reproduce later shuffles even when tablemates were playing randomly.
-
-## Game and information contracts
-
-- American hole-card game, exposed player hands, negative dealer peek before decisions. Insurance and side bets are omitted.
-- Doubles on any first two cards. Split by card value, up to four hands. Split aces receive exactly one card, cannot resplit, and never get natural-blackjack payouts.
-- Unit wagers and unlimited virtual bankroll; bet sizing is outside this release. Split/double profits are measured per **original** unit, not per final amount wagered.
-- Shuffles happen only between rounds, at the cut threshold or when fewer than `min(shoe size, 12 × (players + 1))` cards remain. This conservative reserve dominates penetration for crowded small shoes.
-- Rare mid-round exhaustion voids the entire round and returns bets. It never silently creates cards or reshuffles mid-hand.
-- The unseen rank pool includes the concealed dealer card. Negative ace/ten peeks change the next-card marginal. Card counts use exposed cards only.
-- Monte Carlo accepts only the public observation. It samples the hidden card and shoe **without replacement**, conditioned on the peek, and uses common sampled worlds for all candidate actions. There is no privileged-state reference mode.
-- Reference continuation is a documented multi-deck basic-strategy heuristic. It is not exact for every rule combination, and finite Monte Carlo can choose the wrong action when values are close. Displayed EV intervals are per action and are not simultaneous intervals or guarantees on the chosen maximum.
-- Dealer finish probabilities assume no additional player draws. Actual round trajectories include all tablemates. Action outcome bars aggregate the active seat’s split hands; zero outcomes include voids.
-- Model state includes exposed hands, active hand, rules, and unseen rank counts. It excludes seed, future order, and hidden rank. Context overflow is rejected instead of silently truncating.
-
-## Development
-
-```bash
-uv sync --extra model --extra dev
 uv run --no-sync pytest -q
-uv run --no-sync ruff check blackjack tests
+uv run --no-sync ruff check blackjack tests scripts
 npm ci
 npx playwright install chromium
 npm test
 ```
 
-The static UI requires no build step or Node runtime. Node is only used for browser tests. Tests cover card conservation across table sizes, rule edge cases, seed replay, information leakage, conditional probabilities, API isolation and stale-write rejection, desktop/mobile layout, and controls. CI runs without GPU/model downloads. Real model inference and training are separately exercised locally.
+The application is plain HTML/CSS/JavaScript served by FastAPI. Node is only needed for browser tests. CI exercises the simulator, information boundaries, API, replay, artifact integrity, paired evaluation, and responsive interface without downloading model weights.
 
-```text
-blackjack/engine.py       Rules, shoe, hands, payouts, public observations
-blackjack/reference.py    Conditional hidden-world sampling and rollout EVs
-blackjack/model.py        Pinned Laya loading, prompts, context checks, inference
-blackjack/training.py     Data generation, distillation, calibration, benchmarks
-blackjack/experiment_data.py  Parallel whole-shoe sampling, shard receipts, split verification
-blackjack/experiment_train.py Streaming fine-tuning, optimizer recovery, selection/calibration/test
-blackjack/overnight.py        Shared wall-clock budget and dual-GPU supervision
-blackjack/server.py       Versioned browser tables, model loading, experiment jobs
-blackjack/static/         Responsive dashboard (plain HTML/CSS/JavaScript)
-docs/                    Design, worklog, and measured experiment reports
-artifacts/               Local datasets, checkpoints, logs, screenshots (not in Git)
-```
-
-API documentation: http://127.0.0.1:8000/docs. Long jobs run in separate Python processes and log under `artifacts/runs/`. Keep the server running while dashboard experiments execute. No database is used.
-
-See [experiment results](docs/experiments.md), [design](docs/design.md), and [worklog](docs/worklog.md). Laya and its pretrained weights are upstream Apache-2.0 works; this repository remains private and does not redistribute their weights.
+See [contributing](CONTRIBUTING.md), [security](SECURITY.md), and the [release process](docs/release.md). Code and released model modifications are licensed under **Apache 2.0**; [NOTICE](NOTICE) credits Laya and its ModernBERT backbone. This is an independent research project.

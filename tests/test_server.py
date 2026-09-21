@@ -45,6 +45,21 @@ def test_invalid_config_and_not_found():
     assert client.get("/").status_code == 200
 
 
+def test_checkpoint_discovery_excludes_unpublished_staging(monkeypatch, tmp_path):
+    from blackjack import server
+
+    monkeypatch.setattr(server, "ARTIFACTS", tmp_path)
+    for name in ("release.staging-deadbeef", ".release.staging-deadbeef"):
+        p = tmp_path / "checkpoints" / name / "training_report.json"
+        p.parent.mkdir(parents=True)
+        p.write_text("{}")
+    assert server.latest_checkpoint() is None
+    ready = tmp_path / "checkpoints" / "release" / "training_report.json"
+    ready.parent.mkdir()
+    ready.write_text("{}")
+    assert server.latest_checkpoint() == str(ready.parent)
+
+
 def test_overnight_status_survives_server_restart_and_marks_stale_heartbeat(monkeypatch, tmp_path):
     import json
     import time

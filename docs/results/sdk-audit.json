@@ -1,0 +1,1177 @@
+{
+  "model_sha256": "04e4b4fb3bf7332d1df15e6d61d2ec23173f35111aa3afe23898fbc453a36dd7",
+  "dataset_sha256": "08c404b77245cedfbca3bae832a073670b3b56c6a3a3175f575b234c479f33be",
+  "metrics": {
+    "states": 5000,
+    "teacher_agreement": 0.9472,
+    "teacher_ev_regret": 0.001925830078125,
+    "hit_bust_brier": 0.0008215954022598279,
+    "dealer_brier": 0.0016503167051572568
+  },
+  "game_groups": 1479,
+  "cluster_bootstrap_replicates": 2000,
+  "teacher_agreement_ci95": [
+    0.9407888483089853,
+    0.9534281648305917
+  ],
+  "teacher_ev_regret_ci95": [
+    0.0015889382587514873,
+    0.002260560561290213
+  ],
+  "trainer_report_metrics": {
+    "action_brier": 0.07555795766789963,
+    "teacher_agreement": 0.9474,
+    "teacher_ev_regret": 0.0019153076171875,
+    "hit_bust_brier": 0.0008209174666862557,
+    "dealer_brier": 0.0016496158033128736,
+    "teacher_action_ece": 0.009976454932143284,
+    "resolved_agreement": 0.9816765918460834,
+    "unresolved_agreement": 0.7113564668769716,
+    "resolved_states": 4366,
+    "unresolved_states": 634,
+    "by_players": {
+      "4": {
+        "states": 690,
+        "teacher_agreement": 0.946376811594203,
+        "teacher_ev_regret": 0.0019280032835144927
+      },
+      "2": {
+        "states": 744,
+        "teacher_agreement": 0.9408602150537635,
+        "teacher_ev_regret": 0.00228077878234207
+      },
+      "5": {
+        "states": 690,
+        "teacher_agreement": 0.9434782608695652,
+        "teacher_ev_regret": 0.001427338088768116
+      },
+      "7": {
+        "states": 621,
+        "teacher_agreement": 0.9500805152979066,
+        "teacher_ev_regret": 0.0017598961478462157
+      },
+      "6": {
+        "states": 657,
+        "teacher_agreement": 0.9558599695585996,
+        "teacher_ev_regret": 0.0010581285078957382
+      },
+      "3": {
+        "states": 727,
+        "teacher_agreement": 0.9491059147180193,
+        "teacher_ev_regret": 0.0020023225262207705
+      },
+      "1": {
+        "states": 871,
+        "teacher_agreement": 0.947187141216992,
+        "teacher_ev_regret": 0.002664384283510333
+      }
+    }
+  },
+  "batched_action_mismatches": [],
+  "batch_size": 32,
+  "serving_fallbacks": 32,
+  "median_sdk_latency_ms": 19.035540986806154,
+  "by_group": {
+    "players": {
+      "1": {
+        "states": 871,
+        "teacher_agreement": 0.947187141216992,
+        "teacher_ev_regret": 0.002664384283510333,
+        "hit_bust_brier": 0.0011836109062081076,
+        "dealer_brier": 0.0023260798463270887
+      },
+      "2": {
+        "states": 744,
+        "teacher_agreement": 0.9408602150537635,
+        "teacher_ev_regret": 0.00228077878234207,
+        "hit_bust_brier": 0.0009409622788663863,
+        "dealer_brier": 0.0020060187329415356
+      },
+      "3": {
+        "states": 727,
+        "teacher_agreement": 0.9491059147180193,
+        "teacher_ev_regret": 0.0020023225262207705,
+        "hit_bust_brier": 0.0007971854203642158,
+        "dealer_brier": 0.0015497128384456085
+      },
+      "4": {
+        "states": 690,
+        "teacher_agreement": 0.946376811594203,
+        "teacher_ev_regret": 0.0019280032835144927,
+        "hit_bust_brier": 0.0006383507301684903,
+        "dealer_brier": 0.0014240143412142768
+      },
+      "5": {
+        "states": 690,
+        "teacher_agreement": 0.9434782608695652,
+        "teacher_ev_regret": 0.001427338088768116,
+        "hit_bust_brier": 0.0007347473845914794,
+        "dealer_brier": 0.0014733423643797721
+      },
+      "6": {
+        "states": 657,
+        "teacher_agreement": 0.954337899543379,
+        "teacher_ev_regret": 0.0011382081192922375,
+        "hit_bust_brier": 0.0007800795264875217,
+        "dealer_brier": 0.0013612938822867337
+      },
+      "7": {
+        "states": 621,
+        "teacher_agreement": 0.9500805152979066,
+        "teacher_ev_regret": 0.0017598961478462157,
+        "hit_bust_brier": 0.000543433539168793,
+        "dealer_brier": 0.0011479913063682028
+      }
+    },
+    "decks": {
+      "1": {
+        "states": 562,
+        "teacher_agreement": 0.9199288256227758,
+        "teacher_ev_regret": 0.003082166787144128,
+        "hit_bust_brier": 0.0017465659262325837,
+        "dealer_brier": 0.0030617480154589995
+      },
+      "2": {
+        "states": 857,
+        "teacher_agreement": 0.9486581096849475,
+        "teacher_ev_regret": 0.0028123176779463245,
+        "hit_bust_brier": 0.0011751634422033205,
+        "dealer_brier": 0.0023576992986992
+      },
+      "4": {
+        "states": 1246,
+        "teacher_agreement": 0.9446227929373997,
+        "teacher_ev_regret": 0.001704673705858748,
+        "hit_bust_brier": 0.0006624389499499109,
+        "dealer_brier": 0.00138312299636651
+      },
+      "6": {
+        "states": 1236,
+        "teacher_agreement": 0.9474110032362459,
+        "teacher_ev_regret": 0.0017007870967334143,
+        "hit_bust_brier": 0.0006792220492871168,
+        "dealer_brier": 0.0012961081503619343
+      },
+      "8": {
+        "states": 1099,
+        "teacher_agreement": 0.9626933575978162,
+        "teacher_ev_regret": 0.001147061071144222,
+        "hit_bust_brier": 0.00041344359074769457,
+        "dealer_brier": 0.0010782274019955332
+      }
+    },
+    "hit_soft_17": {
+      "False": {
+        "states": 2418,
+        "teacher_agreement": 0.9454094292803971,
+        "teacher_ev_regret": 0.0018529142595895367,
+        "hit_bust_brier": 0.000859591026259433,
+        "dealer_brier": 0.0017492533294237891
+      },
+      "True": {
+        "states": 2582,
+        "teacher_agreement": 0.9488768396591789,
+        "teacher_ev_regret": 0.001994114527861154,
+        "hit_bust_brier": 0.0007860131331540782,
+        "dealer_brier": 0.0015576642041981266
+      }
+    },
+    "category": {
+      "hard": {
+        "states": 3971,
+        "teacher_agreement": 0.9443465122135483,
+        "teacher_ev_regret": 0.0019819595386867286,
+        "hit_bust_brier": 0.0009563076871161233,
+        "dealer_brier": 0.0016512670824578007
+      },
+      "pair": {
+        "states": 564,
+        "teacher_agreement": 0.9680851063829787,
+        "teacher_ev_regret": 0.0014436329510195036,
+        "hit_bust_brier": 0.0005504950102145628,
+        "dealer_brier": 0.0016672636434683563
+      },
+      "soft": {
+        "states": 465,
+        "teacher_agreement": 0.946236559139785,
+        "teacher_ev_regret": 0.00203135500672043,
+        "hit_bust_brier": 0.0,
+        "dealer_brier": 0.0016216456912477553
+      }
+    },
+    "depth": {
+      "0": {
+        "states": 655,
+        "teacher_agreement": 0.9786259541984733,
+        "teacher_ev_regret": 0.00047989473998091603,
+        "hit_bust_brier": 0.00011225848822389722,
+        "dealer_brier": 0.0006220634912850184
+      },
+      "1": {
+        "states": 962,
+        "teacher_agreement": 0.9636174636174636,
+        "teacher_ev_regret": 0.0011618251364345115,
+        "hit_bust_brier": 0.0003255910128304728,
+        "dealer_brier": 0.0008705631963747306
+      },
+      "2": {
+        "states": 900,
+        "teacher_agreement": 0.9533333333333334,
+        "teacher_ev_regret": 0.0009800889756944443,
+        "hit_bust_brier": 0.0006639950923778288,
+        "dealer_brier": 0.0013638041928938124
+      },
+      "3": {
+        "states": 787,
+        "teacher_agreement": 0.951715374841169,
+        "teacher_ev_regret": 0.0014136579772871664,
+        "hit_bust_brier": 0.0007760658726255238,
+        "dealer_brier": 0.001674819251056172
+      },
+      "4": {
+        "states": 680,
+        "teacher_agreement": 0.95,
+        "teacher_ev_regret": 0.0018003575942095588,
+        "hit_bust_brier": 0.0011825263590771776,
+        "dealer_brier": 0.002074459021123213
+      },
+      "5": {
+        "states": 505,
+        "teacher_agreement": 0.9108910891089109,
+        "teacher_ev_regret": 0.004550201113861386,
+        "hit_bust_brier": 0.0015430074919362598,
+        "dealer_brier": 0.0025586622818461508
+      },
+      "6": {
+        "states": 332,
+        "teacher_agreement": 0.9126506024096386,
+        "teacher_ev_regret": 0.003720203077936747,
+        "hit_bust_brier": 0.0016331403675988183,
+        "dealer_brier": 0.0029846914716649344
+      },
+      "7": {
+        "states": 137,
+        "teacher_agreement": 0.8686131386861314,
+        "teacher_ev_regret": 0.007302834169708029,
+        "hit_bust_brier": 0.002209718416383273,
+        "dealer_brier": 0.0038581457333697017
+      },
+      "8": {
+        "states": 42,
+        "teacher_agreement": 0.7857142857142857,
+        "teacher_ev_regret": 0.010591052827380952,
+        "hit_bust_brier": 0.0020142616568007295,
+        "dealer_brier": 0.005688178550856453
+      }
+    },
+    "resolved": {
+      "False": {
+        "states": 634,
+        "teacher_agreement": 0.7097791798107256,
+        "teacher_ev_regret": 0.005080743542981073,
+        "hit_bust_brier": 0.0008814643952203617,
+        "dealer_brier": 0.001491062278653214
+      },
+      "True": {
+        "states": 4366,
+        "teacher_agreement": 0.9816765918460834,
+        "teacher_ev_regret": 0.0014676955988032524,
+        "hit_bust_brier": 0.0008129016456091227,
+        "dealer_brier": 0.0016734425197251826
+      }
+    }
+  },
+  "largest_regrets": [
+    {
+      "index": 4985,
+      "group_seed": 329348290018195432380551520934848373477,
+      "players": 3,
+      "decks": 8,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        3,
+        6
+      ],
+      "total": 9,
+      "dealer_up": 3,
+      "true_count": -10.584070796460178,
+      "depth": 7,
+      "action": "double",
+      "reference_action": "hit",
+      "regret": 0.19482421875,
+      "confidence": 0.6156,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.39501953125,
+        "hit": -0.0927734375,
+        "double": -0.28759765625,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.0,
+      "dealer_brier": 0.004434235104064941
+    },
+    {
+      "index": 3823,
+      "group_seed": 252227883108240364405023022003570308142,
+      "players": 3,
+      "decks": 6,
+      "hit_soft_17": false,
+      "category": "hard",
+      "hand": [
+        4,
+        10
+      ],
+      "total": 14,
+      "dealer_up": 3,
+      "true_count": -4.894117647058824,
+      "depth": 7,
+      "action": "stand",
+      "reference_action": "hit",
+      "regret": 0.184326171875,
+      "confidence": 0.8782,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.41796875,
+        "hit": -0.233642578125,
+        "double": -0.46728515625,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.015732079707950247,
+      "dealer_brier": 0.005018411382141113
+    },
+    {
+      "index": 2093,
+      "group_seed": 125383895436201046468124595362090829529,
+      "players": 1,
+      "decks": 1,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        6,
+        10
+      ],
+      "total": 16,
+      "dealer_up": 9,
+      "true_count": 0.0,
+      "depth": 5,
+      "action": "hit",
+      "reference_action": "stand",
+      "regret": 0.177001953125,
+      "confidence": 0.8432,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.48388671875,
+        "hit": -0.660888671875,
+        "double": -1.32177734375
+      },
+      "hit_bust_brier": 0.03214087573964501,
+      "dealer_brier": 0.010201444164733887
+    },
+    {
+      "index": 1165,
+      "group_seed": 227868654176014573101431923942210939764,
+      "players": 1,
+      "decks": 2,
+      "hit_soft_17": false,
+      "category": "hard",
+      "hand": [
+        4,
+        1,
+        9
+      ],
+      "total": 14,
+      "dealer_up": 3,
+      "true_count": -2.122448979591837,
+      "depth": 5,
+      "action": "stand",
+      "reference_action": "hit",
+      "regret": 0.1689453125,
+      "confidence": 0.9538,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.408203125,
+        "hit": -0.2392578125
+      },
+      "hit_bust_brier": 0.024420499999999994,
+      "dealer_brier": 0.012746620701599123
+    },
+    {
+      "index": 635,
+      "group_seed": 248830614168953944497419403425519110293,
+      "players": 2,
+      "decks": 2,
+      "hit_soft_17": false,
+      "category": "hard",
+      "hand": [
+        3,
+        9
+      ],
+      "total": 12,
+      "dealer_up": 5,
+      "true_count": -4.16,
+      "depth": 5,
+      "action": "stand",
+      "reference_action": "hit",
+      "regret": 0.158203125,
+      "confidence": 0.9337,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.2353515625,
+        "hit": -0.0771484375,
+        "double": -0.154296875,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.02437891771626297,
+      "dealer_brier": 0.004366672835693361
+    },
+    {
+      "index": 501,
+      "group_seed": 16126256702191238517381027940265705910,
+      "players": 2,
+      "decks": 2,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        2,
+        9
+      ],
+      "total": 11,
+      "dealer_up": 10,
+      "true_count": -10.947368421052632,
+      "depth": 6,
+      "action": "double",
+      "reference_action": "hit",
+      "regret": 0.157470703125,
+      "confidence": 0.9485,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.5302734375,
+        "hit": 0.042724609375,
+        "double": -0.11474609375
+      },
+      "hit_bust_brier": 0.0,
+      "dealer_brier": 0.02335693012237549
+    },
+    {
+      "index": 2816,
+      "group_seed": 307114906810160674113976576100023704853,
+      "players": 6,
+      "decks": 2,
+      "hit_soft_17": true,
+      "category": "pair",
+      "hand": [
+        3,
+        3
+      ],
+      "total": 6,
+      "dealer_up": 2,
+      "true_count": 3.4666666666666663,
+      "depth": 1,
+      "action": "hit",
+      "reference_action": "split",
+      "regret": 0.150634765625,
+      "confidence": 0.5143,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.2666015625,
+        "hit": -0.175537109375,
+        "double": -0.5517578125,
+        "split": -0.02490234375
+      },
+      "hit_bust_brier": 0.0,
+      "dealer_brier": 0.00034935927154541017
+    },
+    {
+      "index": 3651,
+      "group_seed": 48308544116136642044585426092880699274,
+      "players": 1,
+      "decks": 2,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        3,
+        6
+      ],
+      "total": 9,
+      "dealer_up": 2,
+      "true_count": -5.0,
+      "depth": 5,
+      "action": "double",
+      "reference_action": "hit",
+      "regret": 0.149658203125,
+      "confidence": 0.7784,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.39306640625,
+        "hit": -0.080322265625,
+        "double": -0.22998046875,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.0,
+      "dealer_brier": 0.006796966845092775
+    },
+    {
+      "index": 4115,
+      "group_seed": 42377238117543704800750097471274944120,
+      "players": 7,
+      "decks": 8,
+      "hit_soft_17": true,
+      "category": "pair",
+      "hand": [
+        1,
+        1
+      ],
+      "total": 12,
+      "dealer_up": 1,
+      "true_count": -5.07906976744186,
+      "depth": 4,
+      "action": "split",
+      "reference_action": "hit",
+      "regret": 0.143798828125,
+      "confidence": 0.9946,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.64404296875,
+        "hit": -0.03466796875,
+        "double": -0.71337890625,
+        "split": -0.178466796875,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.0,
+      "dealer_brier": 0.004493379681396483
+    },
+    {
+      "index": 2294,
+      "group_seed": 54245280085282355692162414658446951362,
+      "players": 1,
+      "decks": 2,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        10,
+        2
+      ],
+      "total": 12,
+      "dealer_up": 5,
+      "true_count": -14.857142857142858,
+      "depth": 7,
+      "action": "stand",
+      "reference_action": "hit",
+      "regret": 0.124267578125,
+      "confidence": 0.8855,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.4541015625,
+        "hit": -0.329833984375,
+        "double": -0.65966796875
+      },
+      "hit_bust_brier": 0.01585171057851241,
+      "dealer_brier": 0.0377792693685913
+    },
+    {
+      "index": 1923,
+      "group_seed": 324924446484132265507283207633383688773,
+      "players": 4,
+      "decks": 6,
+      "hit_soft_17": false,
+      "category": "hard",
+      "hand": [
+        7,
+        6
+      ],
+      "total": 13,
+      "dealer_up": 2,
+      "true_count": -4.905660377358491,
+      "depth": 8,
+      "action": "stand",
+      "reference_action": "hit",
+      "regret": 0.123046875,
+      "confidence": 0.8921,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.630126953125,
+        "hit": -0.507080078125,
+        "double": -0.760986328125
+      },
+      "hit_bust_brier": 0.02987654320987655,
+      "dealer_brier": 0.006038791535644533
+    },
+    {
+      "index": 681,
+      "group_seed": 230515874193051391102178271125587287376,
+      "players": 1,
+      "decks": 2,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        3,
+        10,
+        3
+      ],
+      "total": 16,
+      "dealer_up": 7,
+      "true_count": 7.428571428571429,
+      "depth": 5,
+      "action": "hit",
+      "reference_action": "stand",
+      "regret": 0.12255859375,
+      "confidence": 0.8418,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.41064453125,
+        "hit": -0.533203125
+      },
+      "hit_bust_brier": 0.0019672492806922697,
+      "dealer_brier": 0.00911163800201416
+    },
+    {
+      "index": 3848,
+      "group_seed": 175228955677164635907204988017378918374,
+      "players": 3,
+      "decks": 6,
+      "hit_soft_17": false,
+      "category": "soft",
+      "hand": [
+        1,
+        8
+      ],
+      "total": 19,
+      "dealer_up": 5,
+      "true_count": 4.310880829015544,
+      "depth": 3,
+      "action": "stand",
+      "reference_action": "double",
+      "regret": 0.1201171875,
+      "confidence": 0.8043,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": 0.49853515625,
+        "hit": 0.309326171875,
+        "double": 0.61865234375
+      },
+      "hit_bust_brier": 0.0,
+      "dealer_brier": 0.0008919480978393549
+    },
+    {
+      "index": 3480,
+      "group_seed": 106250221865284130723134280905263626647,
+      "players": 4,
+      "decks": 1,
+      "hit_soft_17": false,
+      "category": "hard",
+      "hand": [
+        10,
+        2
+      ],
+      "total": 12,
+      "dealer_up": 4,
+      "true_count": -3.7142857142857144,
+      "depth": 1,
+      "action": "stand",
+      "reference_action": "hit",
+      "regret": 0.117919921875,
+      "confidence": 0.6618,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.26806640625,
+        "hit": -0.150146484375,
+        "double": -0.30029296875,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.006563382249864787,
+      "dealer_brier": 0.002360818346557619
+    },
+    {
+      "index": 624,
+      "group_seed": 123872216262398630632069274196869106557,
+      "players": 2,
+      "decks": 2,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        3,
+        10
+      ],
+      "total": 13,
+      "dealer_up": 3,
+      "true_count": -1.1304347826086958,
+      "depth": 5,
+      "action": "stand",
+      "reference_action": "hit",
+      "regret": 0.111328125,
+      "confidence": 0.9225,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.35400390625,
+        "hit": -0.24267578125,
+        "double": -0.4853515625,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.007290152793119058,
+      "dealer_brier": 0.007668858182067875
+    },
+    {
+      "index": 1414,
+      "group_seed": 117770756584651201905153998767789004062,
+      "players": 5,
+      "decks": 2,
+      "hit_soft_17": false,
+      "category": "hard",
+      "hand": [
+        4,
+        6
+      ],
+      "total": 10,
+      "dealer_up": 1,
+      "true_count": 3.4098360655737703,
+      "depth": 4,
+      "action": "hit",
+      "reference_action": "double",
+      "regret": 0.111328125,
+      "confidence": 0.838,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.576171875,
+        "hit": 0.1357421875,
+        "double": 0.2470703125,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.0,
+      "dealer_brier": 0.01856015559844971
+    },
+    {
+      "index": 2949,
+      "group_seed": 108262430206410524836539591577819884975,
+      "players": 1,
+      "decks": 1,
+      "hit_soft_17": false,
+      "category": "hard",
+      "hand": [
+        10,
+        6
+      ],
+      "total": 16,
+      "dealer_up": 10,
+      "true_count": -8.666666666666666,
+      "depth": 5,
+      "action": "surrender",
+      "reference_action": "hit",
+      "regret": 0.10302734375,
+      "confidence": 0.8078,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.53125,
+        "hit": -0.39697265625,
+        "double": -0.7939453125,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.01648349036336905,
+      "dealer_brier": 0.006159218971862792
+    },
+    {
+      "index": 4043,
+      "group_seed": 128209586596671738230628480605482820319,
+      "players": 4,
+      "decks": 1,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        4,
+        5
+      ],
+      "total": 9,
+      "dealer_up": 7,
+      "true_count": -1.2380952380952381,
+      "depth": 1,
+      "action": "double",
+      "reference_action": "hit",
+      "regret": 0.102294921875,
+      "confidence": 0.5009,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.51220703125,
+        "hit": 0.143798828125,
+        "double": 0.04150390625,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.0,
+      "dealer_brier": 0.0006994945046997073
+    },
+    {
+      "index": 4221,
+      "group_seed": 73295472262364979278332814933622319673,
+      "players": 3,
+      "decks": 4,
+      "hit_soft_17": false,
+      "category": "soft",
+      "hand": [
+        1,
+        4
+      ],
+      "total": 15,
+      "dealer_up": 4,
+      "true_count": -3.7142857142857144,
+      "depth": 5,
+      "action": "double",
+      "reference_action": "hit",
+      "regret": 0.10107421875,
+      "confidence": 0.5179,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.271484375,
+        "hit": 0.013671875,
+        "double": -0.08740234375
+      },
+      "hit_bust_brier": 0.0,
+      "dealer_brier": 0.0007945142630004876
+    },
+    {
+      "index": 3901,
+      "group_seed": 46587795168870764130286716116542508137,
+      "players": 7,
+      "decks": 6,
+      "hit_soft_17": false,
+      "category": "hard",
+      "hand": [
+        3,
+        10
+      ],
+      "total": 13,
+      "dealer_up": 6,
+      "true_count": -10.024096385542167,
+      "depth": 7,
+      "action": "stand",
+      "reference_action": "hit",
+      "regret": 0.098876953125,
+      "confidence": 0.8386,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.3427734375,
+        "hit": -0.243896484375,
+        "double": -0.48779296875
+      },
+      "hit_bust_brier": 0.014857596371882073,
+      "dealer_brier": 0.012281250341796876
+    },
+    {
+      "index": 4573,
+      "group_seed": 259830000188299421853059457404023670531,
+      "players": 7,
+      "decks": 4,
+      "hit_soft_17": false,
+      "category": "pair",
+      "hand": [
+        3,
+        3
+      ],
+      "total": 6,
+      "dealer_up": 4,
+      "true_count": -1.1386861313868613,
+      "depth": 3,
+      "action": "split",
+      "reference_action": "hit",
+      "regret": 0.0958251953125,
+      "confidence": 0.8138,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.27490234375,
+        "hit": -0.104736328125,
+        "double": -0.49365234375,
+        "split": -0.2005615234375
+      },
+      "hit_bust_brier": 0.0,
+      "dealer_brier": 0.0012899416720581066
+    },
+    {
+      "index": 4690,
+      "group_seed": 25732082960936178943779745203446103553,
+      "players": 2,
+      "decks": 4,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        7,
+        9
+      ],
+      "total": 16,
+      "dealer_up": 10,
+      "true_count": -4.0344827586206895,
+      "depth": 4,
+      "action": "surrender",
+      "reference_action": "hit",
+      "regret": 0.0888671875,
+      "confidence": 0.5714,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.51806640625,
+        "hit": -0.4111328125,
+        "double": -0.822265625,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.0006511394254667805,
+      "dealer_brier": 0.0004812607736206048
+    },
+    {
+      "index": 3130,
+      "group_seed": 90164654036881392926407672787482131632,
+      "players": 2,
+      "decks": 2,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        5,
+        4
+      ],
+      "total": 9,
+      "dealer_up": 7,
+      "true_count": 5.777777777777778,
+      "depth": 5,
+      "action": "hit",
+      "reference_action": "double",
+      "regret": 0.086181640625,
+      "confidence": 0.5414,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.447265625,
+        "hit": 0.259521484375,
+        "double": 0.345703125,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.0,
+      "dealer_brier": 0.00507297965484619
+    },
+    {
+      "index": 3907,
+      "group_seed": 250625238888135204283076540315170629790,
+      "players": 4,
+      "decks": 4,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        10,
+        6
+      ],
+      "total": 16,
+      "dealer_up": 10,
+      "true_count": 1.793103448275862,
+      "depth": 5,
+      "action": "hit",
+      "reference_action": "stand",
+      "regret": 0.08544921875,
+      "confidence": 0.6482,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.5029296875,
+        "hit": -0.58837890625,
+        "double": -1.1767578125
+      },
+      "hit_bust_brier": 0.00044889722816752954,
+      "dealer_brier": 0.0032208790710449207
+    },
+    {
+      "index": 1520,
+      "group_seed": 73186850497672724762237216075932969146,
+      "players": 3,
+      "decks": 2,
+      "hit_soft_17": true,
+      "category": "pair",
+      "hand": [
+        2,
+        2
+      ],
+      "total": 4,
+      "dealer_up": 7,
+      "true_count": 0.6046511627906977,
+      "depth": 1,
+      "action": "split",
+      "reference_action": "hit",
+      "regret": 0.084716796875,
+      "confidence": 0.8653,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.5283203125,
+        "hit": -0.0595703125,
+        "double": -1.04736328125,
+        "split": -0.144287109375,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.0,
+      "dealer_brier": 0.0009327983758544922
+    },
+    {
+      "index": 898,
+      "group_seed": 167351636510911037352835095781840889457,
+      "players": 1,
+      "decks": 1,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        10,
+        5
+      ],
+      "total": 15,
+      "dealer_up": 9,
+      "true_count": 7.222222222222222,
+      "depth": 3,
+      "action": "hit",
+      "reference_action": "surrender",
+      "regret": 0.084228515625,
+      "confidence": 0.5729,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.59716796875,
+        "hit": -0.584228515625,
+        "double": -1.154296875,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.0016782399415631857,
+      "dealer_brier": 0.0030949587127685548
+    },
+    {
+      "index": 4235,
+      "group_seed": 253602773599480950964538569916929969453,
+      "players": 4,
+      "decks": 2,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        2,
+        10
+      ],
+      "total": 12,
+      "dealer_up": 5,
+      "true_count": -0.7761194029850745,
+      "depth": 3,
+      "action": "hit",
+      "reference_action": "stand",
+      "regret": 0.0841064453125,
+      "confidence": 0.839,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.3232421875,
+        "hit": -0.4073486328125
+      },
+      "hit_bust_brier": 3.4984152249134946e-05,
+      "dealer_brier": 0.0004160438313293447
+    },
+    {
+      "index": 871,
+      "group_seed": 145933759886976302595312229326667865235,
+      "players": 7,
+      "decks": 6,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        7,
+        6
+      ],
+      "total": 13,
+      "dealer_up": 4,
+      "true_count": -2.2033898305084745,
+      "depth": 6,
+      "action": "stand",
+      "reference_action": "hit",
+      "regret": 0.083984375,
+      "confidence": 0.9057,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.31494140625,
+        "hit": -0.23095703125,
+        "double": -0.4619140625,
+        "surrender": -0.5
+      },
+      "hit_bust_brier": 0.003052759076336419,
+      "dealer_brier": 0.0006394809411621098
+    },
+    {
+      "index": 1160,
+      "group_seed": 76781334448052383862474615745419631805,
+      "players": 1,
+      "decks": 1,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        4,
+        5,
+        7
+      ],
+      "total": 16,
+      "dealer_up": 1,
+      "true_count": 8.387096774193548,
+      "depth": 4,
+      "action": "hit",
+      "reference_action": "stand",
+      "regret": 0.083984375,
+      "confidence": 0.8665,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.5322265625,
+        "hit": -0.6162109375
+      },
+      "hit_bust_brier": 0.011415117585848058,
+      "dealer_brier": 0.005704940895690918
+    },
+    {
+      "index": 3161,
+      "group_seed": 253675128346594616617707227985749343879,
+      "players": 2,
+      "decks": 2,
+      "hit_soft_17": true,
+      "category": "hard",
+      "hand": [
+        10,
+        3
+      ],
+      "total": 13,
+      "dealer_up": 2,
+      "true_count": 3.804878048780488,
+      "depth": 6,
+      "action": "stand",
+      "reference_action": "hit",
+      "regret": 0.08203125,
+      "confidence": 0.8834,
+      "resolved": true,
+      "correct": false,
+      "action_values": {
+        "stand": -0.3544921875,
+        "hit": -0.2724609375,
+        "double": -0.544921875
+      },
+      "hit_bust_brier": 0.0025571465306122557,
+      "dealer_brier": 0.003321424659729003
+    }
+  ],
+  "elapsed_seconds": 122.0487006129697,
+  "scope": "Descriptive analysis of the already frozen final test, not a new independent validation or a basis for selecting this release. Reusing these examples for tuning requires a new final test set.",
+  "uncertainty": "Game-cluster bootstrap; conditions on the approximate Monte Carlo labels, excluding teacher sampling uncertainty."
+}

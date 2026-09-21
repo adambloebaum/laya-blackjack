@@ -1,5 +1,7 @@
 # Initial experiments — 2026-09-20
 
+Historical pilot results. The larger 100,000-state experiment and 600,000-round policy evaluation are documented in [release results](release-results.md).
+
 Actual local runs on an NVIDIA RTX 4090, using the pinned English Laya checkpoint. These are small workflow-validation experiments, not demonstrations of optimal blackjack.
 
 ## Decision-layer run
@@ -40,7 +42,6 @@ Reports: [full-model training](results/full-model.json), [reloaded inference](re
 
 | Policy | Mean net units / round | 95% interval |
 | --- | ---: | ---: |
-
 | basic | -0.0425 | [-0.1987, +0.1137] |
 | reference | -0.0675 | [-0.2233, +0.0883] |
 | laya | -0.0375 | [-0.1992, +0.1242] |

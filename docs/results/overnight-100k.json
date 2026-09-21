@@ -1,0 +1,349 @@
+{
+  "source": "local-artifact:blackjack-full",
+  "method": "Full-model simulation distillation, uncertainty-weighted action loss",
+  "full_model": true,
+  "epochs": 3,
+  "batch_size": 8,
+  "learning_rate": 5e-06,
+  "seed": 20260921,
+  "device": "cuda:1",
+  "history": [
+    {
+      "epoch": 1,
+      "complete_epoch": true,
+      "updates": 37500,
+      "mean_loss": 0.6154331235425229,
+      "selection": {
+        "action_brier": 0.08498313897017461,
+        "teacher_agreement": 0.95,
+        "teacher_ev_regret": 0.00169525146484375,
+        "hit_bust_brier": 0.0010660596461036299,
+        "dealer_brier": 0.0017788207476810021,
+        "teacher_action_ece": 0.028579496473108014,
+        "resolved_agreement": 0.9832756632064591,
+        "unresolved_agreement": 0.7330827067669173,
+        "resolved_states": 1734,
+        "unresolved_states": 266,
+        "by_players": {
+          "5": {
+            "states": 287,
+            "teacher_agreement": 0.9651567944250871,
+            "teacher_ev_regret": 0.0009518932382404182
+          },
+          "1": {
+            "states": 333,
+            "teacher_agreement": 0.9279279279279279,
+            "teacher_ev_regret": 0.0030143669059684683
+          },
+          "4": {
+            "states": 239,
+            "teacher_agreement": 0.9246861924686193,
+            "teacher_ev_regret": 0.002367346855387029
+          },
+          "3": {
+            "states": 343,
+            "teacher_agreement": 0.9504373177842566,
+            "teacher_ev_regret": 0.001192943695335277
+          },
+          "7": {
+            "states": 216,
+            "teacher_agreement": 0.9490740740740741,
+            "teacher_ev_regret": 0.001240483036747685
+          },
+          "6": {
+            "states": 306,
+            "teacher_agreement": 0.9803921568627451,
+            "teacher_ev_regret": 0.0007368100234885621
+          },
+          "2": {
+            "states": 276,
+            "teacher_agreement": 0.9492753623188406,
+            "teacher_ev_regret": 0.002337469570878623
+          }
+        }
+      }
+    },
+    {
+      "epoch": 2,
+      "complete_epoch": true,
+      "updates": 75000,
+      "mean_loss": 0.601971157295624,
+      "selection": {
+        "action_brier": 0.08358177239375311,
+        "teacher_agreement": 0.952,
+        "teacher_ev_regret": 0.0015963134765625,
+        "hit_bust_brier": 0.000971422719876776,
+        "dealer_brier": 0.0017446773396269282,
+        "teacher_action_ece": 0.031553388634097686,
+        "resolved_agreement": 0.9832756632064591,
+        "unresolved_agreement": 0.7481203007518797,
+        "resolved_states": 1734,
+        "unresolved_states": 266,
+        "by_players": {
+          "5": {
+            "states": 287,
+            "teacher_agreement": 0.9616724738675958,
+            "teacher_ev_regret": 0.0015158836019163763
+          },
+          "1": {
+            "states": 333,
+            "teacher_agreement": 0.9309309309309309,
+            "teacher_ev_regret": 0.002779390718843844
+          },
+          "4": {
+            "states": 239,
+            "teacher_agreement": 0.9456066945606695,
+            "teacher_ev_regret": 0.001734011342834728
+          },
+          "3": {
+            "states": 343,
+            "teacher_agreement": 0.9475218658892128,
+            "teacher_ev_regret": 0.0011744374088921282
+          },
+          "7": {
+            "states": 216,
+            "teacher_agreement": 0.9583333333333334,
+            "teacher_ev_regret": 0.0011850992838541667
+          },
+          "6": {
+            "states": 306,
+            "teacher_agreement": 0.9705882352941176,
+            "teacher_ev_regret": 0.000742394939746732
+          },
+          "2": {
+            "states": 276,
+            "teacher_agreement": 0.9528985507246377,
+            "teacher_ev_regret": 0.0019261456918025362
+          }
+        }
+      }
+    },
+    {
+      "epoch": 3,
+      "complete_epoch": true,
+      "updates": 112500,
+      "mean_loss": 0.5979276172221745,
+      "selection": {
+        "action_brier": 0.07324118284757228,
+        "teacher_agreement": 0.9545,
+        "teacher_ev_regret": 0.00135296630859375,
+        "hit_bust_brier": 0.0008725153871450539,
+        "dealer_brier": 0.0015855483952053637,
+        "teacher_action_ece": 0.0262896172763437,
+        "resolved_agreement": 0.9884659746251442,
+        "unresolved_agreement": 0.7330827067669173,
+        "resolved_states": 1734,
+        "unresolved_states": 266,
+        "by_players": {
+          "5": {
+            "states": 287,
+            "teacher_agreement": 0.9686411149825784,
+            "teacher_ev_regret": 0.0010484436247822299
+          },
+          "1": {
+            "states": 333,
+            "teacher_agreement": 0.9369369369369369,
+            "teacher_ev_regret": 0.0022170608108108107
+          },
+          "4": {
+            "states": 239,
+            "teacher_agreement": 0.9414225941422594,
+            "teacher_ev_regret": 0.0013575853164225942
+          },
+          "3": {
+            "states": 343,
+            "teacher_agreement": 0.9504373177842566,
+            "teacher_ev_regret": 0.0012324474990889212
+          },
+          "7": {
+            "states": 216,
+            "teacher_agreement": 0.9537037037037037,
+            "teacher_ev_regret": 0.001139888057002315
+          },
+          "6": {
+            "states": 306,
+            "teacher_agreement": 0.9705882352941176,
+            "teacher_ev_regret": 0.0005999795751633987
+          },
+          "2": {
+            "states": 276,
+            "teacher_agreement": 0.9601449275362319,
+            "teacher_ev_regret": 0.0017744423686594203
+          }
+        }
+      }
+    }
+  ],
+  "stopped_for_budget": false,
+  "updates": 112500,
+  "baseline": {
+    "action_brier": 0.19375838643654142,
+    "teacher_agreement": 0.8704,
+    "teacher_ev_regret": 0.0102617919921875,
+    "hit_bust_brier": 0.011246068436243328,
+    "dealer_brier": 0.0023509406227768368,
+    "teacher_action_ece": 0.07161641847921243,
+    "resolved_agreement": 0.9152542372881356,
+    "unresolved_agreement": 0.5615141955835962,
+    "resolved_states": 4366,
+    "unresolved_states": 634,
+    "by_players": {
+      "4": {
+        "states": 690,
+        "teacher_agreement": 0.8884057971014493,
+        "teacher_ev_regret": 0.010833651777626812
+      },
+      "2": {
+        "states": 744,
+        "teacher_agreement": 0.875,
+        "teacher_ev_regret": 0.01054694062920027
+      },
+      "5": {
+        "states": 690,
+        "teacher_agreement": 0.8826086956521739,
+        "teacher_ev_regret": 0.008046202728713769
+      },
+      "7": {
+        "states": 621,
+        "teacher_agreement": 0.8679549114331723,
+        "teacher_ev_regret": 0.008517401997785829
+      },
+      "6": {
+        "states": 657,
+        "teacher_agreement": 0.8493150684931506,
+        "teacher_ev_regret": 0.013159439806887366
+      },
+      "3": {
+        "states": 727,
+        "teacher_agreement": 0.859697386519945,
+        "teacher_ev_regret": 0.01147242654960454
+      },
+      "1": {
+        "states": 871,
+        "teacher_agreement": 0.8691159586681975,
+        "teacher_ev_regret": 0.00936788039968427
+      }
+    }
+  },
+  "test": {
+    "action_brier": 0.07555795766789963,
+    "teacher_agreement": 0.9474,
+    "teacher_ev_regret": 0.0019153076171875,
+    "hit_bust_brier": 0.0008209174666862557,
+    "dealer_brier": 0.0016496158033128736,
+    "teacher_action_ece": 0.009976454932143284,
+    "resolved_agreement": 0.9816765918460834,
+    "unresolved_agreement": 0.7113564668769716,
+    "resolved_states": 4366,
+    "unresolved_states": 634,
+    "by_players": {
+      "4": {
+        "states": 690,
+        "teacher_agreement": 0.946376811594203,
+        "teacher_ev_regret": 0.0019280032835144927
+      },
+      "2": {
+        "states": 744,
+        "teacher_agreement": 0.9408602150537635,
+        "teacher_ev_regret": 0.00228077878234207
+      },
+      "5": {
+        "states": 690,
+        "teacher_agreement": 0.9434782608695652,
+        "teacher_ev_regret": 0.001427338088768116
+      },
+      "7": {
+        "states": 621,
+        "teacher_agreement": 0.9500805152979066,
+        "teacher_ev_regret": 0.0017598961478462157
+      },
+      "6": {
+        "states": 657,
+        "teacher_agreement": 0.9558599695585996,
+        "teacher_ev_regret": 0.0010581285078957382
+      },
+      "3": {
+        "states": 727,
+        "teacher_agreement": 0.9491059147180193,
+        "teacher_ev_regret": 0.0020023225262207705
+      },
+      "1": {
+        "states": 871,
+        "teacher_agreement": 0.947187141216992,
+        "teacher_ev_regret": 0.002664384283510333
+      }
+    }
+  },
+  "temperature_by_options": {
+    "choice:3-5": 1.6788040181225607,
+    "noul:2": 1.059253725177289,
+    "choice:6-10": 1.0,
+    "choice:2": 1.883649089489801
+  },
+  "states": {
+    "train": 100000,
+    "selection": 2000,
+    "calibration": 2000,
+    "test": 5000,
+    "validation": 2000
+  },
+  "dataset_hash": "08c404b77245cedfbca3bae832a073670b3b56c6a3a3175f575b234c479f33be",
+  "selected": {
+    "epoch": 3,
+    "complete_epoch": true,
+    "updates": 112500,
+    "mean_loss": 0.5979276172221745,
+    "selection": {
+      "action_brier": 0.07324118284757228,
+      "teacher_agreement": 0.9545,
+      "teacher_ev_regret": 0.00135296630859375,
+      "hit_bust_brier": 0.0008725153871450539,
+      "dealer_brier": 0.0015855483952053637,
+      "teacher_action_ece": 0.0262896172763437,
+      "resolved_agreement": 0.9884659746251442,
+      "unresolved_agreement": 0.7330827067669173,
+      "resolved_states": 1734,
+      "unresolved_states": 266,
+      "by_players": {
+        "5": {
+          "states": 287,
+          "teacher_agreement": 0.9686411149825784,
+          "teacher_ev_regret": 0.0010484436247822299
+        },
+        "1": {
+          "states": 333,
+          "teacher_agreement": 0.9369369369369369,
+          "teacher_ev_regret": 0.0022170608108108107
+        },
+        "4": {
+          "states": 239,
+          "teacher_agreement": 0.9414225941422594,
+          "teacher_ev_regret": 0.0013575853164225942
+        },
+        "3": {
+          "states": 343,
+          "teacher_agreement": 0.9504373177842566,
+          "teacher_ev_regret": 0.0012324474990889212
+        },
+        "7": {
+          "states": 216,
+          "teacher_agreement": 0.9537037037037037,
+          "teacher_ev_regret": 0.001139888057002315
+        },
+        "6": {
+          "states": 306,
+          "teacher_agreement": 0.9705882352941176,
+          "teacher_ev_regret": 0.0005999795751633987
+        },
+        "2": {
+          "states": 276,
+          "teacher_agreement": 0.9601449275362319,
+          "teacher_ev_regret": 0.0017744423686594203
+        }
+      }
+    }
+  },
+  "elapsed_seconds": 16804.055429767817,
+  "gpu_peak_allocated_gb": 8.454961664,
+  "limitations": "Approximate basic-continuation teacher; sequential sampling uses a heuristic stopping rule. Teacher agreement does not establish optimality or profit. Candidate is not auto-activated."
+}

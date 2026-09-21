@@ -1,0 +1,175 @@
+{
+  "candidates": [
+    {
+      "path": "local-artifact:candidate",
+      "selection_regret": 0.00161993408203125,
+      "test": {
+        "action_brier": 0.08285034663286103,
+        "teacher_agreement": 0.9424,
+        "teacher_ev_regret": 0.0023931884765625,
+        "hit_bust_brier": 0.000940509118528913,
+        "dealer_brier": 0.0017521128484313379,
+        "teacher_action_ece": 0.008442560883508981,
+        "resolved_agreement": 0.978240952817224,
+        "unresolved_agreement": 0.695583596214511,
+        "resolved_states": 4366,
+        "unresolved_states": 634,
+        "by_players": {
+          "4": {
+            "states": 690,
+            "teacher_agreement": 0.9492753623188406,
+            "teacher_ev_regret": 0.0018915591032608696
+          },
+          "2": {
+            "states": 744,
+            "teacher_agreement": 0.9395161290322581,
+            "teacher_ev_regret": 0.002361666771673387
+          },
+          "5": {
+            "states": 690,
+            "teacher_agreement": 0.9420289855072463,
+            "teacher_ev_regret": 0.0015754146852355072
+          },
+          "7": {
+            "states": 621,
+            "teacher_agreement": 0.9436392914653784,
+            "teacher_ev_regret": 0.002154806385869565
+          },
+          "6": {
+            "states": 657,
+            "teacher_agreement": 0.943683409436834,
+            "teacher_ev_regret": 0.0015857992651255707
+          },
+          "3": {
+            "states": 727,
+            "teacher_agreement": 0.9394773039889959,
+            "teacher_ev_regret": 0.0029298554096458046
+          },
+          "1": {
+            "states": 871,
+            "teacher_agreement": 0.9402985074626866,
+            "teacher_ev_regret": 0.0037963727037887487
+          }
+        }
+      },
+      "updates": 112500,
+      "candidate_id": "gpu-0"
+    },
+    {
+      "path": "local-artifact:candidate",
+      "selection_regret": 0.00135296630859375,
+      "test": {
+        "action_brier": 0.07555795766789963,
+        "teacher_agreement": 0.9474,
+        "teacher_ev_regret": 0.0019153076171875,
+        "hit_bust_brier": 0.0008209174666862557,
+        "dealer_brier": 0.0016496158033128736,
+        "teacher_action_ece": 0.009976454932143284,
+        "resolved_agreement": 0.9816765918460834,
+        "unresolved_agreement": 0.7113564668769716,
+        "resolved_states": 4366,
+        "unresolved_states": 634,
+        "by_players": {
+          "4": {
+            "states": 690,
+            "teacher_agreement": 0.946376811594203,
+            "teacher_ev_regret": 0.0019280032835144927
+          },
+          "2": {
+            "states": 744,
+            "teacher_agreement": 0.9408602150537635,
+            "teacher_ev_regret": 0.00228077878234207
+          },
+          "5": {
+            "states": 690,
+            "teacher_agreement": 0.9434782608695652,
+            "teacher_ev_regret": 0.001427338088768116
+          },
+          "7": {
+            "states": 621,
+            "teacher_agreement": 0.9500805152979066,
+            "teacher_ev_regret": 0.0017598961478462157
+          },
+          "6": {
+            "states": 657,
+            "teacher_agreement": 0.9558599695585996,
+            "teacher_ev_regret": 0.0010581285078957382
+          },
+          "3": {
+            "states": 727,
+            "teacher_agreement": 0.9491059147180193,
+            "teacher_ev_regret": 0.0020023225262207705
+          },
+          "1": {
+            "states": 871,
+            "teacher_agreement": 0.947187141216992,
+            "teacher_ev_regret": 0.002664384283510333
+          }
+        }
+      },
+      "updates": 112500,
+      "candidate_id": "gpu-1"
+    }
+  ],
+  "selected": {
+    "path": "local-artifact:candidate",
+    "selection_regret": 0.00135296630859375,
+    "test": {
+      "action_brier": 0.07555795766789963,
+      "teacher_agreement": 0.9474,
+      "teacher_ev_regret": 0.0019153076171875,
+      "hit_bust_brier": 0.0008209174666862557,
+      "dealer_brier": 0.0016496158033128736,
+      "teacher_action_ece": 0.009976454932143284,
+      "resolved_agreement": 0.9816765918460834,
+      "unresolved_agreement": 0.7113564668769716,
+      "resolved_states": 4366,
+      "unresolved_states": 634,
+      "by_players": {
+        "4": {
+          "states": 690,
+          "teacher_agreement": 0.946376811594203,
+          "teacher_ev_regret": 0.0019280032835144927
+        },
+        "2": {
+          "states": 744,
+          "teacher_agreement": 0.9408602150537635,
+          "teacher_ev_regret": 0.00228077878234207
+        },
+        "5": {
+          "states": 690,
+          "teacher_agreement": 0.9434782608695652,
+          "teacher_ev_regret": 0.001427338088768116
+        },
+        "7": {
+          "states": 621,
+          "teacher_agreement": 0.9500805152979066,
+          "teacher_ev_regret": 0.0017598961478462157
+        },
+        "6": {
+          "states": 657,
+          "teacher_agreement": 0.9558599695585996,
+          "teacher_ev_regret": 0.0010581285078957382
+        },
+        "3": {
+          "states": 727,
+          "teacher_agreement": 0.9491059147180193,
+          "teacher_ev_regret": 0.0020023225262207705
+        },
+        "1": {
+          "states": 871,
+          "teacher_agreement": 0.947187141216992,
+          "teacher_ev_regret": 0.002664384283510333
+        }
+      }
+    },
+    "updates": 112500,
+    "candidate_id": "gpu-1"
+  },
+  "criterion": "selection-split EV regret; final test not used to select",
+  "activated": false,
+  "training_exit_codes": {
+    "training-gpu-0": 0,
+    "training-gpu-1": 0
+  }
+}
