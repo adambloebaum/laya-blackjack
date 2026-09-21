@@ -15,7 +15,9 @@ from .experiment_data import atomic_json
 from .overnight import terminate_group
 
 
-def evaluate_suite(output, policy, source=None, device="cuda:0", fresh_units=100000, blocks=1000):
+def evaluate_suite(
+    output, policy, source=None, device="cuda:0", fresh_units=100000, blocks=1000, seed=20260922
+):
     for mode, units, shard_size in [("fresh", fresh_units, 256), ("continuous", blocks, 10)]:
         evaluate_policy(
             output / mode,
@@ -26,6 +28,7 @@ def evaluate_suite(output, policy, source=None, device="cuda:0", fresh_units=100
             units=units,
             batch_size=32,
             shard_size=shard_size,
+            seed=seed,
         )
 
 

@@ -1,0 +1,23 @@
+{
+  "scope": "Execution validation only; not performance evidence",
+  "status": "complete",
+  "elapsed_seconds": 101.40242838859558,
+  "states": {
+    "states": 128,
+    "selection": 128,
+    "calibration": 64,
+    "test": 128
+  },
+  "smoke_seed": 30260924,
+  "production_seed": 20260924,
+  "test_predictions_deferred": true,
+  "test_token_caches_created_by_training": false,
+  "source_model_sha256": "04e4b4fb3bf7332d1df15e6d61d2ec23173f35111aa3afe23898fbc453a36dd7",
+  "fresh_rounds_per_policy": 20,
+  "continuous_rounds_per_policy": 2000,
+  "workers": 4,
+  "gpus": [
+    0,
+    1
+  ]
+}

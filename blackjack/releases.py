@@ -71,6 +71,9 @@ def package_model(source: Path, output: Path, card: Path, project: Path, evidenc
         raise ValueError("Use a new package directory; released files are immutable.")
     if not (source / "training_report.json").exists():
         raise ValueError("Only a completed, evaluated checkpoint can be packaged.")
+    report = json.loads((source / "training_report.json").read_text())
+    if not report.get("test") or report.get("test_deferred"):
+        raise ValueError("Final-test evaluation must be complete before packaging a checkpoint.")
     output.parent.mkdir(parents=True, exist_ok=True)
     staging = output.with_name(output.name + ".staging-" + uuid.uuid4().hex[:8])
     staging.mkdir()

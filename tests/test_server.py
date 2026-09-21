@@ -58,6 +58,10 @@ def test_checkpoint_discovery_excludes_unpublished_staging(monkeypatch, tmp_path
     ready.parent.mkdir()
     ready.write_text("{}")
     assert server.latest_checkpoint() == str(ready.parent)
+    deferred = tmp_path / "checkpoints" / "deferred" / "training_report.json"
+    deferred.parent.mkdir()
+    deferred.write_text('{"test_deferred": true, "test": null}')
+    assert server.latest_checkpoint() == str(ready.parent)
 
 
 def test_overnight_status_survives_server_restart_and_marks_stale_heartbeat(monkeypatch, tmp_path):

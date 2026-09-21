@@ -43,6 +43,8 @@ Unattended jobs should use a process manager. The Linux supervisors enforce thei
 
 ## Paired policy evaluation
 
+For the complete next-stage training experiment, use `blackjack targeted` as documented in the [composition experiment protocol](targeted-experiment.md). It generates new data, trains both candidates, freezes selection, audits the new final test through the SDK, and runs paired returns. The existing release stays active throughout.
+
 The release suite compares the selected model, warm-start model, and basic heuristic on 100,000 independent fresh rounds and 1,000 independent blocks of 100 continuous rounds. Ten fixed scenarios span all table sizes plus additional rule and behavior variants.
 
 ```bash

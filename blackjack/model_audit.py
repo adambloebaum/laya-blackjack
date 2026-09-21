@@ -20,11 +20,14 @@ from .model import model_state, questions
 from .reference import clone_world, finish_world, sample_world
 
 
-def audit_model(dataset: Path, source: str, output: Path, device="cuda:1", batch_size=32):
+def audit_model(
+    dataset: Path, source: str, output: Path, device="cuda:1", batch_size=32, allow_new_dataset=False
+):
     output.mkdir(parents=True, exist_ok=True)
     manifest = verify_dataset(dataset)
     expected = json.loads((Path(source) / "training_report.json").read_text())
-    if expected["dataset_hash"] != digest(dataset / "manifest.json"):
+    same_dataset = expected["dataset_hash"] == digest(dataset / "manifest.json")
+    if not same_dataset and not allow_new_dataset:
         raise ValueError("Checkpoint and audit dataset do not match.")
     actor = BatchedLaya(source, device)
     rows = []
@@ -54,6 +57,7 @@ def audit_model(dataset: Path, source: str, output: Path, device="cuda:1", batch
             hit_brier = 2 * (answers["hit_bust"]["noul"] - ref["hit_bust"]) ** 2
             record = {
                 "index": index,
+                "stratum": row.get("stratum", "general"),
                 "group_seed": row["group_seed"],
                 "players": obs["rules"]["players"],
                 "decks": obs["rules"]["decks"],
@@ -71,6 +75,10 @@ def audit_model(dataset: Path, source: str, output: Path, device="cuda:1", batch
                 "resolved": ref["label_quality"]["resolved"],
                 "correct": action == ref["recommendation"],
                 "action_values": {k: v["ev"] for k, v in ref["actions"].items()},
+                "action_brier": sum(
+                    (p - float(k == ref["recommendation"])) ** 2
+                    for k, p in answers["action"]["probabilities"].items()
+                ),
                 "hit_bust_brier": hit_brier,
                 "dealer_brier": dealer_brier,
             }
@@ -87,16 +95,27 @@ def audit_model(dataset: Path, source: str, output: Path, device="cuda:1", batch
         print(f"SDK audit: {len(records)}/{len(rows)}", flush=True)
 
     def summarize(items):
+        confidence = np.array([r["confidence"] for r in items])
+        correct = np.array([r["correct"] for r in items])
+        bins = np.minimum((confidence * 10).astype(int), 9)
+        ece = sum(
+            float((bins == b).mean())
+            * abs(float(confidence[bins == b].mean()) - float(correct[bins == b].mean()))
+            for b in range(10)
+            if (bins == b).any()
+        )
         return {
             "states": len(items),
             "teacher_agreement": float(np.mean([r["correct"] for r in items])),
             "teacher_ev_regret": float(np.mean([r["regret"] for r in items])),
             "hit_bust_brier": float(np.mean([r["hit_bust_brier"] for r in items])),
             "dealer_brier": float(np.mean([r["dealer_brier"] for r in items])),
+            "action_brier": float(np.mean([r["action_brier"] for r in items])),
+            "teacher_action_ece": ece,
         }
 
     grouped = {}
-    for field in ("players", "decks", "hit_soft_17", "category", "depth", "resolved"):
+    for field in ("players", "decks", "hit_soft_17", "category", "depth", "resolved", "stratum"):
         groups = defaultdict(list)
         for record in records:
             groups[str(record[field])].append(record)
@@ -127,7 +146,7 @@ def audit_model(dataset: Path, source: str, output: Path, device="cuda:1", batch
         "cluster_bootstrap_replicates": 2000,
         "teacher_agreement_ci95": intervals[:, 0].tolist(),
         "teacher_ev_regret_ci95": intervals[:, 1].tolist(),
-        "trainer_report_metrics": expected["test"],
+        "trainer_report_metrics": expected["test"] if same_dataset else None,
         "batched_action_mismatches": mismatches,
         "batch_size": batch_size,
         "serving_fallbacks": actor.fallbacks,

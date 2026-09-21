@@ -198,7 +198,7 @@ async function pollOvernight() {
       const deadline=new Date(run.deadline_unix*1000).toLocaleString();
       $('overnight-summary').textContent=`${run.run} · elapsed ${(run.elapsed_seconds/3600).toFixed(2)} hours · stops by ${deadline}`;
       const rows=Object.entries(run.progress).map(([name,p])=>{
-        const detail=p.completed_units!==undefined?`${p.rounds.toLocaleString()} rounds · ${p.completed_units.toLocaleString()} / ${p.total_units.toLocaleString()} independent ${p.mode==='continuous'?'blocks':'rounds'} · ${p.stage}`:p.stage==='generation'?Object.entries(p.states).map(([s,n])=>`${s}: ${n.toLocaleString()}`).join(' · '):`updates: ${p.updates.toLocaleString()}${p.planned_updates?` / ${p.planned_updates.toLocaleString()}`:''}${p.loss!==undefined?` · loss ${p.loss.toFixed(4)}`:''}`;
+        const detail=p.completed_units!==undefined?`${p.rounds.toLocaleString()} rounds · ${p.completed_units.toLocaleString()} / ${p.total_units.toLocaleString()} independent ${p.mode==='continuous'?'blocks':'rounds'} · ${p.stage}`:p.completed!==undefined?`${p.completed.toLocaleString()} / ${p.total.toLocaleString()} final-test states · ${p.stage}`:p.stage==='generation'?Object.entries(p.states).map(([s,n])=>`${s}: ${n.toLocaleString()}`).join(' · '):`updates: ${p.updates.toLocaleString()}${p.planned_updates?` / ${p.planned_updates.toLocaleString()}`:''}${p.loss!==undefined?` · loss ${p.loss.toFixed(4)}`:''}`;
         return `<tr><td>${escape(name)}</td><td>${escape(detail)}</td></tr>`;
       });
       $('overnight-progress').innerHTML=`<table class="report-table"><tbody>${rows.join('')}</tbody></table>`;

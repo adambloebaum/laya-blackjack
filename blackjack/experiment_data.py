@@ -10,6 +10,7 @@ import os
 import random
 import time
 from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
+from dataclasses import replace
 from pathlib import Path
 
 from .engine import Game, Rules, basic_action, tablemate_action
@@ -39,12 +40,24 @@ def digest(path: Path):
     return h.hexdigest()
 
 
-def game_seed(seed: int, split: str, shard: int, group: int) -> int:
-    key = f"{DATA_VERSION}/{seed}/{split}/{shard}/{group}".encode()
+def game_seed(seed: int, split: str, shard: int, group: int, profile="standard") -> int:
+    namespace = DATA_VERSION if profile == "standard" else f"{DATA_VERSION}/{profile}"
+    key = f"{namespace}/{seed}/{split}/{shard}/{group}".encode()
     return int.from_bytes(hashlib.sha256(key).digest()[:16], "big")
 
 
-def sample_observations(seed: int, training: bool) -> list[dict]:
+def composition_focus(obs):
+    """Public-state definition fixed before generating any new experiment labels."""
+    hand = obs["players"][0][obs["active"][1]]
+    depth = 1 - obs["cards_remaining"] / (52 * obs["rules"]["decks"])
+    return depth >= 0.5 and (
+        abs(obs["true_count"]) >= 3
+        or (not hand["soft"] and 9 <= hand["total"] <= 16)
+        or "split" in obs["legal_actions"]
+    )
+
+
+def sample_observations(seed: int, training: bool, focus="general") -> list[dict]:
     """Reservoir across a complete shoe, with extra training emphasis on rare decisions."""
     rng = random.Random(seed)
     rules = Rules(
@@ -58,6 +71,10 @@ def sample_observations(seed: int, training: bool) -> list[dict]:
         max_hands=rng.choice([2, 3, 4]),
         tablemate_policy=rng.choice(["basic", "random", "conservative"]),
     )
+    if focus not in ("general", "depleted"):
+        raise ValueError("Unknown sampling focus.")
+    if focus == "depleted":
+        rules = replace(rules, penetration=0.85)
     game = Game(rules, seed)
     reservoir = []
     for step in range(1600):
@@ -75,10 +92,14 @@ def sample_observations(seed: int, training: bool) -> list[dict]:
         if training:
             weight += 3 * ("split" in obs["legal_actions"]) + 2 * hand["soft"]
             weight += 2 * (abs(obs["true_count"]) >= 3) + (len(hand["cards"]) > 2)
-        priority = rng.random() ** (1 / weight)
-        heapq.heappush(reservoir, (priority, step, obs))
-        if len(reservoir) > 4:
-            heapq.heappop(reservoir)
+        if focus == "general" or composition_focus(obs):
+            if focus == "depleted" and training:
+                depth = 1 - obs["cards_remaining"] / (52 * rules.decks)
+                weight += 4 * (depth >= 0.65)
+            priority = rng.random() ** (1 / weight)
+            heapq.heappush(reservoir, (priority, step, obs))
+            if len(reservoir) > 4:
+                heapq.heappop(reservoir)
         action = rng.choice(obs["legal_actions"]) if rng.random() < 0.25 else basic_action(obs)
         game.step(action)
     return [obs for _, _, obs in sorted(reservoir, key=lambda item: item[1])]
@@ -103,9 +124,19 @@ def generate_shard(task: dict) -> dict:
     started = time.monotonic()
     with temporary.open("w") as stream:
         while count < task["states"]:
-            seed = game_seed(task["seed"], task["split"], task["index"], group)
+            profile = task.get("profile", "standard")
+            focus = (
+                "depleted"
+                if profile == "composition-v1" and task["split"] != "calibration" and task["index"] % 2
+                else "general"
+            )
+            seed = game_seed(task["seed"], task["split"], task["index"], group, profile)
             group += 1
-            for position, obs in enumerate(sample_observations(seed, task["split"] == "train")):
+            if group > max(10000, task["states"] * 1000):
+                raise RuntimeError(
+                    "Sampling focus produced too few reachable states; refusing an unbounded loop."
+                )
+            for position, obs in enumerate(sample_observations(seed, task["split"] == "train", focus)):
                 if count >= task["states"]:
                     break
                 ref = analyze(obs, task["samples"], seed=seed + position, max_samples=task["max_samples"])
@@ -124,6 +155,8 @@ def generate_shard(task: dict) -> dict:
                     "targets": targets,
                     "reference": ref,
                 }
+                if profile != "standard":
+                    row["stratum"] = focus
                 stream.write(json.dumps(row, separators=(",", ":")) + "\n")
                 count += 1
                 resolved += ref["label_quality"]["resolved"]
@@ -169,10 +202,17 @@ def generate_large_dataset(
     evaluation_max_samples=8192,
     seed=20260921,
     deadline: float | None = None,
+    profile="standard",
 ):
     counts = dict(zip(SPLITS, [states, selection, calibration, test], strict=True))
     if min(counts.values()) < 1 or workers < 1 or shard_size < 1:
         raise ValueError("Dataset sizes, worker count, and shard size must be positive.")
+    if profile not in ("standard", "composition-v1"):
+        raise ValueError("Unknown dataset profile.")
+    if profile == "composition-v1" and any(
+        count % (2 * shard_size) for split, count in counts.items() if split != "calibration"
+    ):
+        raise ValueError("Composition splits need equal complete general/depleted shard pairs.")
     if (
         not 16 <= samples <= max_samples <= 10000
         or not 16 <= evaluation_samples <= evaluation_max_samples <= 10000
@@ -181,6 +221,7 @@ def generate_large_dataset(
     output.mkdir(parents=True, exist_ok=True)
     plan = {
         "version": DATA_VERSION,
+        "profile": profile,
         "counts": counts,
         "shard_size": shard_size,
         "seed": seed,
@@ -208,6 +249,7 @@ def generate_large_dataset(
                     "index": index,
                     "states": min(shard_size, counts[split] - offset),
                     "seed": seed,
+                    "profile": profile,
                     "samples": samples if split == "train" else evaluation_samples,
                     "max_samples": max_samples if split == "train" else evaluation_max_samples,
                 }
@@ -251,6 +293,12 @@ def generate_large_dataset(
         "teacher": "Public-state finite-shoe Monte Carlo, basic continuation, paired adaptive sampling",
         "selection": "Complete-shoe reservoir; rare-state weighting only in training split",
     }
+    if profile == "composition-v1":
+        manifest["selection"] = (
+            "Equal general/depleted shard pairs for train, selection and final test; "
+            "calibration uses general games only. Depleted games use 85% penetration, "
+            "public composition_focus predicate, and training-only emphasis beyond 65% depth."
+        )
     manifest["actual_states"] = {s: sum(r["states"] for r in rows) for s, rows in splits.items()}
     manifest["complete"] = manifest["actual_states"] == counts
     if any(manifest["actual_states"][s] != counts[s] for s in SPLITS if s != "train"):

@@ -6,6 +6,8 @@ import pytest
 
 from blackjack.engine import Game, Rules, basic_action, tablemate_action
 from blackjack.experiment_data import (
+    composition_focus,
+    game_seed,
     generate_large_dataset,
     sample_observations,
     verify_dataset,
@@ -75,3 +77,42 @@ def test_generation_is_worker_independent_resumable_and_detects_tampering(tmp_pa
         verify_dataset(tmp_path / "one")
     with pytest.raises(ValueError, match="inconsistent"):
         generate_large_dataset(tmp_path / "one", workers=2, **options)
+
+
+def test_composition_sampling_uses_reachable_public_states_and_separate_seeds():
+    focused = []
+    for seed in range(12):
+        obs = sample_observations(seed, True, "depleted")
+        assert all(composition_focus(s) for s in obs)
+        assert all(s["rules"]["penetration"] == 0.85 for s in obs)
+        focused.extend(obs)
+    assert len(focused) > 20
+    assert game_seed(42, "test", 0, 0) != game_seed(42, "test", 0, 0, "composition-v1")
+
+
+def test_composition_strata_are_balanced_worker_independent_and_group_disjoint(tmp_path):
+    options = dict(
+        states=8,
+        selection=8,
+        calibration=4,
+        test=8,
+        shard_size=4,
+        samples=16,
+        max_samples=16,
+        evaluation_samples=16,
+        evaluation_max_samples=16,
+        profile="composition-v1",
+    )
+    first = generate_large_dataset(tmp_path / "a", workers=1, **options)
+    second = generate_large_dataset(tmp_path / "b", workers=2, **options)
+    for split in first["splits"]:
+        assert [s["sha256"] for s in first["splits"][split]] == [s["sha256"] for s in second["splits"][split]]
+        strata = []
+        for shard in first["splits"][split]:
+            for line in (tmp_path / "a" / shard["path"]).read_text().splitlines():
+                row = json.loads(line)
+                strata.append(row["stratum"])
+                if row["stratum"] == "depleted":
+                    assert composition_focus(row["observation"])
+        assert strata.count("depleted") == (0 if split == "calibration" else len(strata) // 2)
+    assert verify_dataset(tmp_path / "a")["complete"]

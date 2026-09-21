@@ -109,7 +109,17 @@ def latest_checkpoint():
     reports = list(ARTIFACTS.glob("checkpoints/*/training_report.json")) + list(
         ARTIFACTS.glob("runs/*/model/training_report.json")
     )
-    reports = [p for p in reports if not p.parent.name.startswith(".") and ".staging" not in p.parent.name]
+    completed = []
+    for path in reports:
+        if path.parent.name.startswith(".") or ".staging" in path.parent.name:
+            continue
+        try:
+            report = json.loads(path.read_text())
+        except (OSError, ValueError):
+            continue
+        if not report.get("test_deferred", False):
+            completed.append(path)
+    reports = completed
     return str(max(reports, key=lambda p: p.stat().st_mtime).parent) if reports else None
 
 

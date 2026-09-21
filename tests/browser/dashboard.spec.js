@@ -1,5 +1,13 @@
 const {test, expect} = require('@playwright/test');
 
+test('sealed final-test audits show state counts without a training counter', async ({page})=>{
+  await page.route('**/api/overnight', route=>route.fulfill({json:{available:true,run:'targeted-test',status:'running',stage:'sealed_test_evaluation',elapsed_seconds:600,deadline_unix:Date.now()/1000+3600,progress:{'audit/candidate':{stage:'sdk_audit',completed:128,total:8192}}}}));
+  await page.goto('/');
+  await page.getByRole('button',{name:'Experiments',exact:true}).click();
+  await expect(page.locator('#overnight-progress')).toContainText('128 / 8,192 final-test states');
+  await expect(page.locator('#overnight-note')).not.toContainText('Unable');
+});
+
 test('paired research progress distinguishes blocks from rounds', async ({page})=>{
   await page.route('**/api/overnight', route=>route.fulfill({json:{available:true,run:'paired-test',status:'running',stage:'policy_evaluation',elapsed_seconds:600,deadline_unix:Date.now()/1000+3600,progress:{'candidate / continuous':{stage:'evaluation',mode:'continuous',completed_units:400,total_units:1000,rounds:40000}}}}));
   await page.goto('/');

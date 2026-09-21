@@ -7,6 +7,7 @@ import json
 import math
 import os
 import random
+import shutil
 import time
 from pathlib import Path
 
@@ -21,6 +22,7 @@ def scores(predictions, temperatures):
 
     values = {}
     per_players = {}
+    per_stratum = {}
     action_p, action_y = [], []
     resolved_correct, unresolved_correct = [], []
     for item, logits in predictions:
@@ -38,6 +40,7 @@ def scores(predictions, temperatures):
         values.setdefault("teacher_agreement", []).append(correct)
         values.setdefault("teacher_ev_regret", []).append(regret)
         per_players.setdefault(str(item["players"]), []).append((correct, regret))
+        per_stratum.setdefault(item.get("stratum", "general"), []).append((correct, regret))
         action_p.append(float(p.max()))
         action_y.append(correct)
         (resolved_correct if item["resolved"] else unresolved_correct).append(correct)
@@ -65,7 +68,27 @@ def scores(predictions, temperatures):
             }
             for k, v in per_players.items()
         },
+        "by_stratum": {
+            k: {
+                "states": len(v),
+                "teacher_agreement": float(np.mean([x[0] for x in v])),
+                "teacher_ev_regret": float(np.mean([x[1] for x in v])),
+            }
+            for k, v in per_stratum.items()
+        },
     }
+
+
+def selection_eligible(candidate, baseline, general_margin):
+    """Predeclared composition criterion, using selection data only."""
+    if general_margin is None:
+        return True
+    c, b = candidate["by_stratum"], baseline["by_stratum"]
+    return (
+        c["general"]["teacher_ev_regret"] <= b["general"]["teacher_ev_regret"] + general_margin
+        and c["depleted"]["teacher_ev_regret"] < b["depleted"]["teacher_ev_regret"]
+        and candidate["teacher_ev_regret"] < baseline["teacher_ev_regret"]
+    )
 
 
 def fit_temperatures(predictions):
@@ -100,7 +123,7 @@ class ShardItems:
             "max_len": agent.cfg["max_len"],
             "head_max_len": agent.cfg["head_max_len"],
             "tokenizer": agent.tok.backend_tokenizer.to_str(),
-            "version": 1,
+            "version": 2,
         }
         contract_path = cache / "contract.json"
         if contract_path.exists() and json.loads(contract_path.read_text()) != contract:
@@ -147,6 +170,7 @@ class ShardItems:
                             ev=[row["reference"]["actions"][k]["ev"] for k in keys],
                             players=row["observation"]["rules"]["players"],
                             resolved=resolved,
+                            stratum=row.get("stratum", "general"),
                         )
                     items.append(item)
         temporary = path.with_suffix(".tmp")
@@ -166,6 +190,8 @@ def train_large(
     seed=20260921,
     checkpoint_steps=1000,
     deadline: float | None = None,
+    defer_test=False,
+    general_margin: float | None = None,
 ):
     import torch
     from laya.common import collate_items
@@ -177,9 +203,9 @@ def train_large(
         or learning_rate <= 0
     ):
         raise ValueError("Epochs, batch size, learning rate, and checkpoint interval must be positive.")
+    if general_margin is not None and (not math.isfinite(general_margin) or general_margin < 0):
+        raise ValueError("General-play selection margin must be finite and nonnegative.")
     output.mkdir(parents=True, exist_ok=True)
-    if (output / "candidate" / "training_report.json").exists():
-        return json.loads((output / "candidate" / "training_report.json").read_text())
     manifest = verify_dataset(dataset)
     config = {
         "dataset_hash": digest(dataset / "manifest.json"),
@@ -194,9 +220,13 @@ def train_large(
         "learning_rate": learning_rate,
         "seed": seed,
         "version": 1,
+        "defer_test": defer_test,
+        "general_margin": general_margin,
     }
     if (output / "config.json").exists() and json.loads((output / "config.json").read_text()) != config:
         raise ValueError("Resume training configuration changed.")
+    if (output / "candidate" / "training_report.json").exists():
+        return json.loads((output / "candidate" / "training_report.json").read_text())
     atomic_json(output / "config.json", config)
     random.seed(seed)
     torch.manual_seed(seed)
@@ -288,11 +318,40 @@ def train_large(
 
     # Baseline test values are fixed before training, never used for selection or stopping.
     baseline_file = output / "baseline-test.json"
-    if not baseline_file.exists():
+    if not defer_test and not baseline_file.exists():
         if updates:
             raise ValueError("Resumed run is missing its pre-training baseline.")
         print("Recording fixed source baseline on final test (not used for training decisions)", flush=True)
         atomic_json(baseline_file, scores(predict("test"), agent.temperature_by_options))
+    baseline_selection = None
+    if general_margin is not None:
+        selection_file = output / "baseline-selection.json"
+        if not selection_file.exists():
+            if updates:
+                raise ValueError("Resumed run is missing its frozen selection baseline.")
+            atomic_json(selection_file, scores(predict("selection"), agent.temperature_by_options))
+        baseline_selection = json.loads(selection_file.read_text())
+        if set(baseline_selection["by_stratum"]) != {"general", "depleted"}:
+            raise ValueError("Guarded selection requires general and depleted selection strata.")
+        if not best_pointer.exists():
+            # The unchanged incumbent is an explicit option if every epoch fails the guard.
+            best_dir = output / "best-incumbent"
+            best_staging = output / "best-incumbent.staging"
+            best_staging.mkdir(exist_ok=True)
+            record = {
+                "epoch": 0,
+                "complete_epoch": True,
+                "updates": 0,
+                "mean_loss": None,
+                "selection": baseline_selection,
+                "incumbent": True,
+            }
+            shutil.copyfile(Path(source) / "model.safetensors", best_staging / "model.safetensors")
+            atomic_json(best_staging / "selection.json", record)
+            if not best_dir.exists():
+                best_staging.rename(best_dir)
+            atomic_json(best_pointer, {"path": best_dir.name, "record": record})
+            best_regret = baseline_selection["teacher_ev_regret"]
     stop = False
     for epoch in range(start_epoch, epochs):
         order = list(range(len(training_shards)))
@@ -367,7 +426,9 @@ def train_large(
                 "selection": selection_scores,
             }
         )
-        if selection_scores["teacher_ev_regret"] < best_regret:
+        eligible = selection_eligible(selection_scores, baseline_selection, general_margin)
+        history[-1]["selection_eligible"] = eligible
+        if eligible and selection_scores["teacher_ev_regret"] < best_regret:
             best_regret = selection_scores["teacher_ev_regret"]
             # The pointer activates weights and their selection record together.
             best_dir = output / f"best-{epoch + 1}-{updates}-{time.time_ns()}"
@@ -390,9 +451,13 @@ def train_large(
     best = json.loads(best_pointer.read_text())
     best_weights = output / best["path"] / "model.safetensors"
     model.load_state_dict(load_file(str(best_weights)), strict=True)
-    print("Calibrating on separate calibration games; evaluating final test", flush=True)
+    print(
+        "Calibrating on separate games; "
+        + ("final test remains sealed" if defer_test else "evaluating final test"),
+        flush=True,
+    )
     temperatures = fit_temperatures(predict("calibration"))
-    test_scores = scores(predict("test"), temperatures)
+    test_scores = None if defer_test else scores(predict("test"), temperatures)
     report = {
         "source": source,
         "method": "Full-model simulation distillation, uncertainty-weighted action loss",
@@ -405,7 +470,10 @@ def train_large(
         "history": history,
         "stopped_for_budget": stop,
         "updates": updates,
-        "baseline": json.loads(baseline_file.read_text()),
+        "baseline": None if defer_test else json.loads(baseline_file.read_text()),
+        "baseline_selection": baseline_selection,
+        "test_deferred": defer_test,
+        "general_margin": general_margin,
         "test": test_scores,
         "temperature_by_options": temperatures,
         "states": {**manifest["actual_states"], "validation": manifest["actual_states"]["calibration"]},
@@ -418,8 +486,6 @@ def train_large(
     staging = output / "candidate.staging"
     staging.mkdir(exist_ok=True)
     # Best weights were already serialized atomically; copy avoids another full CPU allocation.
-    import shutil
-
     shutil.copyfile(best_weights, staging / "model.safetensors")
     model.encoder.config.save_pretrained(staging / "encoder")
     agent.tok.save_pretrained(staging / "tokenizer")

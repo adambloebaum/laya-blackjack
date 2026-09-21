@@ -64,6 +64,7 @@ def main():
     audit.add_argument("--output", type=Path, required=True)
     audit.add_argument("--device", default="cuda:1")
     audit.add_argument("--batch-size", type=int, default=32)
+    audit.add_argument("--allow-new-dataset", action="store_true")
     recheck = commands.add_parser("recheck-errors")
     recheck.add_argument("--audit", type=Path, required=True)
     recheck.add_argument("--output", type=Path, required=True)
@@ -77,6 +78,7 @@ def main():
     suite.add_argument("--device", default="cuda:0")
     suite.add_argument("--fresh-units", type=int, default=100000)
     suite.add_argument("--blocks", type=int, default=1000)
+    suite.add_argument("--seed", type=int, default=20260922)
     research = commands.add_parser("research")
     research.add_argument("--output", type=Path, required=True)
     research.add_argument("--candidate", required=True)
@@ -98,6 +100,7 @@ def main():
     large.add_argument("--evaluation-max-samples", type=int, default=8192)
     large.add_argument("--seed", type=int, default=20260921)
     large.add_argument("--deadline", type=float)
+    large.add_argument("--profile", choices=["standard", "composition-v1"], default="standard")
     large_train = commands.add_parser("train-large")
     large_train.add_argument("--dataset", type=Path, required=True)
     large_train.add_argument("--output", type=Path, required=True)
@@ -109,6 +112,22 @@ def main():
     large_train.add_argument("--checkpoint-steps", type=int, default=1000)
     large_train.add_argument("--seed", type=int, default=20260921)
     large_train.add_argument("--deadline", type=float)
+    large_train.add_argument("--defer-test", action="store_true")
+    large_train.add_argument("--general-margin", type=float)
+    targeted = commands.add_parser("targeted")
+    targeted.add_argument("--output", type=Path, required=True)
+    targeted.add_argument("--source", required=True)
+    targeted.add_argument("--hours", type=float, default=12)
+    targeted.add_argument("--states", type=int, default=65536)
+    targeted.add_argument("--selection", type=int, default=4096)
+    targeted.add_argument("--calibration", type=int, default=2048)
+    targeted.add_argument("--test", type=int, default=8192)
+    targeted.add_argument("--workers", type=int, default=24)
+    targeted.add_argument("--epochs", type=int, default=3)
+    targeted.add_argument("--seed", type=int, default=20260924)
+    targeted.add_argument("--fresh-units", type=int, default=100000)
+    targeted.add_argument("--blocks", type=int, default=1000)
+    targeted.add_argument("--smoke", action="store_true", help="Small execution check, not research evidence")
     overnight = commands.add_parser("overnight")
     overnight.add_argument("--output", type=Path, required=True)
     overnight.add_argument("--source", required=True)
@@ -163,6 +182,10 @@ def main():
         from .research import evaluate_suite, run_research
 
         (run_research if command == "research" else evaluate_suite)(**args)
+    elif command == "targeted":
+        from .targeted import run_targeted
+
+        run_targeted(**args)
     elif command == "replay":
         from .engine import Game, Rules
 

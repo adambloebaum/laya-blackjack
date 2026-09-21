@@ -60,6 +60,13 @@ def test_public_metadata_preserves_hashes_and_removes_local_paths():
     }
 
 
+def test_release_packaging_rejects_sealed_test_candidates(tmp_path):
+    package = package_fixture(tmp_path)
+    atomic_json(package / "training_report.json", {"test": None, "test_deferred": True})
+    with pytest.raises(ValueError, match="Final-test evaluation"):
+        package_model(package, tmp_path / "release", tmp_path / "MODEL_CARD.md", tmp_path)
+
+
 def test_pinned_download_only_requests_manifest_files(tmp_path, monkeypatch):
     package = package_fixture(tmp_path)
     module = ModuleType("huggingface_hub")

@@ -72,6 +72,14 @@ The simulator uses American hole-card rules, fixed unit wagers, and no insurance
 
 Start with the [training and evaluation commands](docs/usage.md), [overnight experiment guide](docs/scaling-experiment.md), and [next research questions](docs/roadmap.md). Machine-readable reports and plotting code accompany the release claims; historical pilot results remain [archived](docs/experiments.md).
 
+The next [composition-focused experiment](docs/targeted-experiment.md) uses new games, balanced general/depleted training, and a final test sealed until both candidates are selected:
+
+```bash
+uv run --no-sync blackjack targeted --output artifacts/overnight/composition-run --source artifacts/checkpoints/released --hours 12 --workers 24
+```
+
+It uses both local GPUs and retains the released model while generating comparison evidence. Run unattended jobs under a process manager; the CLI stays attached to its terminal.
+
 ```bash
 uv run --no-sync pytest -q
 uv run --no-sync ruff check blackjack tests scripts

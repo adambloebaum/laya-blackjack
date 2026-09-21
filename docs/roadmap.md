@@ -10,7 +10,7 @@
 
 ## Highest-value next experiments
 
-1. **Composition-sensitive mistakes.** Fresh simulations confirm many costly errors late in the shoe. Generate new training games around these regimes: hard totals against small dealer cards, extreme remaining-rank mixtures, split decisions, and depleted small shoes. The inspected final test is now diagnostic material; a new training iteration needs a new final test set.
+1. **Composition-sensitive mistakes — experiment prepared.** The [targeted protocol](targeted-experiment.md) generates fresh balanced general/depleted games, compares two conservative learning rates, and seals final-test predictions until selection is frozen. It covers hard totals, extreme remaining-rank mixtures, splits, and reachable depleted shoes. The inspected release test remains diagnostic material and is not reused.
 2. **A stronger teacher.** Current action labels assume basic-strategy continuations. Compare exact composition-dependent solvers on tractable cases and stronger continuation policies before adding more imitation data.
 3. **A compact baseline.** Compare a small tabular/neural policy against Laya using the same public state and evaluation units. Report quality, latency, and memory together.
 4. **Repeated seeds.** Current learning-rate candidates share one training seed. Replicate the selected setup with independent seeds before treating small metric differences as robust.
