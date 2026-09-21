@@ -2,6 +2,10 @@
 
 This private follow-up starts from the evaluated composition candidate. It tests whether a training loss that accounts for decision cost improves on ordinary imitation, using identical new data and optimizer settings. It produces research candidates only. The final public release will contain one selected model.
 
+## Active local run
+
+Run `20260921-173017-teacher-cost` launched at 10:30 Pacific on September 21 from immutable source revision `2082f3361dfb4a915363a072d88c6100496aeede`. Its hard stop is 22:30 Pacific the same day. It is generating the complete predeclared dataset; training and evaluation follow automatically. Full-run performance is not yet available.
+
 ## Reference contract
 
 `hybrid-exact-v1` uses a finite-shoe dynamic program for one player with one unsplit hand and no legal split. It supports hit, stand, double, and surrender, S17/H17, negative ace/ten peeks, and the engine's exhausted-shoe refund. The player maximizes expected value over the public information set. It must never choose a different action for each possible concealed dealer card.
