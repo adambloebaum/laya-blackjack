@@ -2,7 +2,7 @@
 
 This development pilot tests whether fresh states visited by the frozen research candidate can support a controlled training experiment. It collects public observations, replays every trajectory, audits the serving SDK, and repeats reference labeling. It does not fit weights, calibrate probabilities, select a model, or serve as a final test.
 
-**Outcome:** the stronger-budget follow-up passed every preset qualification gate. It completed 4,000 states from 20,000 rounds in 14 minutes 7 seconds. Both-resolved label coverage was 87.85% for model-visited states and 89.00% for mixture states. The next step is implementing and validating the [matched training design](model-visited-training.md); no new weights were trained in these pilots.
+**Outcome:** the stronger-budget follow-up passed every preset qualification gate. It completed 4,000 states from 20,000 rounds in 14 minutes 7 seconds. Both-resolved label coverage was 87.85% for model-visited states and 89.00% for mixture states. The [matched training study](model-visited-training.md) is now implemented and smoke-validated; no new weights were trained in these pilots.
 
 The [12-million-round analysis](large-return-results.md) motivated this study: the latest model improves on the basic heuristic during continuous play, but its incremental return advantage over its predecessor is unresolved. Costly reference disagreements remain after fresh-world checks. The next question is whether new model-visited data provides usable coverage and stable targets.
 
@@ -66,7 +66,7 @@ The exporter verifies the checkpoint, replays all groups, checks all label/audit
 
 ## What follows qualification
 
-If the pilot qualifies, implement the [prepared matched data-mixture design](model-visited-training.md): keep broad coverage in both arms, replace a fixed fraction with fresh model-visited states in one arm, and match state counts, labeling effort, optimizer settings, and updates. Use new group-disjoint selection/calibration/final-test games, retain the unchanged incumbent, and predeclare the guards and final return protocol. Pilot metrics cannot establish that this experiment will improve the model.
+The qualified follow-up supports the [implemented matched data-mixture design](model-visited-training.md): keep broad coverage in both arms, replace a fixed fraction with fresh model-visited states in one arm, and match state counts, labeling effort, optimizer settings, and updates. Use new group-disjoint selection/calibration/final-test games, retain the unchanged incumbent, and predeclare the guards and final return protocol. Pilot metrics cannot establish that this experiment will improve the model.
 
 If qualification fails, retain the measurements and fix the specific collection, serving-parity, coverage, or label-stability problem before scaling. Any revised research pilot gets a new configuration and seed; do not rewrite this run's thresholds or reuse it as untouched evaluation.
 
