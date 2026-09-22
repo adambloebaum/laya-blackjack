@@ -56,7 +56,7 @@ The run directory contains `run.json`, `status.json`, `collect/`, `label/`, `aud
 
 ## What follows qualification
 
-If the pilot qualifies, prepare a matched data-mixture experiment: keep broad coverage in both arms, replace a fixed fraction with fresh model-visited states in one arm, and match state counts, labeling effort, optimizer settings, and updates. Use new group-disjoint selection/calibration/final-test games, retain the unchanged incumbent, and predeclare the guards and final return protocol. Pilot metrics cannot establish that this experiment will improve the model.
+If the pilot qualifies, implement the [prepared matched data-mixture design](model-visited-training.md): keep broad coverage in both arms, replace a fixed fraction with fresh model-visited states in one arm, and match state counts, labeling effort, optimizer settings, and updates. Use new group-disjoint selection/calibration/final-test games, retain the unchanged incumbent, and predeclare the guards and final return protocol. Pilot metrics cannot establish that this experiment will improve the model.
 
 If qualification fails, retain the measurements and fix the specific collection, serving-parity, coverage, or label-stability problem before scaling. Any revised research pilot gets a new configuration and seed; do not rewrite this run's thresholds or reuse it as untouched evaluation.
 
@@ -79,3 +79,5 @@ The `standard` budget remains the default. Budget choice and effective sample li
 ## Execution validation
 
 The separate 40-state smoke completed on both GPUs and retained zero observed serving-action mismatches. Restarting it preserved all 120 group/receipt files and the original deadline. Its [receipt](results/visitation-smoke.json) is execution evidence only. All 100 Python tests, seven browser tests, lint, and wheel/static-asset checks passed before the full launch.
+
+The first strong-budget launch collected all states but stopped before publishing any labels because the reference helper still enforced its older 10,000-world cap. That failed attempt is retained. The corrected source raises the bounded research cap to 16,384, with a regression that executes a real full-budget Monte Carlo fallback; the dashboard request limit remains 2,048. The corrected run retains the planned seed/design and the original follow-up deadline rather than starting a fresh hour.

@@ -1,0 +1,55 @@
+# Controlled model-visited training study
+
+**Design prepared; training has not started.** Execution depends on the fresh stronger-budget [qualification pilot](model-visited-pilot.md) passing its unchanged gates, then validation of dataset assembly and a separate execution smoke. This is one bounded comparison, not an open-ended search for a favorable result.
+
+## Question and comparison
+
+Does replacing half of the next training set with states visited by the frozen incumbent improve a fine-tuned policy, relative to the same amount of additional training on the basic/random behavior mixture?
+
+Both arms start from the teacher-cost selection winner, weights `64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de`. The incumbent remains an explicit selection option and an unchanged evaluation comparator. Neither pilot's observations become a held-out test.
+
+| Setting | Control | Model-visited arm |
+| --- | --- | --- |
+| Shared broad training states | The same 16,000 new general/depleted states | Identical rows and labels |
+| Replacement training states | 16,000 states from 75% basic / 25% random behavior | 16,000 states visited by frozen Laya |
+| Replacement rules | The ten pilot scenarios, equally weighted | Identical scenario weights |
+| Replacement groups | 80 per scenario; 100 rounds per group | Matched initial game seeds |
+| Replacement sampling | 20 uniformly sampled hero decisions per group | Identical sampling rule |
+| Total training states | 32,000 | 32,000 |
+| Reference | Hybrid exact / basic-continuation Monte Carlo | Same reference and sampling budget |
+| Objective | Existing uncertainty-weighted imitation and probability losses | Identical objective |
+| Optimizer | Existing AdamW/schedule; learning rate 5e-6 | Identical settings |
+| Training | Three full epochs, eight typed questions per batch | Identical planned update count |
+| Resources | Local GPU 0 | Local GPU 1 |
+
+The shared broad half uses the existing `composition-v1` distribution: equal general and depleted strata across randomized rules, with its training-only rare-state weighting. The replacement half uses the qualified pilot's reservoir scheme and fixed benchmark scenarios. Consequently, the experiment tests this **specific 50% replacement**, not every mixture ratio, iterative DAgger, or arbitrary casino configuration. The behavior model stays frozen during collection; no refreshed-policy loop is included.
+
+The two training manifests must have equal shard sizes and batch counts as well as equal state counts. Both trainers receive the same initialization and optimizer seed. A fixed sample budget is matched, but realized Monte Carlo work and label confidence can differ across visited populations. Report that difference rather than claiming identical compute expenditure.
+
+## Fresh data and labels
+
+Reserve root seed **20261004** under a new `model-visitation-training-v1` namespace. Reserve **30261004** for execution smoke. Include each source family and split in seed derivation; verify whole-group separation across training, selection, calibration, and test. Pair replacement-arm initial games only within the training split. Keep the two pilot roots and all prior inspected evaluations outside these groups.
+
+Use 2,048–16,384 adaptive worlds for training labels and 4,096–16,384 for selection, calibration, and test, with the existing 50,000-node exact-reference limit. Record exact/fallback coverage, resolved fractions, and realized samples separately by arm and source family. Keep unresolved targets under the existing uncertainty weight rather than silently dropping difficult states. Complete dealer targets are required.
+
+Repeated labeling was a pilot qualification check; the full dataset uses one independently seeded reference result per state. Where both replacement arms sample an identical public observation from a matched initial group, reuse one content-bound label so different label noise does not create an artificial distinction. Private seeds and replay traces never enter model state. Store input-bound receipts and preserve the collector's original inference batch membership on resume.
+
+## Selection, calibration, and final evaluation
+
+Both candidates use identical new selection/calibration/test rows and labels. Reserve 4,096 selection states, 2,048 calibration states, and 8,192 final-test states. Selection and test are equal general/depleted strata; calibration uses general games. Generate every required split completely before training; a deadline cannot silently reduce a planned population.
+
+Choose eligible epochs using the established guard: depleted and overall selection regret must improve, and general regret may rise by at most 0.0005 original-wager units relative to the source. Include the unchanged source as epoch zero. Among eligible checkpoints, choose the lowest equal-stratum selection regret. This is a point-estimate guard, not a statistical noninferiority claim. Fit temperatures on calibration games only, using the serving SDK's option-count buckets.
+
+Freeze both arms' selected checkpoint/config/tokenizer identities and the overall selection decision before either arm predicts a final-test state. Audit **both selected arms and the unchanged incumbent** through the serving SDK on the common final test. Report matched whole-game comparisons, reference-method strata, probability distances, serving parity, and inference latency. Do not infer the data-mixture effect by comparing only the overall winner with the incumbent.
+
+Reserve a fixed return screen for four policies: basic heuristic, unchanged incumbent, control, and model-visited candidate. Each plays 100,000 independent fresh rounds plus 1,000 independent 100-round continuous blocks: **800,000 total rounds**. Use the same ten rule strata with paired initial seeds. Predeclare four aggregate contrasts: model-visited minus control and model-visited minus incumbent, each in fresh and continuous play. Use Bonferroni-adjusted 95% intervals across these four contrasts. Other pairings and scenario analyses are descriptive and must be marked accordingly.
+
+This return screen is likely to leave small effects unresolved; the completed [12-million-round comparison](large-return-results.md) already demonstrated that limitation. Do not extend this screen or choose new settings after inspecting it. A promising result needs independent training replication and a separately sized, fresh final evaluation before release. All return quantities use settled profit per original wager with fixed bets.
+
+## Execution and release boundary
+
+The planned run has a **12-hour original deadline**, 24 CPU labeling workers, both local 4090s, a 28 GiB host-memory ceiling, immutable source/checkpoint snapshots, and systemd process-group cleanup. Benchmark the assembler in a separate smoke before freezing a launch. If both arms do not complete the matched training schedule, retain the partial artifacts but do not claim a completed matched comparison or select the faster arm by default.
+
+The implementation still needs an assembler for the two training manifests and shared evaluation splits, a supervisor that freezes both candidates before final inference, and checks of matched updates, group separation, reference reuse, and resume identities. Existing `targeted` runs assume one training manifest, so adding a new study label alone would not implement this protocol. No full training run is queued by this design document.
+
+Keep all candidates private. This study does not replace the dashboard model, upload new weights, or select a public release automatically. The final project will publish one best-supported model with its calibration and evidence; comparative reports can describe private intermediate candidates.

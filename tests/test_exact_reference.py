@@ -85,6 +85,16 @@ def test_exact_budget_and_unsupported_states_fall_back_explicitly():
         exact_analyze(obs, 0)
 
 
+def test_strong_research_budget_runs_through_real_monte_carlo_fallback():
+    obs = tiny_observation(6, False)
+    ref = hybrid_analyze(obs, 16384, seed=42, max_samples=16384, max_nodes=1)
+    assert ref["teacher_kind"] == "monte_carlo"
+    assert ref["samples"] == 16384
+    assert ref["label_quality"]["max_samples"] == 16384
+    with pytest.raises(ValueError, match="16384"):
+        hybrid_analyze(obs, 2048, seed=42, max_samples=16385, max_nodes=1)
+
+
 def test_exact_probabilities_preserve_duplicate_rank_multiplicity():
     obs = tiny_observation(1, True, ranks=(2, 2, 3, 10, 10), cards=(3, 7))
     result = exact_analyze(obs)

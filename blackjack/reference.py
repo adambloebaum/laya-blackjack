@@ -11,6 +11,7 @@ from collections import Counter
 from .engine import Game, Hand, Rules, basic_action, total, value
 
 DEALER_LABELS = ("17", "18", "19", "20", "21", "bust")
+MAX_REFERENCE_SAMPLES = 16384
 
 
 def observation_seed(obs: dict) -> int:
@@ -158,12 +159,12 @@ def analyze(
 ) -> dict:
     if obs["phase"] != "playing":
         return {"available": False, "reason": "Deal a round to analyze a decision."}
-    if not 16 <= samples <= 10000:
-        raise ValueError("Use 16–10000 Monte Carlo samples.")
+    if not 16 <= samples <= MAX_REFERENCE_SAMPLES:
+        raise ValueError(f"Use 16–{MAX_REFERENCE_SAMPLES} Monte Carlo samples.")
     adaptive = max_samples is not None
     limit = max_samples if adaptive else samples
-    if not samples <= limit <= 10000:
-        raise ValueError("max_samples must be between samples and 10000.")
+    if not samples <= limit <= MAX_REFERENCE_SAMPLES:
+        raise ValueError(f"max_samples must be between samples and {MAX_REFERENCE_SAMPLES}.")
     rng = random.Random(observation_seed(obs) if seed is None else seed)
     actions = obs["legal_actions"]
     returns = {a: [] for a in actions}

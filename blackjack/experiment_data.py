@@ -16,7 +16,7 @@ from pathlib import Path
 from .engine import Game, Rules, basic_action, tablemate_action
 from .exact_reference import hybrid_analyze
 from .model import model_state, questions
-from .reference import analyze
+from .reference import MAX_REFERENCE_SAMPLES, analyze
 
 DATA_VERSION = "shoe-reservoir-v1"
 SPLITS = ("train", "selection", "calibration", "test")
@@ -224,8 +224,8 @@ def generate_large_dataset(
     ):
         raise ValueError("Composition splits need equal complete general/depleted shard pairs.")
     if (
-        not 16 <= samples <= max_samples <= 10000
-        or not 16 <= evaluation_samples <= evaluation_max_samples <= 10000
+        not 16 <= samples <= max_samples <= MAX_REFERENCE_SAMPLES
+        or not 16 <= evaluation_samples <= evaluation_max_samples <= MAX_REFERENCE_SAMPLES
     ):
         raise ValueError("Invalid rollout budgets.")
     output.mkdir(parents=True, exist_ok=True)
