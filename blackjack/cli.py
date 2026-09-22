@@ -87,6 +87,18 @@ def main():
     research.add_argument("--blocks", type=int, default=1000)
     research.add_argument("--hours", type=float, default=3)
     research.add_argument("--seed", type=int, default=20260922)
+    visitation = commands.add_parser("visitation-pilot", help="Qualify development-only model-visited states")
+    visitation.add_argument("--output", type=Path, required=True)
+    visitation.add_argument("--source", required=True)
+    visitation.add_argument("--workers", type=int, default=24)
+    visitation.add_argument("--hours", type=float, default=1)
+    visitation.add_argument("--seed", type=int, default=20261002)
+    visitation.add_argument("--smoke", action="store_true")
+    visit_worker = commands.add_parser("visitation-worker", help="Internal frozen-plan pilot worker")
+    visit_worker.add_argument("--root", type=Path, required=True)
+    visit_worker.add_argument("--phase", choices=["collect", "label", "audit"], required=True)
+    visit_worker.add_argument("--policy", choices=["laya", "mixture"], default="laya")
+    visit_worker.add_argument("--device", default="cuda:1")
     large = commands.add_parser("generate-large")
     large.add_argument("--output", type=Path, required=True)
     large.add_argument("--states", type=int, default=100000)
@@ -190,6 +202,10 @@ def main():
         from .targeted import run_targeted
 
         run_targeted(**args)
+    elif command in ("visitation-pilot", "visitation-worker"):
+        from .visitation import pilot_worker, run_visitation
+
+        (run_visitation if command == "visitation-pilot" else pilot_worker)(**args)
     elif command == "replay":
         from .engine import Game, Rules
 

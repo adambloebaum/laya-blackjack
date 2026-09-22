@@ -67,6 +67,14 @@ The basic policy is a transparent multi-deck heuristic, not an exact reference f
 
 The [completed 12-million-round analysis](large-return-results.md) includes all scenario contrasts and a separate selected-error recheck. `scripts/analyze_large_returns.py` revalidates private raw artifacts before exporting portable JSON/CSV evidence. Rebuild its SVG/PNG figures from the committed summaries with `uv run --extra analysis python scripts/plot_large_returns.py`; model weights and GPUs are not required for plotting. These research figures describe a newer private candidate than the default downloadable package.
 
+## Model-visited data pilot
+
+```bash
+uv run --no-sync blackjack visitation-pilot --output artifacts/evaluations/visitation-pilot --source artifacts/research-sources/teacher-cost-v1 --workers 24 --hours 1
+```
+
+The [pilot protocol](model-visited-pilot.md) fixes 4,000 development states, matching scenario/initial-seed arms, repeated hybrid-reference labels, and SDK/replay checks. `--smoke` offsets the seed and uses a small execution-only sample. Resume from the original source snapshot within the original deadline. Check `report.json` for the qualification decision; a completed run can still fail qualification. This command does not train, publish, or replace a model.
+
 ## Model audit and release artifacts
 
 ```bash

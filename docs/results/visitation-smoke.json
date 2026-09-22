@@ -1,0 +1,185 @@
+{
+  "purpose": "Execution and resume smoke, not training qualification or performance evidence",
+  "elapsed_seconds": 24.689692974090576,
+  "source_code": {
+    "__init__.py": "15bc8d05a6fe96c56a882d3fe89d9a28b61cf75807d0896e9bc57a44484c0ee2",
+    "cli.py": "3291ca27cd5544bb0a046d3f80bad0edf4022f42403bad000bd6ebcbecc26d2a",
+    "engine.py": "4315a3b0738a78cecacd4afc3af5e9c65cefc3c978e0e5f0b758a6e7562b1ff4",
+    "evaluation.py": "5b2747c7848e1678f490fd6b1f1d0e8337f21e1f0e1b87aa089f16742f8aa259",
+    "exact_reference.py": "08f4ee81fe0ec0970684a542798a6f9f488bae471cec79836a625a7caaec63de",
+    "experiment_data.py": "8794eab54eafc363d44e3102e4010d3f9d62dfab051fed78bd814936ea6d755e",
+    "experiment_train.py": "7fcaa63f10393901dceb18323b14df9f962dbb89852c6b0c05f710ecf0125869",
+    "model.py": "5e0e93861af0a9ae5ecc45e54b58c947bc8ff1cc241b75127c53f1615a544bf5",
+    "model_audit.py": "a366664c22808f97c654f60e1aad38d98a95899e126e6775012edcc92a2c9c01",
+    "overnight.py": "c4653e3424d4803fb85fc69ae6b75dd3b5407b0f03eaa20d08b9eed83a891800",
+    "reference.py": "b65d8181953634543072500bfb2abd2a678b5d57c1b92201e0cc45c21680ecb3",
+    "releases.py": "0ea4d813f4f6506a64565d1e2201fdf0045ff98bc5c249905fb2fe035d839afd",
+    "research.py": "955b5694c79939c1ef44c0e556c9518d005021ef7ef30f680c6bb70260bbb157",
+    "server.py": "51a38e2583786dad572a37e1ab81555401a1ee6b9a4c63c9eb8dba8b568f587a",
+    "targeted.py": "613ceed04643c15a6ab3b6465fde5805bc331d26f424aeda2d6073ad0815c59f",
+    "training.py": "ea0d7bf488043593860c4c0b42d2064e5ab4ebc0963faa8cc72bbfce239ab6e3",
+    "visitation.py": "95c1c896e4823e329ddb09b7d7e3074c06dd48d8427c7b476238ca9e9c9a8fe6"
+  },
+  "seed": 30261002,
+  "run_sha256": "8f34c7cd84d7e06447bd2567306be535eb377e27b5942cfedc8204b443ee5b87",
+  "identical_group_artifacts_after_resume": 120,
+  "original_deadline_preserved": true,
+  "report": {
+    "format": "model-visitation-pilot-v1",
+    "development_only": true,
+    "smoke": true,
+    "source_model_sha256": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+    "run_sha256": "8f34c7cd84d7e06447bd2567306be535eb377e27b5942cfedc8204b443ee5b87",
+    "thresholds": {
+      "both_resolved_fraction": 0.8,
+      "resolved_repeat_agreement": 0.99,
+      "depleted_fraction": 0.1,
+      "states_per_category": 20
+    },
+    "policies": {
+      "laya": {
+        "counts": {
+          "replayed_groups": 10,
+          "rounds": 100,
+          "decisions": 131,
+          "states": 20,
+          "teacher_agreement": 19,
+          "audit_action_mismatches": 0,
+          "collection_action_mismatches": 0,
+          "dealer_unresolved": 0,
+          "exact": 1,
+          "depleted": 2,
+          "repeat_agreement": 17,
+          "both_resolved": 2,
+          "resolved_repeat_agreement": 2,
+          "monte_carlo": 19
+        },
+        "coverage": {
+          "category": {
+            "hard": 16,
+            "soft": 2,
+            "pair": 2
+          },
+          "scenario": {
+            "s17-6d-1p": 2,
+            "s17-6d-2p": 2,
+            "s17-6d-3p": 2,
+            "s17-6d-4p": 2,
+            "s17-6d-5p": 2,
+            "s17-6d-6p": 2,
+            "s17-6d-7p": 2,
+            "h17-no-das-6to5": 2,
+            "s17-2d-3p": 2,
+            "random-tablemates-7p": 2
+          },
+          "depth_decile": {
+            "0": 3,
+            "1": 2,
+            "2": 8,
+            "3": 3,
+            "5": 1,
+            "4": 2,
+            "6": 1
+          },
+          "reference_action": {
+            "stand": 9,
+            "hit": 8,
+            "double": 2,
+            "split": 1
+          }
+        },
+        "reference_agreement": 0.95,
+        "reference_regret": 0.01640625,
+        "hit_bust_brier_distance": 0.00010489163472572698,
+        "dealer_brier_distance": 0.014236497701152507,
+        "repeat_agreement": 0.85,
+        "both_resolved_fraction": 0.1,
+        "resolved_repeat_agreement": 1.0,
+        "depleted_fraction": 0.1
+      },
+      "mixture": {
+        "counts": {
+          "replayed_groups": 10,
+          "rounds": 100,
+          "decisions": 106,
+          "states": 20,
+          "teacher_agreement": 16,
+          "audit_action_mismatches": 0,
+          "collection_action_mismatches": 0,
+          "dealer_unresolved": 0,
+          "exact": 1,
+          "depleted": 1,
+          "repeat_agreement": 16,
+          "both_resolved": 1,
+          "resolved_repeat_agreement": 1,
+          "monte_carlo": 19
+        },
+        "coverage": {
+          "category": {
+            "hard": 16,
+            "soft": 3,
+            "pair": 1
+          },
+          "scenario": {
+            "s17-6d-1p": 2,
+            "s17-6d-2p": 2,
+            "s17-6d-3p": 2,
+            "s17-6d-4p": 2,
+            "s17-6d-5p": 2,
+            "s17-6d-6p": 2,
+            "s17-6d-7p": 2,
+            "h17-no-das-6to5": 2,
+            "s17-2d-3p": 2,
+            "random-tablemates-7p": 2
+          },
+          "depth_decile": {
+            "0": 4,
+            "1": 3,
+            "2": 7,
+            "4": 4,
+            "5": 1,
+            "3": 1
+          },
+          "reference_action": {
+            "stand": 9,
+            "hit": 8,
+            "double": 3
+          }
+        },
+        "reference_agreement": 0.8,
+        "reference_regret": 0.0171875,
+        "hit_bust_brier_distance": 0.00011485023665246448,
+        "dealer_brier_distance": 0.014366150826152505,
+        "repeat_agreement": 0.8,
+        "both_resolved_fraction": 0.05,
+        "resolved_repeat_agreement": 1.0,
+        "depleted_fraction": 0.05
+      }
+    },
+    "checks": {
+      "laya": {
+        "complete_reservoirs": true,
+        "sdk_parity": true,
+        "complete_dealer_targets": true,
+        "resolved_coverage": false,
+        "resolved_label_stability": true,
+        "depleted_coverage": true,
+        "hand_category_coverage": false
+      },
+      "mixture": {
+        "complete_reservoirs": true,
+        "sdk_parity": true,
+        "complete_dealer_targets": true,
+        "resolved_coverage": false,
+        "resolved_label_stability": true,
+        "depleted_coverage": false,
+        "hand_category_coverage": false
+      }
+    },
+    "qualified_for_training_design": false,
+    "decision": "execution_only",
+    "scope": "Development-only collection/label qualification, not a final test or policy-return comparison. Each trajectory contributes a uniform reservoir with equal group weight. Policy arms share initial game seeds but visit different states. Resolved labels use a sampling heuristic, not an optimality guarantee. No training, calibration fitting, model selection, activation, or publication occurs in this command.",
+    "activated": false,
+    "published": false
+  }
+}

@@ -86,6 +86,8 @@ The completed [exact-reference and decision-cost follow-up](docs/teacher-cost-ex
 
 Intermediate checkpoints stay private; the project will publish one final selected model. These research results describe the latest local candidate; the download above remains the existing packaged model until final selection.
 
+The next [model-visited-data pilot](docs/model-visited-pilot.md) collects new public-state trajectories, checks replay and serving parity, and repeats reference labels before another training comparison. Run it with `blackjack visitation-pilot`; its dashboard progress is explicitly marked as development data, and completing the pilot never activates or publishes a model.
+
 ```bash
 uv run --no-sync pytest -q
 uv run --no-sync ruff check blackjack tests scripts

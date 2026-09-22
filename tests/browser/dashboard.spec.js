@@ -1,5 +1,24 @@
 const {test, expect} = require('@playwright/test');
 
+test('visitation pilot distinguishes development samples from final tests', async ({page})=>{
+  await page.route('**/api/overnight', route=>route.fulfill({json:{available:true,run:'pilot-test',experiment:'visitation-pilot',status:'running',stage:'qualifying_pilot_labels',elapsed_seconds:60,deadline_unix:Date.now()/1000+3600,progress:{'audit-laya':{stage:'audit',completed:3,total:100,unit:'trajectory groups',states:60}}}}));
+  await page.goto('/');
+  await page.getByRole('button',{name:'Experiments',exact:true}).click();
+  await expect(page.locator('#overnight-progress')).toContainText('3 / 100 trajectory groups');
+  await expect(page.locator('#overnight-progress')).toContainText('60 sampled states');
+  await expect(page.locator('#overnight-progress')).not.toContainText('final-test');
+  await expect(page.locator('#overnight-note')).toContainText('does not train');
+  await expect(page.locator('#train-button')).toBeDisabled();
+});
+
+test('completed pilot does not imply that qualification passed', async ({page})=>{
+  await page.route('**/api/overnight', route=>route.fulfill({json:{available:true,run:'pilot-test',experiment:'visitation-pilot',status:'complete',stage:'verifying_pilot',elapsed_seconds:60,deadline_unix:Date.now()/1000+3600,progress:{},qualified_for_training_design:false,decision:'revise_pilot'}}));
+  await page.goto('/');
+  await page.getByRole('button',{name:'Experiments',exact:true}).click();
+  await expect(page.locator('#overnight-note')).toContainText('qualification checks need review');
+  await expect(page.locator('#overnight-note')).not.toContainText('data qualified');
+});
+
 test('sealed final-test audits show state counts without a training counter', async ({page})=>{
   await page.route('**/api/overnight', route=>route.fulfill({json:{available:true,run:'targeted-test',status:'running',stage:'sealed_test_evaluation',elapsed_seconds:600,deadline_unix:Date.now()/1000+3600,progress:{'audit/candidate':{stage:'sdk_audit',completed:128,total:8192}}}}));
   await page.goto('/');
