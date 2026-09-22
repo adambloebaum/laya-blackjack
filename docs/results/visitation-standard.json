@@ -2,6 +2,7 @@
   "run_id": "20260922-181952-visitation-pilot",
   "source_commit": "e1a63c8dd676b353ffa21fe6b0e485d3a0e8b64b",
   "source_archive_sha256": "d6feb2766447600cc905a8a21720ae18827cbe456380faec86a03f388df4a1e7",
+  "source_snapshot_verified": true,
   "report_sha256": "903741796628a61fbf5b638374502f93ca7581fc730ddd48344a5e5cf66990ad",
   "started_unix": 1790101193.8840017,
   "deadline_unix": 1790104793.8840017,

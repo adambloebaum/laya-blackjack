@@ -1,6 +1,6 @@
 # Controlled model-visited training study
 
-**Design prepared; training has not started.** Execution depends on the fresh stronger-budget [qualification pilot](model-visited-pilot.md) passing its unchanged gates, then validation of dataset assembly and a separate execution smoke. This is one bounded comparison, not an open-ended search for a favorable result.
+**Qualification passed; design prepared; training has not started.** The fresh stronger-budget [qualification pilot](model-visited-pilot.md) passed every unchanged gate. Execution now depends on implementing and validating dataset assembly and a separate execution smoke. This is one bounded comparison, not an open-ended search for a favorable result.
 
 ## Question and comparison
 

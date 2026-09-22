@@ -2,6 +2,8 @@
 
 This development pilot tests whether fresh states visited by the frozen research candidate can support a controlled training experiment. It collects public observations, replays every trajectory, audits the serving SDK, and repeats reference labeling. It does not fit weights, calibrate probabilities, select a model, or serve as a final test.
 
+**Outcome:** the stronger-budget follow-up passed every preset qualification gate. It completed 4,000 states from 20,000 rounds in 14 minutes 7 seconds. Both-resolved label coverage was 87.85% for model-visited states and 89.00% for mixture states. The next step is implementing and validating the [matched training design](model-visited-training.md); no new weights were trained in these pilots.
+
 The [12-million-round analysis](large-return-results.md) motivated this study: the latest model improves on the basic heuristic during continuous play, but its incremental return advantage over its predecessor is unresolved. Costly reference disagreements remain after fresh-world checks. The next question is whether new model-visited data provides usable coverage and stable targets.
 
 ## Fixed pilot design
@@ -54,6 +56,14 @@ Repeat the exact command from the original source snapshot to resume before the 
 
 The run directory contains `run.json`, `status.json`, `collect/`, `label/`, `audit/`, per-file receipts, a private frozen checkpoint, and `report.json`. The report preserves coverage, reference method counts, repeated-label agreement, SDK parity, probability distances, and each qualification check. All states are development-only; these artifacts are deliberately not a train/selection/calibration/test dataset manifest.
 
+Reproduce a completed run's report and export portable evidence with:
+
+```bash
+uv run --no-sync python scripts/export_visitation.py --run artifacts/evaluations/model-visited-pilot --output docs/results/visitation-standard.json
+```
+
+The exporter verifies the checkpoint, replays all groups, checks all label/audit receipts, and requires exact report agreement before writing outside the run directory. For archived launches it also verifies the source archive and snapshot; direct CLI runs without an archive are explicitly marked `source_snapshot_verified=false`. Verification never overwrites the original report, including on disagreement. Local source paths are excluded from the export.
+
 ## What follows qualification
 
 If the pilot qualifies, implement the [prepared matched data-mixture design](model-visited-training.md): keep broad coverage in both arms, replace a fixed fraction with fresh model-visited states in one arm, and match state counts, labeling effort, optimizer settings, and updates. Use new group-disjoint selection/calibration/final-test games, retain the unchanged incumbent, and predeclare the guards and final return protocol. Pilot metrics cannot establish that this experiment will improve the model.
@@ -75,6 +85,26 @@ uv run --no-sync blackjack visitation-pilot --output artifacts/evaluations/model
 ```
 
 The `standard` budget remains the default. Budget choice and effective sample limits are frozen into the run identity; changing them cannot resume a prior run. Execution smoke always uses 32–64 worlds, even when checking the strong-budget configuration.
+
+## Stronger-budget qualification result
+
+The corrected run finished at 11:48 Pacific on September 22, 2026, within the original follow-up deadline. Its frozen source was `3d94dc82da470a2474f7c020ffe643b4941c3cae`. Reproduction verified the checkpoint, archived source, all 600 collection/label/audit artifacts, and the unchanged report before exporting the [portable evidence](results/visitation-strong.json).
+
+| Measurement | Model-visited states | Mixture states | Preset requirement |
+| --- | ---: | ---: | --- |
+| Sampled states | 2,000 | 2,000 | Complete reservoirs |
+| Replayed groups | 100 | 100 | Every group |
+| Both reference passes resolved | 1,757 / 2,000 (87.85%) | 1,780 / 2,000 (89.00%) | At least 80% |
+| Both-resolved recommendation stability | 100% | 100% | At least 99% |
+| SDK/batched action mismatches | 0 | 0 | Zero observed |
+| Sampled model-collection/SDK mismatches | 0 | Not applicable | Zero observed for model collection |
+| Depleted states | 31.45% | 31.90% | At least 10% |
+| Hard / soft / pair states | 1,592 / 186 / 222 | 1,600 / 171 / 229 | At least 20 of each |
+| Incomplete dealer targets | 0 | 0 | Zero |
+
+Exact reference coverage was 119 model-visited and 121 mixture states; the remaining 3,760 states used the explicit Monte Carlo fallback. Across **all** states, repeat agreement was 97.90% and 98.35%, respectively. The 100% stability figure above applies only to the both-resolved subset, not to every label.
+
+The unchanged model's descriptive reference agreement was 96.20% on model-visited states and 96.10% on mixture states. These different populations, and the different games in the standard-budget pilot, prevent interpreting these numbers as model improvement or a matched estimate of labeling-budget benefit. Qualification supports scaling the collection/labeling pipeline into the specified training comparison. It does not establish increased returns, global optimality, or readiness to choose the final public model.
 
 ## Execution validation
 

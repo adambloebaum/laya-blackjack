@@ -359,7 +359,7 @@ def pilot_worker(root: Path, phase: str, policy="laya", device="cuda:1"):
         raise ValueError("Unknown pilot phase.")
 
 
-def summarize_pilot(root):
+def summarize_pilot(root, *, write_report=True):
     saved = json.loads((root / "run.json").read_text())
     config = saved["config"]
     summaries, checks, evidence = {}, {}, {}
@@ -481,7 +481,8 @@ def summarize_pilot(root):
         "activated": False,
         "published": False,
     }
-    atomic_json(root / "report.json", result)
+    if write_report:
+        atomic_json(root / "report.json", result)
     return result
 
 

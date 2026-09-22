@@ -22,6 +22,7 @@ from blackjack.visitation import (
     summarize_pilot,
     write_record,
 )
+from scripts.export_visitation import export_pilot
 
 
 def test_stronger_label_budget_is_frozen_without_changing_qualification(tmp_path, monkeypatch):
@@ -40,6 +41,38 @@ def test_stronger_label_budget_is_frozen_without_changing_qualification(tmp_path
         run_visitation(**common, label_budget="standard")
     with pytest.raises(ValueError, match="Unknown pilot label budget"):
         run_visitation(**common, label_budget="unbounded")
+
+
+def test_export_preserves_disputed_report_and_marks_missing_archive(tmp_path, monkeypatch):
+    root = tmp_path / "run"
+    root.mkdir()
+    report = {"decision": "revise_pilot", "qualified_for_training_design": False}
+    status = {"status": "complete", "elapsed_seconds": 10, **report}
+    run = {
+        "config": {"source": "/private/checkpoint", "checkpoint": {}},
+        "started_unix": 1,
+        "deadline_unix": 60,
+    }
+    (root / "status.json").write_text(json.dumps(status))
+    (root / "run.json").write_text(json.dumps(run))
+    incorrect = json.dumps(report | {"qualified_for_training_design": True})
+    (root / "report.json").write_text(incorrect)
+    monkeypatch.setattr("scripts.export_visitation.checkpoint_identity", lambda path: {})
+    monkeypatch.setattr("scripts.export_visitation.summarize_pilot", lambda *a, **kw: report)
+    output = tmp_path / "export.json"
+    with pytest.raises(ValueError, match="original report was preserved"):
+        export_pilot(root, output)
+    assert (root / "report.json").read_text() == incorrect
+    assert not output.exists()
+    (root / "report.json").write_text(json.dumps(report))
+    exported = export_pilot(root, output)
+    assert not exported["source_snapshot_verified"] and exported["source_commit"] is None
+    assert "/private/checkpoint" not in output.read_text()
+    with pytest.raises(ValueError, match="outside"):
+        export_pilot(root, root / "report.json")
+    (root / "source.tar").touch()
+    with pytest.raises(ValueError, match="no launch receipt"):
+        export_pilot(root, output)
 
 
 def config(states=5):
@@ -240,3 +273,6 @@ def test_qualification_is_separate_from_completion_and_smoke(tmp_path, failure):
         if failure is None
         else "revise_pilot"
     )
+    (tmp_path / "report.json").write_text("prior report must be preserved")
+    assert summarize_pilot(tmp_path, write_report=False) == report
+    assert (tmp_path / "report.json").read_text() == "prior report must be preserved"

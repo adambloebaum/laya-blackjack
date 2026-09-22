@@ -86,7 +86,7 @@ The completed [exact-reference and decision-cost follow-up](docs/teacher-cost-ex
 
 Intermediate checkpoints stay private; the project will publish one final selected model. These research results describe the latest local candidate; the download above remains the existing packaged model until final selection.
 
-The [model-visited-data pilot](docs/model-visited-pilot.md) completed 4,000 states with full replay and serving parity, but its 78% resolved-label coverage missed the preset 80% gate. One fresh-seed pilot will test stronger labels with unchanged qualification thresholds. Run the pipeline with `blackjack visitation-pilot`; dashboard progress identifies development data and reports qualification separately from completion. The [prepared training comparison](docs/model-visited-training.md) specifies two matched 32,000-state arms and new held-out games; it has not started.
+The stronger-label [model-visited-data pilot](docs/model-visited-pilot.md) passed every preset qualification check on **4,000 states from 20,000 rounds**. Both-pass label resolution reached 87.85% on model-visited states and 89.00% on mixture states, with full replay and serving parity. The [prepared training comparison](docs/model-visited-training.md) specifies two matched 32,000-state arms and new held-out games. Training has not started; data qualification alone does not establish a better model.
 
 ```bash
 uv run --no-sync pytest -q
