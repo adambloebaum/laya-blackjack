@@ -93,6 +93,7 @@ def main():
     visitation.add_argument("--workers", type=int, default=24)
     visitation.add_argument("--hours", type=float, default=1)
     visitation.add_argument("--seed", type=int, default=20261002)
+    visitation.add_argument("--label-budget", choices=("standard", "strong"), default="standard")
     visitation.add_argument("--smoke", action="store_true")
     visit_worker = commands.add_parser("visitation-worker", help="Internal frozen-plan pilot worker")
     visit_worker.add_argument("--root", type=Path, required=True)

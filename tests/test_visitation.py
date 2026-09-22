@@ -17,10 +17,29 @@ from blackjack.visitation import (
     pilot_worker,
     read_record,
     replay_group,
+    run_visitation,
     seeded,
     summarize_pilot,
     write_record,
 )
+
+
+def test_stronger_label_budget_is_frozen_without_changing_qualification(tmp_path, monkeypatch):
+    runs = []
+    monkeypatch.setattr("blackjack.visitation.checkpoint_identity", lambda source: {})
+    monkeypatch.setattr("blackjack.visitation._supervise", lambda output, source, saved: runs.append(saved))
+    common = {"output": tmp_path / "run", "source": str(tmp_path / "model"), "seed": 20261003}
+    run_visitation(**common, label_budget="strong")
+    assert runs[0]["config"]["samples"] == 2048
+    assert runs[0]["config"]["max_samples"] == 16384
+    assert runs[0]["config"]["qualification_thresholds"]["both_resolved_fraction"] == 0.8
+    assert runs[0]["config"]["qualification_thresholds"]["resolved_repeat_agreement"] == 0.99
+    run_visitation(**common, label_budget="strong")
+    assert runs[0] == runs[1]
+    with pytest.raises(ValueError, match="changed"):
+        run_visitation(**common, label_budget="standard")
+    with pytest.raises(ValueError, match="Unknown pilot label budget"):
+        run_visitation(**common, label_budget="unbounded")
 
 
 def config(states=5):

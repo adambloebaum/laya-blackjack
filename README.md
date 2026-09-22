@@ -86,7 +86,7 @@ The completed [exact-reference and decision-cost follow-up](docs/teacher-cost-ex
 
 Intermediate checkpoints stay private; the project will publish one final selected model. These research results describe the latest local candidate; the download above remains the existing packaged model until final selection.
 
-The next [model-visited-data pilot](docs/model-visited-pilot.md) collects new public-state trajectories, checks replay and serving parity, and repeats reference labels before another training comparison. Run it with `blackjack visitation-pilot`; its dashboard progress is explicitly marked as development data, and completing the pilot never activates or publishes a model.
+The [model-visited-data pilot](docs/model-visited-pilot.md) completed 4,000 states with full replay and serving parity, but its 78% resolved-label coverage missed the preset 80% gate. One fresh-seed pilot will test stronger labels with unchanged qualification thresholds. Run the pipeline with `blackjack visitation-pilot`; dashboard progress identifies development data and reports qualification separately from completion.
 
 ```bash
 uv run --no-sync pytest -q

@@ -481,9 +481,14 @@ def summarize_pilot(root):
     return result
 
 
-def run_visitation(output: Path, source: str, workers=24, hours=1.0, seed=20261002, smoke=False):
+def run_visitation(
+    output: Path, source: str, workers=24, hours=1.0, seed=20261002, smoke=False, label_budget="standard"
+):
     if not math.isfinite(hours) or not 0 < hours <= 2 or not 1 <= workers <= 32:
         raise ValueError("Pilot requires 1–32 workers and at most two hours.")
+    if label_budget not in ("standard", "strong"):
+        raise ValueError("Unknown pilot label budget.")
+    samples, max_samples = (2048, 16384) if label_budget == "strong" else (512, 4096)
     source = Path(source).absolute()
     output = output.absolute()
     output.mkdir(parents=True, exist_ok=True)
@@ -507,8 +512,9 @@ def run_visitation(output: Path, source: str, workers=24, hours=1.0, seed=202610
         "rounds_per_group": 10 if smoke else 100,
         "states_per_group": 2 if smoke else 20,
         "batch_size": 32,
-        "samples": 32 if smoke else 512,
-        "max_samples": 64 if smoke else 4096,
+        "label_budget": label_budget,
+        "samples": 32 if smoke else samples,
+        "max_samples": 64 if smoke else max_samples,
         "qualification_thresholds": {
             "both_resolved_fraction": 0.8,
             "resolved_repeat_agreement": 0.99,

@@ -28,7 +28,7 @@ A small structured policy remains a useful internal quality/latency baseline. It
 
 ## One final public model
 
-The [exact-reference and decision-cost comparison](teacher-cost-experiment.md) and [larger return analysis](large-return-results.md) are complete. The latest candidate remains the research incumbent based on its frozen selection and improved reference metrics; it is not a demonstrated return winner over its predecessor or a final public release selection. Model-visited data qualification is next; stronger split/multiplayer references, reward refinement, and replication remain separate follow-ups.
+The [exact-reference and decision-cost comparison](teacher-cost-experiment.md) and [larger return analysis](large-return-results.md) are complete. The latest candidate remains the research incumbent based on its frozen selection and improved reference metrics; it is not a demonstrated return winner over its predecessor or a final public release selection. The first model-visited pilot completed but missed its label-resolution gate (78% versus 80%). A fresh-seed pilot with a larger labeling budget and unchanged thresholds is the immediate follow-up; stronger split/multiplayer references, reward refinement, and replication remain separate studies.
 
 The owner requested one final model release: the best-supported candidate after research is finished. Keep intermediate weights and prior private packages private. Publish one selected checkpoint, its calibration/configuration, evaluation evidence, and one default dashboard model. Public reports may compare experiments without distributing their weights. Preserve private recovery artifacts and do not delete them to enforce this preference.
 

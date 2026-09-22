@@ -62,6 +62,20 @@ If qualification fails, retain the measurements and fix the specific collection,
 
 The final public project will contain one selected model. Pilot observations, intermediate weights, and their histories remain private during preparation.
 
+## Standard-budget result and fixed follow-up
+
+The full standard-budget run completed in 5 minutes 48 seconds on September 22, 2026. All 200 trajectory groups replayed, all reservoirs were complete, all 4,000 serving audits matched, and coverage/dealer-target checks passed. The pilot **did not qualify**: only 78.00% of model-visited states had resolved labels in both passes, below the preset 80% gate. The mixture arm reached 80.05%. All both-resolved recommendations were identical across repeats in both arms. The complete [portable result](results/visitation-standard.json) retains the original thresholds, source identity, and 600 artifact hashes.
+
+All 440 model-visited states outside the both-resolved set used Monte Carlo; 74 changed recommendations across repeats. Of their 880 reference calls, 825 reached 4,096 worlds. This supports testing a larger sampling budget; it does not establish which disputed action is optimal. Model-state coverage was sufficient: 31.3% depleted, 1,581 hard, 195 soft, and 224 pair states. The same model's descriptive agreement was 95.55% on its visited states and 95.75% on mixture states; those are different state populations, not a model comparison.
+
+One follow-up is fixed before collection: new root seed **20261003**, the same 4,000 states/20,000 rounds, model, scenarios, sampling scheme, and qualification gates, with **2,048–16,384 worlds per sampled reference call**. It retains two independent labels per state and a one-hour execution cap. This changes both the fresh state sample and labeling budget, so it measures whether the stronger pipeline qualifies; it is not a paired causal estimate of the budget's effect. No further count/budget extension is planned if it fails.
+
+```bash
+uv run --no-sync blackjack visitation-pilot --output artifacts/evaluations/model-visited-strong --source artifacts/research-sources/teacher-cost-v1 --workers 24 --hours 1 --seed 20261003 --label-budget strong
+```
+
+The `standard` budget remains the default. Budget choice and effective sample limits are frozen into the run identity; changing them cannot resume a prior run. Execution smoke always uses 32–64 worlds, even when checking the strong-budget configuration.
+
 ## Execution validation
 
 The separate 40-state smoke completed on both GPUs and retained zero observed serving-action mismatches. Restarting it preserved all 120 group/receipt files and the original deadline. Its [receipt](results/visitation-smoke.json) is execution evidence only. All 100 Python tests, seven browser tests, lint, and wheel/static-asset checks passed before the full launch.
