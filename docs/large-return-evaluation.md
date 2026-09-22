@@ -2,9 +2,11 @@
 
 This private evaluation measures realized returns for the selected teacher-cost candidate, its composition-stage predecessor, and the basic-strategy heuristic. The earlier study improved reference imitation, but its 600,000-round comparison did not establish a return advantage. No weights, calibration, or rule weights change during this evaluation.
 
-## Active local run
+## Completed local run
 
-Run `20260922-051218-returns-12m` launched at 22:12 Pacific on September 21 from immutable source revision `637ba67a9ae24e16d6f73e7048c3b33a3bc8e9df`. Both RTX 4090 workers and the CPU comparator run under `laya-blackjack-returns-20260922-051218.service`, with a 28 GiB host-memory ceiling. Systemd terminates the process group by approximately 10:12 Pacific on September 22. The full-run result is pending; `artifacts/latest-research-run.json` identifies the local launch and source snapshot.
+Run `20260922-051218-returns-12m` launched at 22:12 Pacific on September 21 from immutable source revision `637ba67a9ae24e16d6f73e7048c3b33a3bc8e9df`. It completed all 12,000,000 planned rounds at 05:30 Pacific on September 22 in **7 hours 18 minutes**, within its 12-hour ceiling. Both RTX 4090 workers and the CPU comparator exited successfully. A subsequent analysis reverified every raw shard and recomputed both comparison reports and the four-comparison summary.
+
+The candidate improved on the basic heuristic in continuous play, with no resolved difference from its predecessor. Fresh-shoe comparisons remain inconclusive. See the [measured results and training decision](large-return-results.md), [portable JSON evidence](results/large-return-analysis.json), and [scenario CSV](results/large-return-analysis.csv). The model remains private and inactive; `artifacts/latest-research-run.json` identifies the local launch and source snapshot.
 
 ## Predeclared protocol
 

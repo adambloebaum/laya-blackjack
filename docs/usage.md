@@ -65,6 +65,8 @@ Use `--mode continuous --units 1000` for 100-round blocks. All policies must use
 
 The basic policy is a transparent multi-deck heuristic, not an exact reference for every rule set. Keep the small serial `benchmark` command for workflow checks; it does not retain paired return differences. Large evaluations store all raw unit returns and their hashes.
 
+The [completed 12-million-round analysis](large-return-results.md) includes all scenario contrasts and a separate selected-error recheck. `scripts/analyze_large_returns.py` revalidates private raw artifacts before exporting portable JSON/CSV evidence. Rebuild its SVG/PNG figures from the committed summaries with `uv run --extra analysis python scripts/plot_large_returns.py`; model weights and GPUs are not required for plotting. These research figures describe a newer private candidate than the default downloadable package.
+
 ## Model audit and release artifacts
 
 ```bash

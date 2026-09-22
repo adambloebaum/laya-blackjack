@@ -31,6 +31,8 @@ The publisher checks the authenticated personal identity, refuses public reposit
 
 The packaged `evaluation/` directory includes compressed synthetic training and pilot data, raw policy-return shards, the immutable evaluator source, and measured reports. These live with the model on Hugging Face; Git tracks the small summaries and plotting inputs. Rebuild figures with `uv run --extra analysis python scripts/plot_results.py`.
 
+The newer private candidate's [12-million-round research report](large-return-results.md) is separate from the existing package's release evidence. Its portable JSON/CSV and figures are committed; regenerate those figures with `uv run --extra analysis python scripts/plot_large_returns.py`. Do not copy these metrics into the current model card as though the downloadable weights produced them. Final packaging must bind the chosen weights to their own matching evidence.
+
 ## Public release
 
 Keep both repositories private through release review. Stage the final checkpoint in a clean model repository history containing only the selected weights, retaining the existing experimental repository privately. Do not simply change the experimental repository's visibility: Hub repositories retain [version history](https://huggingface.co/docs/hub/repositories-getting-started), so replacing current files does not exclude older checkpoints from publication. Any final repository naming/move must preserve private backups and update the explicit app pin and links.

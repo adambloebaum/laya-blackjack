@@ -80,7 +80,11 @@ uv run --no-sync blackjack targeted --output artifacts/overnight/composition-run
 
 It uses both local GPUs and retains the released model while generating comparison evidence. Run unattended jobs under a process manager; the CLI stays attached to its terminal.
 
-The completed [exact-reference and decision-cost follow-up](docs/teacher-cost-experiment.md) improved same-test reference agreement from 94.96% to 95.90%; the two objectives were almost tied on selection, and the return comparison remains inconclusive. A [frozen 12-million-round comparison](docs/large-return-evaluation.md) evaluates the leading candidate against its predecessor and basic strategy with new seeds. Intermediate checkpoints stay private; the project will publish one final selected model. The download above remains the existing packaged model until final selection.
+The completed [exact-reference and decision-cost follow-up](docs/teacher-cost-experiment.md) improved same-test reference agreement from 94.96% to 95.90%; the two objectives were almost tied on selection. The subsequent [12-million-round comparison](docs/large-return-results.md) measured a continuous-play advantage of **+0.199 betting units per 100 rounds over the basic heuristic** (adjusted interval +0.086 to +0.312). Differences from the predecessor and both fresh-shoe comparisons remain inconclusive. Average returns were still negative. The report includes all scenario contrasts, fresh-world error checks, and the decision to qualify model-visited data before further training.
+
+![Latest research candidate: paired return differences and uncertainty](docs/figures/large-return-overview.svg)
+
+Intermediate checkpoints stay private; the project will publish one final selected model. These research results describe the latest local candidate; the download above remains the existing packaged model until final selection.
 
 ```bash
 uv run --no-sync pytest -q
