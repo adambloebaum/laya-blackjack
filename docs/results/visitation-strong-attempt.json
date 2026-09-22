@@ -1,0 +1,243 @@
+{
+  "run_id": "20260922-182822-visitation-strong",
+  "source_commit": "c3fb9807c324b75d93ed34ec325690a6cd599bd5",
+  "source_archive_sha256": "371b09be6656255eeeb5a403f1c802b485a342e2c0ec4f1a82b224298a879614",
+  "run_sha256": "ead57fbac60284a64b8a4a6115784868f8c81aca7e5d4bc2929b8eedc9a02a0b",
+  "status": {
+    "status": "failed",
+    "stage": "qualifying_pilot_labels",
+    "experiment": "visitation-pilot",
+    "started_unix": 1790101704.558635,
+    "deadline_unix": 1790105304.558635,
+    "updated_unix": 1790101784.9587383,
+    "elapsed_seconds": 80.40010333061218,
+    "progress": {
+      "collect-mixture": {
+        "stage": "collect",
+        "completed": 100,
+        "total": 100,
+        "unit": "trajectory groups",
+        "states": 2000,
+        "scope": "development pilot"
+      },
+      "collect-laya": {
+        "stage": "collect",
+        "completed": 100,
+        "total": 100,
+        "unit": "trajectory groups",
+        "states": 2000,
+        "scope": "development pilot"
+      }
+    },
+    "error": "Pilot worker failed; verified groups are retained."
+  },
+  "config": {
+    "version": "model-visitation-pilot-v1",
+    "development_only": true,
+    "checkpoint": {
+      "LICENSE": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "bytes": 11358
+      },
+      "NOTICE": {
+        "sha256": "dcc7704bec9d9e0f044a10f91f288aa5a15cd76d3bcb65ec997222aaa20c4542",
+        "bytes": 790
+      },
+      "README.md": {
+        "sha256": "ffcb7105c753b9416f9e49244d67b904d42dc0dac7940aa32e9b3f90091d8ebd",
+        "bytes": 1047
+      },
+      "encoder/config.json": {
+        "sha256": "5c887ce4335a901d15b8024f5ead2d0744eb18439da011511df5ae8f7cbf862a",
+        "bytes": 2117
+      },
+      "manifest.json": {
+        "sha256": "978f2c6b34c3fcdb13cfab2dcab7fb0c3fa9228d0114285cb63d8cabb053fac1",
+        "bytes": 1678
+      },
+      "model.safetensors": {
+        "sha256": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+        "bytes": 1685197088
+      },
+      "rl_agent_config.json": {
+        "sha256": "f977fd353d0c0c84a44dd08419369dbd3e91f5d80ad38b09da36588140e51096",
+        "bytes": 632
+      },
+      "tokenizer/special_tokens_map.json": {
+        "sha256": "ea97ecdbcc73713039d8d64dbb05e3689495c96657fbd9a18f5bed381be81049",
+        "bytes": 694
+      },
+      "tokenizer/tokenizer.json": {
+        "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+        "bytes": 3583228
+      },
+      "tokenizer/tokenizer_config.json": {
+        "sha256": "2966a59b9e9cf122279aec1249e22e5bc7ad8430c754e95031b13fd128d4e560",
+        "bytes": 20840
+      },
+      "training_report.json": {
+        "sha256": "26f479d4a145a85f128822a4c2963325fb2615dc6d1ec316a91c74e42f81144e",
+        "bytes": 14664
+      }
+    },
+    "workers": 24,
+    "hours": 1.0,
+    "seed": 20261003,
+    "smoke": false,
+    "scenarios": {
+      "s17-6d-1p": {
+        "players": 1,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-6d-2p": {
+        "players": 2,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-6d-3p": {
+        "players": 3,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-6d-4p": {
+        "players": 4,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-6d-5p": {
+        "players": 5,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-6d-6p": {
+        "players": 6,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-6d-7p": {
+        "players": 7,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "h17-no-das-6to5": {
+        "players": 3,
+        "decks": 6,
+        "hit_soft_17": true,
+        "double_after_split": false,
+        "surrender": true,
+        "blackjack_payout": 1.2,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "s17-2d-3p": {
+        "players": 3,
+        "decks": 2,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "basic"
+      },
+      "random-tablemates-7p": {
+        "players": 7,
+        "decks": 6,
+        "hit_soft_17": false,
+        "double_after_split": true,
+        "surrender": true,
+        "blackjack_payout": 1.5,
+        "penetration": 0.75,
+        "max_hands": 4,
+        "tablemate_policy": "random"
+      }
+    },
+    "groups_per_scenario": 10,
+    "rounds_per_group": 100,
+    "states_per_group": 20,
+    "batch_size": 32,
+    "label_budget": "strong",
+    "samples": 2048,
+    "max_samples": 16384,
+    "qualification_thresholds": {
+      "both_resolved_fraction": 0.8,
+      "resolved_repeat_agreement": 0.99,
+      "depleted_fraction": 0.1,
+      "states_per_category": 20
+    },
+    "runtime": {
+      "python": "3.13.12 (main, Mar 24 2026, 22:49:35) [Clang 22.1.1 ]",
+      "laya": "0.3.4",
+      "torch": "2.8.0",
+      "transformers": "4.57.6",
+      "numpy": "2.5.3"
+    },
+    "code": {
+      "__init__.py": "15bc8d05a6fe96c56a882d3fe89d9a28b61cf75807d0896e9bc57a44484c0ee2",
+      "cli.py": "7e509dea8556cf66bd4b765c13dbd60e901daf108d748c3ff2f6517e738c4125",
+      "engine.py": "4315a3b0738a78cecacd4afc3af5e9c65cefc3c978e0e5f0b758a6e7562b1ff4",
+      "evaluation.py": "5b2747c7848e1678f490fd6b1f1d0e8337f21e1f0e1b87aa089f16742f8aa259",
+      "exact_reference.py": "08f4ee81fe0ec0970684a542798a6f9f488bae471cec79836a625a7caaec63de",
+      "experiment_data.py": "8794eab54eafc363d44e3102e4010d3f9d62dfab051fed78bd814936ea6d755e",
+      "experiment_train.py": "7fcaa63f10393901dceb18323b14df9f962dbb89852c6b0c05f710ecf0125869",
+      "model.py": "5e0e93861af0a9ae5ecc45e54b58c947bc8ff1cc241b75127c53f1615a544bf5",
+      "model_audit.py": "a366664c22808f97c654f60e1aad38d98a95899e126e6775012edcc92a2c9c01",
+      "overnight.py": "c4653e3424d4803fb85fc69ae6b75dd3b5407b0f03eaa20d08b9eed83a891800",
+      "reference.py": "b65d8181953634543072500bfb2abd2a678b5d57c1b92201e0cc45c21680ecb3",
+      "releases.py": "0ea4d813f4f6506a64565d1e2201fdf0045ff98bc5c249905fb2fe035d839afd",
+      "research.py": "955b5694c79939c1ef44c0e556c9518d005021ef7ef30f680c6bb70260bbb157",
+      "server.py": "51a38e2583786dad572a37e1ab81555401a1ee6b9a4c63c9eb8dba8b568f587a",
+      "targeted.py": "613ceed04643c15a6ab3b6465fde5805bc331d26f424aeda2d6073ad0815c59f",
+      "training.py": "ea0d7bf488043593860c4c0b42d2064e5ab4ebc0963faa8cc72bbfce239ab6e3",
+      "visitation.py": "f197038684e4a4ce97c8e540278e01c9c31a52aefb583a5e0044e5787dda84b1"
+    }
+  },
+  "diagnosis": "Reference helper rejected 16384 maximum worlds because its inherited research limit was 10000. This is an execution failure, not a qualification result.",
+  "completed_label_files": 0,
+  "report_created": false,
+  "original_followup_deadline_unix": 1790105304.558635
+}

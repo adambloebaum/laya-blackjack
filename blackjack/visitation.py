@@ -319,7 +319,11 @@ def pilot_worker(root: Path, phase: str, policy="laya", device="cuda:1"):
         completed_keys = {(p, s, i) for p, s, i in tasks} - set(pending)
 
         def collected(group):
-            if (group["policy"], group["scenario"], group["index"]) not in completed_keys:
+            key = (group["policy"], group["scenario"], group["index"])
+            if key in completed_keys:
+                if content_hash(group) != content_hash(read_group(root, "collect", *key)):
+                    raise ValueError("Replayed collection batch changed a completed trajectory.")
+            else:
                 finish(group)
 
         for start in range(0, len(tasks), config["batch_size"]):

@@ -162,6 +162,13 @@ def test_partial_collection_resume_preserves_batch_context(tmp_path, monkeypatch
     b.with_suffix(".receipt.json").unlink()
     pilot_worker(tmp_path, "collect", "laya", "cpu")
     assert [a.read_bytes(), b.read_bytes()] == original
+    # Preserving batch shape alone cannot prove that a resumed actor reproduces it.
+    b.unlink()
+    b.with_suffix(".receipt.json").unlink()
+    monkeypatch.setattr(ShapeSensitive, "actions", lambda self, obs: ["stand"] * len(obs))
+    with pytest.raises(ValueError, match="changed a completed trajectory"):
+        pilot_worker(tmp_path, "collect", "laya", "cpu")
+    assert a.read_bytes() == original[0]
 
 
 @pytest.mark.parametrize("failure", [None, "sdk", "labels", "smoke"])
