@@ -2,6 +2,10 @@
 
 This private evaluation measures realized returns for the selected teacher-cost candidate, its composition-stage predecessor, and the basic-strategy heuristic. The earlier study improved reference imitation, but its 600,000-round comparison did not establish a return advantage. No weights, calibration, or rule weights change during this evaluation.
 
+## Active local run
+
+Run `20260922-051218-returns-12m` launched at 22:12 Pacific on September 21 from immutable source revision `637ba67a9ae24e16d6f73e7048c3b33a3bc8e9df`. Both RTX 4090 workers and the CPU comparator run under `laya-blackjack-returns-20260922-051218.service`, with a 28 GiB host-memory ceiling. Systemd terminates the process group by approximately 10:12 Pacific on September 22. The full-run result is pending; `artifacts/latest-research-run.json` identifies the local launch and source snapshot.
+
 ## Predeclared protocol
 
 | Item | Fixed choice |
