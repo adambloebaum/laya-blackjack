@@ -1,5 +1,16 @@
 const {test, expect} = require('@playwright/test');
 
+test('matched training names both arms and keeps assembly separate from final tests', async ({page})=>{
+  await page.route('**/api/overnight', route=>route.fulfill({json:{available:true,run:'matched-test',experiment:'visitation-training',status:'running',stage:'training',elapsed_seconds:3600,deadline_unix:Date.now()/1000+3600,progress:{'assembly/progress.json':{stage:'replacement_labeling',completed:800,total:800,unit:'paired trajectory groups',states:32000},'training/control/progress.json':{stage:'training',updates:50,planned_updates:36000},'training/visited/progress.json':{stage:'training',updates:50,planned_updates:36000}}}}));
+  await page.goto('/');
+  await page.getByRole('button',{name:'Experiments',exact:true}).click();
+  await expect(page.locator('#overnight-progress')).toContainText('Control · GPU 0');
+  await expect(page.locator('#overnight-progress')).toContainText('Model-visited · GPU 1');
+  await expect(page.locator('#overnight-progress')).toContainText('32,000 sampled states');
+  await expect(page.locator('#overnight-note')).toContainText('same update schedule');
+  await expect(page.locator('#train-button')).toBeDisabled();
+});
+
 test('visitation pilot distinguishes development samples from final tests', async ({page})=>{
   await page.route('**/api/overnight', route=>route.fulfill({json:{available:true,run:'pilot-test',experiment:'visitation-pilot',status:'running',stage:'qualifying_pilot_labels',elapsed_seconds:60,deadline_unix:Date.now()/1000+3600,progress:{'audit-laya':{stage:'audit',completed:3,total:100,unit:'trajectory groups',states:60}}}}));
   await page.goto('/');

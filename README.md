@@ -86,7 +86,7 @@ The completed [exact-reference and decision-cost follow-up](docs/teacher-cost-ex
 
 Intermediate checkpoints stay private; the project will publish one final selected model. These research results describe the latest local candidate; the download above remains the existing packaged model until final selection.
 
-The stronger-label [model-visited-data pilot](docs/model-visited-pilot.md) passed every preset qualification check on **4,000 states from 20,000 rounds**. Both-pass label resolution reached 87.85% on model-visited states and 89.00% on mixture states, with full replay and serving parity. The [prepared training comparison](docs/model-visited-training.md) specifies two matched 32,000-state arms and new held-out games. Training has not started; data qualification alone does not establish a better model.
+The stronger-label [model-visited-data pilot](docs/model-visited-pilot.md) passed every preset qualification check on **4,000 states from 20,000 rounds**. Both-pass label resolution reached 87.85% on model-visited states and 89.00% on mixture states, with full replay and serving parity. The [matched training pipeline](docs/model-visited-training.md) implements two 32,000-state arms, shared new held-out games, and an 800,000-round comparison. Run it with `blackjack visitation-train` after qualifying the source model. Full training is pending the execution smoke; data qualification alone does not establish a better model.
 
 ```bash
 uv run --no-sync pytest -q

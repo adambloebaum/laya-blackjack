@@ -95,6 +95,24 @@ def main():
     visitation.add_argument("--seed", type=int, default=20261002)
     visitation.add_argument("--label-budget", choices=("standard", "strong"), default="standard")
     visitation.add_argument("--smoke", action="store_true")
+    visitation_train = commands.add_parser(
+        "visitation-train", help="Run the matched model-visited training study"
+    )
+    visitation_train.add_argument("--output", type=Path, required=True)
+    visitation_train.add_argument("--source", required=True)
+    visitation_train.add_argument("--qualification", type=Path, required=True)
+    visitation_train.add_argument("--workers", type=int, default=24)
+    visitation_train.add_argument("--hours", type=float, default=12)
+    visitation_train.add_argument("--seed", type=int, default=20261004)
+    visitation_train.add_argument("--smoke", action="store_true")
+    visitation_assemble = commands.add_parser(
+        "visitation-assemble", help="Internal matched dataset assembler"
+    )
+    visitation_assemble.add_argument("--root", type=Path, required=True)
+    visitation_audit = commands.add_parser("visitation-audit", help="Internal sealed-test study audit")
+    visitation_audit.add_argument("--root", type=Path, required=True)
+    visitation_audit.add_argument("--name", choices=("incumbent", "control", "visited"), required=True)
+    visitation_audit.add_argument("--device", default="cuda:0")
     visit_worker = commands.add_parser("visitation-worker", help="Internal frozen-plan pilot worker")
     visit_worker.add_argument("--root", type=Path, required=True)
     visit_worker.add_argument("--phase", choices=["collect", "label", "audit"], required=True)
@@ -207,6 +225,14 @@ def main():
         from .visitation import pilot_worker, run_visitation
 
         (run_visitation if command == "visitation-pilot" else pilot_worker)(**args)
+    elif command == "visitation-assemble":
+        from .visitation_data import assemble_study
+
+        assemble_study(**args)
+    elif command in ("visitation-train", "visitation-audit"):
+        from .visitation_study import audit_study_arm, run_visitation_training
+
+        (run_visitation_training if command == "visitation-train" else audit_study_arm)(**args)
     elif command == "replay":
         from .engine import Game, Rules
 

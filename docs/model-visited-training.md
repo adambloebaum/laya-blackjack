@@ -1,6 +1,6 @@
 # Controlled model-visited training study
 
-**Qualification passed; design prepared; training has not started.** The fresh stronger-budget [qualification pilot](model-visited-pilot.md) passed every unchanged gate. Execution now depends on implementing and validating dataset assembly and a separate execution smoke. This is one bounded comparison, not an open-ended search for a favorable result.
+**Pipeline implemented; full training has not started.** The fresh stronger-budget [qualification pilot](model-visited-pilot.md) passed every unchanged gate. Dataset assembly, matched training supervision, and sealed evaluation are implemented; a real-model execution smoke is the remaining pre-launch check. This is one bounded comparison, not an open-ended search for a favorable result.
 
 ## Question and comparison
 
@@ -50,6 +50,16 @@ This return screen is likely to leave small effects unresolved; the completed [1
 
 The planned run has a **12-hour original deadline**, 24 CPU labeling workers, both local 4090s, a 28 GiB host-memory ceiling, immutable source/checkpoint snapshots, and systemd process-group cleanup. Benchmark the assembler in a separate smoke before freezing a launch. If both arms do not complete the matched training schedule, retain the partial artifacts but do not claim a completed matched comparison or select the faster arm by default.
 
-The implementation still needs an assembler for the two training manifests and shared evaluation splits, a supervisor that freezes both candidates before final inference, and checks of matched updates, group separation, reference reuse, and resume identities. Existing `targeted` runs assume one training manifest, so adding a new study label alone would not implement this protocol. No full training run is queued by this design document.
+`visitation-train` implements this protocol separately from the older single-dataset `targeted` studies. It generates the shared broad data, collects and replays both replacement arms, labels identical matched observations once, and publishes two hash-verified training manifests. All sampled model-collection actions receive an SDK parity audit before training. Both completed trainers must match the full planned update count before the shared selection record permits any final inference.
+
+```bash
+uv run --no-sync blackjack visitation-train --output artifacts/overnight/model-visited-training --source artifacts/research-sources/teacher-cost-v1 --qualification docs/results/visitation-strong.json --workers 24 --hours 12
+```
+
+Use a separate output directory with `--smoke --workers 4 --hours 0.25` for execution validation. The smoke uses 160 training states per arm, 32 selection states, 16 calibration states, 32 final-test states, one epoch (60 updates per arm), and 8,080 total return rounds. Its effective seed is 30261004, and its metrics are explicitly execution evidence only.
+
+The original deadline, source/runtime/checkpoint identities, and qualified-pilot digest are frozen in `run.json`. Collection and reference work have the first half of the run budget; training must finish with the final sixth reserved for audits and returns. Resume retains completed groups, labels, shared manifests, training checkpoints, and input-bound SDK audits. Completed earlier stages can be verified after their stage deadlines, without extending the overall deadline. An incomplete or changed artifact cannot silently replace a completed input.
+
+`assembly/report.json` records label reuse and realized reference work. `selection-frozen.json` binds both complete candidates, all inference files, both training manifests, and the common audit dataset. `sdk-comparisons.json` compares both arms with the incumbent and each other. The return reports use `visited` as their fixed candidate for the four predeclared contrasts, regardless of which arm won selection. A separate `evaluated-candidate` is created only when an adapted checkpoint wins selection; sealed raw candidates remain intact. The dashboard names the control and model-visited GPUs and distinguishes collection/labeling counts from final-test counts.
 
 Keep all candidates private. This study does not replace the dashboard model, upload new weights, or select a public release automatically. The final project will publish one best-supported model with its calibration and evidence; comparative reports can describe private intermediate candidates.

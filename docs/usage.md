@@ -85,3 +85,13 @@ uv run --no-sync blackjack recheck-errors --audit artifacts/model-audit --output
 The audit runs the serving SDK on every frozen test state, checks batched-action parity, summarizes subgroups, and bootstraps whole-game groups. Error rechecks compare fixed actions using fresh paired worlds. These are descriptive analyses of the inspected test set; do not use them to tune a model and then claim the same test remains untouched.
 
 Release weights, tokenizer, encoder configuration, calibration, documentation, and evaluation metadata are published together. Unfinished directories and failed integrity checks cannot become the live model. See the [model card](../MODEL_CARD.md) and [release process](release.md).
+
+## Matched model-visited training
+
+After a full qualification pilot passes for the exact source checkpoint, run the [matched training study](model-visited-training.md):
+
+```bash
+uv run --no-sync blackjack visitation-train --output artifacts/overnight/model-visited-training --source artifacts/research-sources/teacher-cost-v1 --qualification docs/results/visitation-strong.json --workers 24 --hours 12
+```
+
+This runs both local GPUs, retains 16,000 identical broad training rows in each 32,000-state arm, freezes both selected candidates before final inference, and evaluates four policies over 800,000 rounds. Use `--smoke --workers 4 --hours 0.25` in a different output directory to test execution first. Private candidates and the unchanged source are retained; completion does not replace the live model or publish weights.
