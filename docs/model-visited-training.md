@@ -1,6 +1,8 @@
 # Controlled model-visited training study
 
-**Pipeline validated; full run ready to launch.** The fresh stronger-budget [qualification pilot](model-visited-pilot.md) passed every unchanged gate. Dataset assembly, matched training supervision, and sealed evaluation passed a real-model dual-GPU execution smoke and restart verification. This is one bounded comparison, not an open-ended search for a favorable result.
+**Full study running; results pending.** The fresh stronger-budget [qualification pilot](model-visited-pilot.md) passed every unchanged gate. Dataset assembly, matched training supervision, and sealed evaluation passed a real-model dual-GPU execution smoke and restart verification. This is one bounded comparison, not an open-ended search for a favorable result.
+
+The full run `20260922-225718-visitation-training` launched at **15:57 Pacific on September 22, 2026**, from immutable revision `6e4b5dfd01498990254f0ad062273b39bed9ac5f`. Its original deadline is **03:57 Pacific on September 23**. The process-group runtime ceiling includes shutdown grace within the 12-hour budget. The [launch receipt](results/visitation-training-launch.json) records the fixed inputs and counts. The active service and live dashboard heartbeat were verified during collection/reference generation; training and evaluation follow automatically.
 
 ## Question and comparison
 

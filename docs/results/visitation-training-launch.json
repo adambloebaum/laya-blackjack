@@ -1,0 +1,85 @@
+{
+  "run_id": "20260922-225718-visitation-training",
+  "source_commit": "6e4b5dfd01498990254f0ad062273b39bed9ac5f",
+  "source_archive_sha256": "845e57cf4ac4b0634802d7a7d4d50509ac298ff9662e7f351ad5c7f6c79a9b24",
+  "run_sha256": "b91554750f34ae98cbaa3a6f364fa01b94e5ff089712dc4c548918c551c3ac20",
+  "started_unix": 1790117840.3028064,
+  "original_deadline_unix": 1790161040.3028064,
+  "phase_at_launch_verification": "collecting_training_data",
+  "qualification_sha256": "63cbd00e1559f0d17789ee3bd20078134ef43315c723a29cfe22893c5f552536",
+  "checkpoint": {
+    "LICENSE": {
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "bytes": 11358
+    },
+    "NOTICE": {
+      "sha256": "dcc7704bec9d9e0f044a10f91f288aa5a15cd76d3bcb65ec997222aaa20c4542",
+      "bytes": 790
+    },
+    "README.md": {
+      "sha256": "ffcb7105c753b9416f9e49244d67b904d42dc0dac7940aa32e9b3f90091d8ebd",
+      "bytes": 1047
+    },
+    "encoder/config.json": {
+      "sha256": "5c887ce4335a901d15b8024f5ead2d0744eb18439da011511df5ae8f7cbf862a",
+      "bytes": 2117
+    },
+    "manifest.json": {
+      "sha256": "978f2c6b34c3fcdb13cfab2dcab7fb0c3fa9228d0114285cb63d8cabb053fac1",
+      "bytes": 1678
+    },
+    "model.safetensors": {
+      "sha256": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+      "bytes": 1685197088
+    },
+    "rl_agent_config.json": {
+      "sha256": "f977fd353d0c0c84a44dd08419369dbd3e91f5d80ad38b09da36588140e51096",
+      "bytes": 632
+    },
+    "tokenizer/special_tokens_map.json": {
+      "sha256": "ea97ecdbcc73713039d8d64dbb05e3689495c96657fbd9a18f5bed381be81049",
+      "bytes": 694
+    },
+    "tokenizer/tokenizer.json": {
+      "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+      "bytes": 3583228
+    },
+    "tokenizer/tokenizer_config.json": {
+      "sha256": "2966a59b9e9cf122279aec1249e22e5bc7ad8430c754e95031b13fd128d4e560",
+      "bytes": 20840
+    },
+    "training_report.json": {
+      "sha256": "26f479d4a145a85f128822a4c2963325fb2615dc6d1ec316a91c74e42f81144e",
+      "bytes": 14664
+    }
+  },
+  "seed": 20261004,
+  "workers": 24,
+  "hours": 12.0,
+  "gpus": [
+    "NVIDIA RTX 4090 / cuda:0",
+    "NVIDIA RTX 4090 / cuda:1"
+  ],
+  "memory_max_gib": 28,
+  "train_states_per_arm": 32000,
+  "shared_broad_training_states": 16000,
+  "replacement_training_states_per_arm": 16000,
+  "heldout_states": {
+    "selection": 4096,
+    "calibration": 2048,
+    "test": 8192
+  },
+  "epochs": 3,
+  "planned_updates_per_arm": 36000,
+  "return_rounds": 800000,
+  "return_policies": [
+    "basic",
+    "incumbent",
+    "control",
+    "visited"
+  ],
+  "systemd_runtime_max_seconds": 43170,
+  "activated": false,
+  "published": false,
+  "results_pending": true
+}
