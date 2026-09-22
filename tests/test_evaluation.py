@@ -66,3 +66,48 @@ def test_estimate_uses_independent_units():
     assert result["mean_units_per_round"] == 0
     assert result["standard_error"] == pytest.approx(1)
     assert math.isclose(result["ci95"][1], 1.96)
+
+
+def test_interrupted_evaluation_resumes_identical_units_and_cumulative_fallbacks(tmp_path, monkeypatch):
+    import blackjack.evaluation as evaluation
+
+    class CountingPolicy(BasicPolicy):
+        def __init__(self, *args):
+            self.fallbacks = 0
+
+        def actions(self, observations):
+            self.fallbacks += len(observations)
+            return super().actions(observations)
+
+    monkeypatch.setattr(evaluation, "BatchedLaya", CountingPolicy)
+    source = tmp_path / "model"
+    source.mkdir()
+    (source / "model.safetensors").write_bytes(b"model")
+    (source / "rl_agent_config.json").write_text("{}")
+    actual = simulate_units
+    calls = 0
+
+    def interrupt(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        if calls == 2:
+            raise InterruptedError("simulated interruption")
+        return actual(*args, **kwargs)
+
+    monkeypatch.setattr(evaluation, "simulate_units", interrupt)
+    options = dict(source=str(source), units=40, shard_size=2, seed=789)
+    with pytest.raises(InterruptedError):
+        evaluate_policy(tmp_path / "resume", **options)
+    monkeypatch.setattr(evaluation, "simulate_units", actual)
+    evaluate_policy(tmp_path / "resume", **options)
+    evaluate_policy(tmp_path / "fresh", **options)
+    for name in ("resume", "fresh"):
+        _, rows = evaluation.read_evaluation(tmp_path / name)
+        progress = json.loads((tmp_path / name / "progress.json").read_text())
+        assert progress["serving_fallbacks"] == sum(r["decisions"] for r in rows.values())
+    report = compare_evaluations(
+        {"candidate": tmp_path / "resume", "baseline": tmp_path / "fresh"}, tmp_path / "paired.json"
+    )
+    assert report["paired_candidate_minus"]["baseline"]["ci95"] == [0, 0]
+    with pytest.raises(ValueError, match="configuration changed"):
+        evaluate_policy(tmp_path / "resume", **{**options, "seed": 790})

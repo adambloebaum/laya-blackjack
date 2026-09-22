@@ -80,7 +80,7 @@ uv run --no-sync blackjack targeted --output artifacts/overnight/composition-run
 
 It uses both local GPUs and retains the released model while generating comparison evidence. Run unattended jobs under a process manager; the CLI stays attached to its terminal.
 
-The [exact-reference and decision-cost follow-up](docs/teacher-cost-experiment.md) compares ordinary imitation with a loss that penalizes costly action choices. It uses exact finite-shoe values for supported single-hand states and explicitly labeled Monte Carlo fallbacks elsewhere. Both arms use fresh games and keep final predictions sealed through selection. Intermediate checkpoints stay private; the project will publish one final selected model.
+The completed [exact-reference and decision-cost follow-up](docs/teacher-cost-experiment.md) improved same-test reference agreement from 94.96% to 95.90%; the two objectives were almost tied on selection, and the return comparison remains inconclusive. A [frozen 12-million-round comparison](docs/large-return-evaluation.md) evaluates the leading candidate against its predecessor and basic strategy with new seeds. Intermediate checkpoints stay private; the project will publish one final selected model. The download above remains the existing packaged model until final selection.
 
 ```bash
 uv run --no-sync pytest -q

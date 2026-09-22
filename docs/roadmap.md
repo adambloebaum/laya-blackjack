@@ -10,6 +10,8 @@
 
 ## Highest-value next experiments
 
+**Current priority:** the [frozen 12-million-round return comparison](large-return-evaluation.md), using new seeds and the fixed teacher-cost winner versus its predecessor and basic strategy. The completed [teacher-cost study](teacher-cost-experiment.md) improved same-test reference agreement from 94.96% to 95.90%, with 35.54% lower reference regret. Its 600,000-round return comparison remains inconclusive, and the two loss objectives were almost tied on selection. The larger evaluation will guide whether another focused training pass is warranted.
+
 The [composition-focused run](targeted-experiment.md) is complete. On its new 8,192-state test, reference agreement improved from 92.37% to 94.53% and reference EV regret fell 48.70%. The 600,000-round return comparison did not establish an improvement over the previous model or basic strategy. The candidate remains local and is not activated or uploaded.
 
 The candidate agrees on 98.46% of the 7,028 states whose reference action passes the sampling separation heuristic. Of 448 disagreements, 340 (75.9%) have unresolved reference labels. However, the 108 resolved disagreements account for 58.2% of total measured regret, and the 30 largest errors account for 26.0%. Counting errors alone would understate the remaining costly mistakes. These are descriptive results conditional on the approximate reference; the heuristic does not prove the labels correct.
@@ -24,7 +26,7 @@ A small structured policy remains a useful internal quality/latency baseline. It
 
 ## One final public model
 
-The next implemented study is the [exact-reference and decision-cost comparison](teacher-cost-experiment.md), with matching data, learning rate, and compute across its two arms. Later model-visited data collection, reward refinement, and replication remain follow-ups contingent on these results.
+The [exact-reference and decision-cost comparison](teacher-cost-experiment.md) is complete. Model-visited data collection, stronger split/multiplayer references, reward refinement, and replication remain possible follow-ups after the larger return comparison.
 
 The owner requested one final model release: the best-supported candidate after research is finished. Keep intermediate weights and prior private packages private. Publish one selected checkpoint, its calibration/configuration, evaluation evidence, and one default dashboard model. Public reports may compare experiments without distributing their weights. Preserve private recovery artifacts and do not delete them to enforce this preference.
 

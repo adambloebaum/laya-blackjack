@@ -2,9 +2,26 @@
 
 This private follow-up starts from the evaluated composition candidate. It tests whether a training loss that accounts for decision cost improves on ordinary imitation, using identical new data and optimizer settings. It produces research candidates only. The final public release will contain one selected model.
 
-## Active local run
+## Completed local run
 
-Run `20260921-173017-teacher-cost` launched at 10:30 Pacific on September 21 from immutable source revision `2082f3361dfb4a915363a072d88c6100496aeede`. Its hard stop is 22:30 Pacific the same day. It is generating the complete predeclared dataset; training and evaluation follow automatically. Full-run performance is not yet available.
+Run `20260921-173017-teacher-cost` launched at 10:30 Pacific on September 21 from immutable source revision `2082f3361dfb4a915363a072d88c6100496aeede` and completed successfully at 15:12 in 4 hours 42 minutes. All planned states, both candidates, SDK audits, and 600,000 return rounds completed.
+
+Ordinary imitation at epoch three narrowly won selection: reference regret 0.001011149 versus 0.001011626 for the cost-sensitive arm. This tiny difference does not establish a robust advantage for either objective. The final test was opened only after selection was frozen.
+
+| Same 8,192-state SDK test | Composition predecessor | Selected candidate |
+| --- | ---: | ---: |
+| Reference agreement | 94.96% | 95.90% |
+| Reference EV regret, units/decision | 0.00140748 | 0.00090728 |
+| General agreement | 96.53% | 97.34% |
+| Depleted agreement | 93.38% | 94.46% |
+| Hit-bust Brier distance | 0.00071626 | 0.00028901 |
+| Dealer Brier distance | 0.00153291 | 0.00090296 |
+
+Reference regret fell 35.54%; the paired whole-game bootstrap interval for the reduction is 0.000338–0.000676 units per decision. Exact labels cover 1,006 test states; 7,186 use the Monte Carlo fallback. Both models had zero observed SDK/batched action mismatches on the audit. These results compare the same test population and reference; they are not directly comparable to earlier test sets.
+
+Candidate-minus-predecessor returns were -0.0285 units per 100 fresh rounds (95% paired interval -0.1714 to +0.1144) and +0.3840 units per 100 continuous rounds (-0.0478 to +0.8158). Candidate-minus-basic intervals also include zero in both modes. These nominal intervals do not demonstrate a return gain. [Complete measured summaries and identities](results/teacher-cost-results.json).
+
+The candidate remains private and inactive. The next step is the [frozen 12-million-round comparison](large-return-evaluation.md). This inspected test is now diagnostic material; subsequent tuning requires a new final test.
 
 ## Reference contract
 

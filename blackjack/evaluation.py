@@ -198,6 +198,7 @@ def evaluate_policy(
         "batch_size": batch_size,
         "shard_size": shard_size,
         "samples": samples,
+        "receipt_version": 2,
         "source_hash": digest(Path(source) / "model.safetensors") if source else None,
         "config_hash": digest(Path(source) / "rl_agent_config.json") if source else None,
         "code": {
@@ -217,7 +218,7 @@ def evaluate_policy(
         if policy == "reference"
         else BasicPolicy()
     )
-    started, receipts, completed = time.monotonic(), [], 0
+    started, receipts, completed, fallbacks = time.monotonic(), [], 0, 0
     per_stratum = units // len(strata)
     for scenario, rules in strata.items():
         for offset in range(0, per_stratum, shard_size):
@@ -228,6 +229,7 @@ def evaluate_policy(
                 if digest(path) != receipt["sha256"]:
                     raise ValueError(f"Evaluation shard hash mismatch: {path}")
             else:
+                before_fallbacks = getattr(actor, "fallbacks", 0)
                 rows = simulate_units(
                     actor,
                     scenario,
@@ -239,10 +241,16 @@ def evaluate_policy(
                     batch_size=batch_size,
                 )
                 atomic_json(path, rows)
-                receipt = {"path": str(path.relative_to(output)), "sha256": digest(path), "units": len(rows)}
+                receipt = {
+                    "path": str(path.relative_to(output)),
+                    "sha256": digest(path),
+                    "units": len(rows),
+                    "serving_fallbacks": getattr(actor, "fallbacks", 0) - before_fallbacks,
+                }
                 atomic_json(receipt_path, receipt)
             receipts.append(receipt)
             completed += receipt["units"]
+            fallbacks += receipt["serving_fallbacks"]
             progress = {
                 "stage": "evaluation",
                 "policy": policy,
@@ -252,7 +260,7 @@ def evaluate_policy(
                 "rounds": completed * rounds_per_unit,
                 "elapsed_seconds": time.monotonic() - started,
                 "updated_unix": time.time(),
-                "serving_fallbacks": getattr(actor, "fallbacks", 0),
+                "serving_fallbacks": fallbacks,
             }
             atomic_json(output / "progress.json", progress)
             print(f"{policy} {mode}: {completed}/{units} independent units", flush=True)

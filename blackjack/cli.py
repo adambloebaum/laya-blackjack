@@ -86,6 +86,7 @@ def main():
     research.add_argument("--fresh-units", type=int, default=100000)
     research.add_argument("--blocks", type=int, default=1000)
     research.add_argument("--hours", type=float, default=3)
+    research.add_argument("--seed", type=int, default=20260922)
     large = commands.add_parser("generate-large")
     large.add_argument("--output", type=Path, required=True)
     large.add_argument("--states", type=int, default=100000)

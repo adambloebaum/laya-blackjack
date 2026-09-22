@@ -1,0 +1,100 @@
+{
+  "purpose": "Execution and real-model resume smoke only; not performance evidence",
+  "seed": 30261001,
+  "fresh_units_per_policy": 20,
+  "continuous_blocks_per_policy": 20,
+  "rounds_per_block": 100,
+  "policies": 3,
+  "total_rounds": 6060,
+  "resume_reused_all_shards": true,
+  "original_deadline_preserved": true,
+  "run_config_sha256": "93321dba5ecc8b203e173c562c1cbd37d9d8be8c39ebe2313b4f102a51346a3c",
+  "source_hashes": {
+    "__init__.py": "15bc8d05a6fe96c56a882d3fe89d9a28b61cf75807d0896e9bc57a44484c0ee2",
+    "cli.py": "4fcbdfe8373b76b5f79e1e474eac56e6ef2eaa5fca7d82e364fadf68bcbd9213",
+    "engine.py": "4315a3b0738a78cecacd4afc3af5e9c65cefc3c978e0e5f0b758a6e7562b1ff4",
+    "evaluation.py": "5b2747c7848e1678f490fd6b1f1d0e8337f21e1f0e1b87aa089f16742f8aa259",
+    "exact_reference.py": "08f4ee81fe0ec0970684a542798a6f9f488bae471cec79836a625a7caaec63de",
+    "experiment_data.py": "8794eab54eafc363d44e3102e4010d3f9d62dfab051fed78bd814936ea6d755e",
+    "experiment_train.py": "7fcaa63f10393901dceb18323b14df9f962dbb89852c6b0c05f710ecf0125869",
+    "model.py": "5e0e93861af0a9ae5ecc45e54b58c947bc8ff1cc241b75127c53f1615a544bf5",
+    "model_audit.py": "a366664c22808f97c654f60e1aad38d98a95899e126e6775012edcc92a2c9c01",
+    "overnight.py": "c4653e3424d4803fb85fc69ae6b75dd3b5407b0f03eaa20d08b9eed83a891800",
+    "reference.py": "b65d8181953634543072500bfb2abd2a678b5d57c1b92201e0cc45c21680ecb3",
+    "releases.py": "0ea4d813f4f6506a64565d1e2201fdf0045ff98bc5c249905fb2fe035d839afd",
+    "research.py": "955b5694c79939c1ef44c0e556c9518d005021ef7ef30f680c6bb70260bbb157",
+    "server.py": "51a38e2583786dad572a37e1ab81555401a1ee6b9a4c63c9eb8dba8b568f587a",
+    "targeted.py": "613ceed04643c15a6ab3b6465fde5805bc331d26f424aeda2d6073ad0815c59f",
+    "training.py": "ea0d7bf488043593860c4c0b42d2064e5ab4ebc0963faa8cc72bbfce239ab6e3"
+  },
+  "progress": {
+    "basic / continuous": {
+      "stage": "complete",
+      "policy": "basic",
+      "mode": "continuous",
+      "completed_units": 20,
+      "total_units": 20,
+      "rounds": 2000,
+      "elapsed_seconds": 0.024352630600333214,
+      "updated_unix": 1790053856.3704002,
+      "serving_fallbacks": 0
+    },
+    "basic / fresh": {
+      "stage": "complete",
+      "policy": "basic",
+      "mode": "fresh",
+      "completed_units": 20,
+      "total_units": 20,
+      "rounds": 20,
+      "elapsed_seconds": 0.024245289154350758,
+      "updated_unix": 1790053856.3349838,
+      "serving_fallbacks": 0
+    },
+    "baseline / continuous": {
+      "stage": "complete",
+      "policy": "laya",
+      "mode": "continuous",
+      "completed_units": 20,
+      "total_units": 20,
+      "rounds": 2000,
+      "elapsed_seconds": 0.03276026202365756,
+      "updated_unix": 1790053869.2007518,
+      "serving_fallbacks": 4
+    },
+    "baseline / fresh": {
+      "stage": "complete",
+      "policy": "laya",
+      "mode": "fresh",
+      "completed_units": 20,
+      "total_units": 20,
+      "rounds": 20,
+      "elapsed_seconds": 0.03190313605591655,
+      "updated_unix": 1790053864.079136,
+      "serving_fallbacks": 0
+    },
+    "candidate / continuous": {
+      "stage": "complete",
+      "policy": "laya",
+      "mode": "continuous",
+      "completed_units": 20,
+      "total_units": 20,
+      "rounds": 2000,
+      "elapsed_seconds": 0.02488947194069624,
+      "updated_unix": 1790053869.4280055,
+      "serving_fallbacks": 3
+    },
+    "candidate / fresh": {
+      "stage": "complete",
+      "policy": "laya",
+      "mode": "fresh",
+      "completed_units": 20,
+      "total_units": 20,
+      "rounds": 20,
+      "elapsed_seconds": 0.024511514231562614,
+      "updated_unix": 1790053864.1128414,
+      "serving_fallbacks": 0
+    }
+  },
+  "activated": false,
+  "published": false
+}

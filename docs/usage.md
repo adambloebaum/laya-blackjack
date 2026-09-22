@@ -51,6 +51,8 @@ The release suite compares the selected model, warm-start model, and basic heuri
 uv run --no-sync blackjack research --output artifacts/evaluations/my-run --candidate artifacts/checkpoints/released --baseline artifacts/checkpoints/my-pilot --hours 3
 ```
 
+`research` requires complete local evaluated checkpoints and creates private verified copies before play. Pass a new `--seed` for a new comparison; the default retains the historical seed for reproducibility. Within the original deadline, repeat the exact command from its original source snapshot to resume verified completed shards. Model, tokenizer, calibration, runtime/source version, seed, count, or budget changes reject the resume. Use a new output directory for a different experiment. The [large-return protocol](large-return-evaluation.md) specifies the current 12-million-round study and corrected aggregate intervals.
+
 The supervisor uses GPU 0 for the warm start and GPU 1 for the candidate. For a single GPU, run each policy sequentially:
 
 ```bash
