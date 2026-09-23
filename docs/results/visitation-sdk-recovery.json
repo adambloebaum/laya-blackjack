@@ -90,5 +90,19 @@
   },
   "recovery_rule": "Use the unchanged serving SDK for every Laya return decision. Preserve original weights, calibration, selection, return seeds/counts, deadline, and failed evidence. No empirical fallback-threshold adjustment.",
   "activated": false,
-  "published": false
+  "published": false,
+  "recovery_launch": {
+    "run_id": "20260923-050210-visitation-sdk-recovery",
+    "source_commit": "0cbc8a3bec2fa15c0dff9055308885450e001836",
+    "source_archive_sha256": "a20bfb5fdc176b50e46d8dfe3518c860c58ab1201244f9ff2776d523d23da28c",
+    "launched_utc": "2026-09-23T05:02:10.018758+00:00",
+    "original_deadline_unix": 1790161040.3028064,
+    "systemd_runtime_max_seconds": 21280,
+    "memory_max_gib": 28,
+    "inference_mode": "sdk",
+    "return_rounds": 800000,
+    "run_sha256": "11001b48e98e5f1002656a3d8e67bd6cb988073e691163ec34523e5a3c2d6628",
+    "verified_stage": "serving_sdk_validation",
+    "results_pending": true
+  }
 }
