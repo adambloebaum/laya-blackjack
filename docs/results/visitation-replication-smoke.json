@@ -1,0 +1,54 @@
+{
+  "run_id": "20260923-165810-visitation-replication-smoke",
+  "source_commit": "829f7ba2a10be8f94b572cf96618a34704171f04",
+  "source_archive_sha256": "3a32410d3fb489a1deb93f1a180dff8f94d2653b6b7c1d3aa699f5c63f7d6efb",
+  "run_sha256": "1888ef519d65a5776ceaeedd6db70366320d56a69ada29a5e1e7bb27ce5f14cd",
+  "selection_freeze_sha256": "e62748523dc706eb79fd4f81427d5a4d53af7c02b8ee703907efdef92eb6bbea",
+  "first_elapsed_seconds": 254.18017625808716,
+  "original_deadline_unix": 1790184492.9156382,
+  "smoke_seed": 30261006,
+  "inference_mode": "sdk",
+  "collection_inference_mode": "sdk",
+  "states_per_arm": {
+    "train": 160,
+    "selection": 32,
+    "calibration": 16,
+    "test": 32
+  },
+  "updates_per_arm": 60,
+  "collection_sdk_audited_states": 80,
+  "final_sdk_audited_states_per_model": 32,
+  "serving_action_mismatches": 0,
+  "return_rounds": 8080,
+  "return_units": {
+    "basic/fresh": 20,
+    "basic/continuous": 20,
+    "incumbent/fresh": 20,
+    "incumbent/continuous": 20,
+    "control/fresh": 20,
+    "control/continuous": 20,
+    "visited/fresh": 20,
+    "visited/continuous": 20
+  },
+  "resume": {
+    "preserved_artifacts": 500,
+    "all_hashes_match": true,
+    "original_deadline_preserved": true,
+    "cumulative_fallback_counts_preserved": true
+  },
+  "serving_fallbacks": {
+    "basic/fresh": 0,
+    "basic/continuous": 0,
+    "incumbent/fresh": 0,
+    "incumbent/continuous": 0,
+    "control/fresh": 0,
+    "control/continuous": 0,
+    "visited/fresh": 0,
+    "visited/continuous": 0
+  },
+  "all_paired_reports_reproduced": true,
+  "execution_only": true,
+  "research_evidence": false,
+  "activated": false,
+  "published": false
+}
