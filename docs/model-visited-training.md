@@ -1,6 +1,6 @@
 # Controlled model-visited training study
 
-**Training complete; serving evaluation recovery running.** The fresh stronger-budget [qualification pilot](model-visited-pilot.md) passed every unchanged gate. Dataset assembly, matched training supervision, and sealed evaluation passed a real-model dual-GPU execution smoke and restart verification. This is one bounded comparison, not an open-ended search for a favorable result.
+**Completed: no resolved improvement over the incumbent.** The fresh stronger-budget [qualification pilot](model-visited-pilot.md) passed every unchanged gate. Dataset assembly, matched training supervision, and sealed evaluation passed a real-model dual-GPU execution smoke and restart verification. This is one bounded comparison, not an open-ended search for a favorable result.
 
 The full run `20260922-225718-visitation-training` launched at **15:57 Pacific on September 22, 2026**, from immutable revision `6e4b5dfd01498990254f0ad062273b39bed9ac5f`. Its original deadline is **03:57 Pacific on September 23**. The process-group runtime ceiling includes shutdown grace within the 12-hour budget. The [launch receipt](results/visitation-training-launch.json) records the fixed inputs and counts. The initial service completed data generation and both training arms, then stopped at the final inference-parity gate. The original failed run remains intact; see the recovery record below.
 
@@ -74,6 +74,36 @@ At 19:03 Pacific on September 22, the supervisor stopped after a single action d
 
 The [failure and execution-check receipt](results/visitation-sdk-recovery.json) preserves the original failure and selection hashes. Recovery uses `--inference-mode sdk`: every Laya decision calls the same complete SDK path as the dashboard. It does not widen an empirical threshold using the inspected test case. New audits must reproduce all recorded original SDK actions; the original fast-batch mismatch remains visible. SDK-only reports mark the batch comparison as not performed, rather than presenting a fabricated zero-mismatch batch check.
 
-`blackjack visitation-sdk-recovery` requires a separately archived failed study, frozen candidates, and an unexpired original deadline. It creates a separate run directory, verifies source/checkpoint/runtime/failed-audit identities, retains the original seeds and fixed counts, and uses both GPUs. It cannot restart training, change selection, extend the deadline, or overwrite the original failure. Its evaluated candidate is also separate from the sealed training outputs. This is a documented inference-method change for evaluation, not evidence that model performance improved. Full return results remain pending.
+`blackjack visitation-sdk-recovery` requires a separately archived failed study, frozen candidates, and an unexpired original deadline. It creates a separate run directory, verifies source/checkpoint/runtime/failed-audit identities, retains the original seeds and fixed counts, and uses both GPUs. It cannot restart training, change selection, extend the deadline, or overwrite the original failure. Its evaluated candidate is also separate from the sealed training outputs. This is a documented inference-method change for evaluation, not evidence that model performance improved. The completed results are reported below.
 
-Recovery `20260923-050210-visitation-sdk-recovery` launched at **22:02 Pacific on September 22**, from immutable `0cbc8a3bec2fa15c0dff9055308885450e001836`. Both GPUs are repeating the SDK audits; the fixed return screen follows. The original **03:57 Pacific September 23** deadline and 28 GiB memory ceiling remain enforced. The original failed run has not been rewritten.
+Recovery `20260923-050210-visitation-sdk-recovery` launched at **22:02 Pacific on September 22**, from immutable `0cbc8a3bec2fa15c0dff9055308885450e001836`. It completed all audits and the fixed return screen at **01:15 Pacific on September 23**, before the original **03:57** deadline. The 28 GiB memory ceiling remained enforced. The original failed run has not been rewritten.
+
+## Completed results
+
+The [verified result bundle](results/visitation-training-completed.json) contains all planned comparisons, exploratory scenario estimates, source/checkpoint identities, and verification counts. Both trainers finished their three epochs and 36,000 updates. Recovery completed 24,576 SDK audit states and **800,000 return rounds**, represented by 404,000 policy-unit records in 2,000 verified return shards. Each policy uses the same 100,000 paired fresh rounds and 1,000 paired continuous blocks; records are not independent across policies. Every saved SDK/return comparison was reproduced from its underlying records. The finalized candidate's inference files match the pre-test freeze.
+
+Recovery took 3 hours 13 minutes. Wall time from the original launch was 9 hours 18 minutes, including the interval when the original failed service was inactive. No additional time was granted.
+
+The control retained epoch-zero weights and recalibrated on the new calibration split; its SDK actions and evaluated returns matched the unchanged incumbent in this sample. The model-visited arm selected epoch three. Its better selection score is not evidence by itself of a better final policy.
+
+| Common final-test metric | Incumbent | Control | Model-visited |
+| --- | ---: | ---: | ---: |
+| Reference action agreement | 96.1548% | 96.1548% | 96.0815% |
+| Reference EV regret per original wager | 0.00111874 | 0.00111874 | 0.00109509 |
+| Hit-bust probability Brier distance | 0.000276948 | 0.000276948 | 0.000237119 |
+| Dealer probability Brier distance | 0.000887411 | 0.000887411 | 0.000749864 |
+| Action probability Brier distance | 0.0589634 | 0.0595670 | 0.0615456 |
+| Action calibration error | 0.0092015 | 0.0112678 | 0.0129574 |
+
+The model-visited candidate's reference regret is 2.11% lower by point estimate, but the paired whole-game interval for its difference from the incumbent spans zero: −0.00017011 to +0.00011995. Its hit-bust/dealer probability distances improved descriptively; action agreement and action-probability metrics did not. These are comparisons with the recorded approximate reference, not empirical casino win calibration.
+
+| Predeclared contrast | Difference in units per 100 rounds | Adjusted 95% interval |
+| --- | ---: | ---: |
+| Fresh: model-visited minus control | −0.025 | [−0.210, +0.160] |
+| Fresh: model-visited minus incumbent | −0.025 | [−0.210, +0.160] |
+| Continuous: model-visited minus control | +0.297 | [−0.181, +0.775] |
+| Continuous: model-visited minus incumbent | +0.297 | [−0.181, +0.775] |
+
+All four intervals include zero. The fixed comparison therefore does not establish that model-visited training improved returns. Mean model-visited returns were −1.2222 units per 100 fresh rounds and −0.1475 per 100 continuous rounds. The model-visited versus basic comparison is exploratory, outside the four predeclared contrasts; its nominal continuous-play interval is not a substitute for evidence of improvement over the incumbent.
+
+The study-selected candidate remains private and inactive. The previous research incumbent remains the comparison baseline; the dashboard and private Hub package are unchanged. Before choosing the single final release, a promising configuration needs independent training replication and a separately planned, fresh return evaluation. This completed screen will not be extended or reused as an untouched final test.

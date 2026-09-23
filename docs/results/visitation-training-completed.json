@@ -1,0 +1,2143 @@
+{
+  "run_id": "20260923-050210-visitation-sdk-recovery",
+  "original_run_id": "20260922-225718-visitation-training",
+  "source_commit": "0cbc8a3bec2fa15c0dff9055308885450e001836",
+  "source_archive_sha256": "a20bfb5fdc176b50e46d8dfe3518c860c58ab1201244f9ff2776d523d23da28c",
+  "run_sha256": "11001b48e98e5f1002656a3d8e67bd6cb988073e691163ec34523e5a3c2d6628",
+  "summary_sha256": "21d433c9b0d8b36f7c5f1c2b80c75b8ffa0d382f373a7940ad4344a624d99039",
+  "original_failure_preserved": true,
+  "all_original_input_hashes_verified": true,
+  "frozen_selection_verified": true,
+  "all_return_shards_verified": true,
+  "all_comparisons_reproduced": true,
+  "finalized_inference_files_verified": true,
+  "rounds": 800000,
+  "return_shards": 2000,
+  "detail": {
+    "basic/fresh": {
+      "rounds": 100000,
+      "independent_units": 100000,
+      "shards": 400
+    },
+    "incumbent/fresh": {
+      "rounds": 100000,
+      "independent_units": 100000,
+      "shards": 400
+    },
+    "control/fresh": {
+      "rounds": 100000,
+      "independent_units": 100000,
+      "shards": 400
+    },
+    "visited/fresh": {
+      "rounds": 100000,
+      "independent_units": 100000,
+      "shards": 400
+    },
+    "basic/continuous": {
+      "rounds": 100000,
+      "independent_units": 1000,
+      "shards": 100
+    },
+    "incumbent/continuous": {
+      "rounds": 100000,
+      "independent_units": 1000,
+      "shards": 100
+    },
+    "control/continuous": {
+      "rounds": 100000,
+      "independent_units": 1000,
+      "shards": 100
+    },
+    "visited/continuous": {
+      "rounds": 100000,
+      "independent_units": 1000,
+      "shards": 100
+    }
+  },
+  "completed_unix": 1790151331.6972175,
+  "elapsed_seconds_from_original_launch": 33491.394411087036,
+  "elapsed_seconds_from_recovery_launch": 11593.784725427628,
+  "deadline_unix": 1790161040.3028064,
+  "completed_before_deadline": true,
+  "audits": {
+    "incumbent": {
+      "metrics": {
+        "states": 8192,
+        "teacher_agreement": 0.9615478515625,
+        "teacher_ev_regret": 0.0011187433208219755,
+        "hit_bust_brier": 0.0002769483825165992,
+        "dealer_brier": 0.0008874109598697226,
+        "action_brier": 0.05896335114257813,
+        "teacher_action_ece": 0.009201513671874929
+      },
+      "policy_action_mismatches": []
+    },
+    "control": {
+      "metrics": {
+        "states": 8192,
+        "teacher_agreement": 0.9615478515625,
+        "teacher_ev_regret": 0.0011187433208219755,
+        "hit_bust_brier": 0.0002769483825165992,
+        "dealer_brier": 0.0008874109598697226,
+        "action_brier": 0.05956699266235351,
+        "teacher_action_ece": 0.011267773437500074
+      },
+      "policy_action_mismatches": []
+    },
+    "visited": {
+      "metrics": {
+        "states": 8192,
+        "teacher_agreement": 0.9608154296875,
+        "teacher_ev_regret": 0.001095085939682397,
+        "hit_bust_brier": 0.00023711900365944362,
+        "dealer_brier": 0.0007498642477307949,
+        "action_brier": 0.061545558200683595,
+        "teacher_action_ece": 0.012957397460937546
+      },
+      "policy_action_mismatches": []
+    }
+  },
+  "selection_regrets": {
+    "incumbent": 0.0010630087758017228,
+    "control": 0.0010630087758017228,
+    "visited": 0.0010114334057847191
+  },
+  "selected_epochs": {
+    "control": 0,
+    "visited": 3
+  },
+  "return_summary": {
+    "comparisons": {
+      "fresh:visited-minus-control": {
+        "units_per_100_rounds": -0.025,
+        "nominal_ci95": [
+          -0.16978811794394516,
+          0.11978811794394516
+        ],
+        "familywise_ci95": [
+          -0.20950922184615117,
+          0.15950922184615116
+        ]
+      },
+      "fresh:visited-minus-incumbent": {
+        "units_per_100_rounds": -0.025,
+        "nominal_ci95": [
+          -0.16978811794394516,
+          0.11978811794394516
+        ],
+        "familywise_ci95": [
+          -0.20950922184615117,
+          0.15950922184615116
+        ]
+      },
+      "continuous:visited-minus-control": {
+        "units_per_100_rounds": 0.29700000000000004,
+        "nominal_ci95": [
+          -0.07819408430433661,
+          0.6721940843043367
+        ],
+        "familywise_ci95": [
+          -0.1811246522112649,
+          0.775124652211265
+        ]
+      },
+      "continuous:visited-minus-incumbent": {
+        "units_per_100_rounds": 0.29700000000000004,
+        "nominal_ci95": [
+          -0.07819408430433661,
+          0.6721940843043367
+        ],
+        "familywise_ci95": [
+          -0.1811246522112649,
+          0.775124652211265
+        ]
+      }
+    },
+    "uncertainty": "Bonferroni normal intervals for four predeclared aggregate contrasts, using independent fresh rounds or 100-round continuous blocks. Other contrasts/scenarios are exploratory.",
+    "original_study": "20260922-225718-visitation-training",
+    "inference_mode": "sdk",
+    "smoke": false,
+    "research_evidence": true,
+    "evaluated_candidate": "evaluated-candidate",
+    "deviation": "Original action-only batch parity failed. All Laya return policies use the exact serving SDK; no weights, calibration, selection, seeds, counts, or deadline changed. Original failure evidence is retained.",
+    "activated": false,
+    "published": false
+  },
+  "sdk_comparisons": {
+    "visited-minus-control": {
+      "uncertainty": "Paired whole-game bootstrap, 2000 replicates; conditions on approximate teacher labels. Stratum intervals are exploratory and unadjusted for multiple comparisons.",
+      "candidate_minus_comparator": {
+        "overall": {
+          "states": 8192,
+          "games": 2414,
+          "regret_difference": -2.365738113957855e-05,
+          "regret_ci95": [
+            -0.00017011241965956476,
+            0.00011995171025412505
+          ],
+          "agreement_difference": -0.000732421875,
+          "agreement_ci95": [
+            -0.004016444473226402,
+            0.0024402818023288356
+          ]
+        },
+        "general": {
+          "states": 4096,
+          "games": 1211,
+          "regret_difference": 4.795584685688141e-07,
+          "regret_ci95": [
+            -0.00013281563176697662,
+            0.00013632387910332281
+          ],
+          "agreement_difference": 0.000244140625,
+          "agreement_ci95": [
+            -0.0036855943275028373,
+            0.004206957621967699
+          ]
+        },
+        "teacher:monte_carlo": {
+          "states": 7192,
+          "games": 2303,
+          "regret_difference": -7.40704732689099e-05,
+          "regret_ci95": [
+            -0.00021891455320807403,
+            6.444035428712552e-05
+          ],
+          "agreement_difference": -0.00013904338153503893,
+          "agreement_ci95": [
+            -0.0035284178580731636,
+            0.0031692568814101203
+          ]
+        },
+        "teacher:exact": {
+          "states": 1000,
+          "games": 393,
+          "regret_difference": 0.00033891357745457253,
+          "regret_ci95": [
+            -0.00027256315889692375,
+            0.0009715225106101403
+          ],
+          "agreement_difference": -0.005,
+          "agreement_ci95": [
+            -0.016312818290852692,
+            0.00615400410677618
+          ]
+        },
+        "depleted": {
+          "states": 4096,
+          "games": 1203,
+          "regret_difference": -4.7794320747725916e-05,
+          "regret_ci95": [
+            -0.0003041234262598382,
+            0.00018621880388931429
+          ],
+          "agreement_difference": -0.001708984375,
+          "agreement_ci95": [
+            -0.006643864425352004,
+            0.0031670049083685984
+          ]
+        }
+      }
+    },
+    "visited-minus-incumbent": {
+      "uncertainty": "Paired whole-game bootstrap, 2000 replicates; conditions on approximate teacher labels. Stratum intervals are exploratory and unadjusted for multiple comparisons.",
+      "candidate_minus_comparator": {
+        "overall": {
+          "states": 8192,
+          "games": 2414,
+          "regret_difference": -2.365738113957855e-05,
+          "regret_ci95": [
+            -0.00017011241965956476,
+            0.00011995171025412505
+          ],
+          "agreement_difference": -0.000732421875,
+          "agreement_ci95": [
+            -0.004016444473226402,
+            0.0024402818023288356
+          ]
+        },
+        "general": {
+          "states": 4096,
+          "games": 1211,
+          "regret_difference": 4.795584685688141e-07,
+          "regret_ci95": [
+            -0.00013281563176697662,
+            0.00013632387910332281
+          ],
+          "agreement_difference": 0.000244140625,
+          "agreement_ci95": [
+            -0.0036855943275028373,
+            0.004206957621967699
+          ]
+        },
+        "teacher:monte_carlo": {
+          "states": 7192,
+          "games": 2303,
+          "regret_difference": -7.40704732689099e-05,
+          "regret_ci95": [
+            -0.00021891455320807403,
+            6.444035428712552e-05
+          ],
+          "agreement_difference": -0.00013904338153503893,
+          "agreement_ci95": [
+            -0.0035284178580731636,
+            0.0031692568814101203
+          ]
+        },
+        "teacher:exact": {
+          "states": 1000,
+          "games": 393,
+          "regret_difference": 0.00033891357745457253,
+          "regret_ci95": [
+            -0.00027256315889692375,
+            0.0009715225106101403
+          ],
+          "agreement_difference": -0.005,
+          "agreement_ci95": [
+            -0.016312818290852692,
+            0.00615400410677618
+          ]
+        },
+        "depleted": {
+          "states": 4096,
+          "games": 1203,
+          "regret_difference": -4.7794320747725916e-05,
+          "regret_ci95": [
+            -0.0003041234262598382,
+            0.00018621880388931429
+          ],
+          "agreement_difference": -0.001708984375,
+          "agreement_ci95": [
+            -0.006643864425352004,
+            0.0031670049083685984
+          ]
+        }
+      }
+    },
+    "control-minus-incumbent": {
+      "uncertainty": "Paired whole-game bootstrap, 2000 replicates; conditions on approximate teacher labels. Stratum intervals are exploratory and unadjusted for multiple comparisons.",
+      "candidate_minus_comparator": {
+        "overall": {
+          "states": 8192,
+          "games": 2414,
+          "regret_difference": 0.0,
+          "regret_ci95": [
+            0.0,
+            0.0
+          ],
+          "agreement_difference": 0.0,
+          "agreement_ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "general": {
+          "states": 4096,
+          "games": 1211,
+          "regret_difference": 0.0,
+          "regret_ci95": [
+            0.0,
+            0.0
+          ],
+          "agreement_difference": 0.0,
+          "agreement_ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "teacher:monte_carlo": {
+          "states": 7192,
+          "games": 2303,
+          "regret_difference": 0.0,
+          "regret_ci95": [
+            0.0,
+            0.0
+          ],
+          "agreement_difference": 0.0,
+          "agreement_ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "teacher:exact": {
+          "states": 1000,
+          "games": 393,
+          "regret_difference": 0.0,
+          "regret_ci95": [
+            0.0,
+            0.0
+          ],
+          "agreement_difference": 0.0,
+          "agreement_ci95": [
+            0.0,
+            0.0
+          ]
+        },
+        "depleted": {
+          "states": 4096,
+          "games": 1203,
+          "regret_difference": 0.0,
+          "regret_ci95": [
+            0.0,
+            0.0
+          ],
+          "agreement_difference": 0.0,
+          "agreement_ci95": [
+            0.0,
+            0.0
+          ]
+        }
+      }
+    }
+  },
+  "activated": false,
+  "published": false,
+  "frozen_selection_sha256": "cac5e5aa702c0291a92b29f7901ae0eabe8c9b45dda43653cb5324ab1fd0252d",
+  "inference_files": {
+    "incumbent": {
+      "encoder/config.json": "5c887ce4335a901d15b8024f5ead2d0744eb18439da011511df5ae8f7cbf862a",
+      "model.safetensors": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+      "rl_agent_config.json": "f977fd353d0c0c84a44dd08419369dbd3e91f5d80ad38b09da36588140e51096",
+      "tokenizer/special_tokens_map.json": "ea97ecdbcc73713039d8d64dbb05e3689495c96657fbd9a18f5bed381be81049",
+      "tokenizer/tokenizer.json": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+      "tokenizer/tokenizer_config.json": "2966a59b9e9cf122279aec1249e22e5bc7ad8430c754e95031b13fd128d4e560"
+    },
+    "control": {
+      "encoder/config.json": "5c887ce4335a901d15b8024f5ead2d0744eb18439da011511df5ae8f7cbf862a",
+      "model.safetensors": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+      "rl_agent_config.json": "051fbdf7a7f4e65f58be41d21d1c35b169ba1934068e5aa0d84c39e55e1adc0f",
+      "tokenizer/special_tokens_map.json": "ea97ecdbcc73713039d8d64dbb05e3689495c96657fbd9a18f5bed381be81049",
+      "tokenizer/tokenizer.json": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+      "tokenizer/tokenizer_config.json": "2966a59b9e9cf122279aec1249e22e5bc7ad8430c754e95031b13fd128d4e560"
+    },
+    "visited": {
+      "encoder/config.json": "5c887ce4335a901d15b8024f5ead2d0744eb18439da011511df5ae8f7cbf862a",
+      "model.safetensors": "8f0be17ef5e36827565d5b11dec4080cde565b1b92a626dafe11da1d0f48920f",
+      "rl_agent_config.json": "2d7cae2791236e34aea27923cfdafa958d8b5a2a82c4d3c074ad7c29d2731569",
+      "tokenizer/special_tokens_map.json": "ea97ecdbcc73713039d8d64dbb05e3689495c96657fbd9a18f5bed381be81049",
+      "tokenizer/tokenizer.json": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+      "tokenizer/tokenizer_config.json": "2966a59b9e9cf122279aec1249e22e5bc7ad8430c754e95031b13fd128d4e560"
+    }
+  },
+  "datasets": {
+    "datasets": {
+      "control": "77a8735d6f9faf0304d5919cb851f605d2125ca444eb16eb738bf805d93ee9e6",
+      "visited": "9d2b5e2d007ec43404d54f5c27b78f573503a3cc8e98b15f7cdecf38402abe21"
+    },
+    "common_audit_dataset": "ca5af6d14b417530da5cdfec348e4c914f141b8a79c790d4e5b6b46ca567dd8e",
+    "planned_updates_per_arm": 36000,
+    "states_per_arm": {
+      "train": 32000,
+      "selection": 4096,
+      "calibration": 2048,
+      "test": 8192
+    }
+  },
+  "replacement_label_statistics": {
+    "source_stats": {
+      "control": {
+        "states": 16000,
+        "exact": 972,
+        "resolved": 14552,
+        "worlds": 67518464,
+        "monte_carlo": 15028
+      },
+      "visited": {
+        "states": 16000,
+        "exact": 1003,
+        "resolved": 14509,
+        "worlds": 67909632,
+        "monte_carlo": 14997
+      }
+    },
+    "shared_replacement_labels": 625,
+    "unique_reference_calls": 31375,
+    "unique_reference_worlds": 132726784
+  },
+  "return_reports": {
+    "fresh": {
+      "identity": {
+        "version": "paired-policy-v1",
+        "scenarios": {
+          "s17-6d-1p": {
+            "players": 1,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-2p": {
+            "players": 2,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-3p": {
+            "players": 3,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-4p": {
+            "players": 4,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-5p": {
+            "players": 5,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-6p": {
+            "players": 6,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-7p": {
+            "players": 7,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "h17-no-das-6to5": {
+            "players": 3,
+            "decks": 6,
+            "hit_soft_17": true,
+            "double_after_split": false,
+            "surrender": true,
+            "blackjack_payout": 1.2,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-2d-3p": {
+            "players": 3,
+            "decks": 2,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "random-tablemates-7p": {
+            "players": 7,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "random"
+          }
+        },
+        "mode": "fresh",
+        "units": 100000,
+        "rounds_per_unit": 1,
+        "seed": 17657312686005554799045798580881969109
+      },
+      "results": {
+        "basic": {
+          "mean_units_per_round": -0.011692,
+          "ci95": [
+            -0.018712033630244256,
+            -0.004671966369755744
+          ],
+          "rounds": 100000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.0092,
+              "standard_error": 0.011313679151080492,
+              "ci95": [
+                -0.031374811136117765,
+                0.012974811136117766
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": -0.022,
+              "standard_error": 0.011349426458993195,
+              "ci95": [
+                -0.044244875859626664,
+                0.00024487585962666356
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.0103,
+              "standard_error": 0.01142135875207387,
+              "ci95": [
+                -0.012085863154064784,
+                0.032685863154064784
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.005,
+              "standard_error": 0.011440305418073676,
+              "ci95": [
+                -0.027422998619424405,
+                0.017422998619424403
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": 0.01095,
+              "standard_error": 0.01137160679473703,
+              "ci95": [
+                -0.01133834931768458,
+                0.03323834931768458
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.02295,
+              "standard_error": 0.011355074791578972,
+              "ci95": [
+                -0.04520594659149479,
+                -0.0006940534085052158
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": -0.02875,
+              "standard_error": 0.011300558128313891,
+              "ci95": [
+                -0.05089909393149523,
+                -0.006600906068504775
+              ],
+              "independent_units": 10000
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": -0.012269999999999993,
+              "standard_error": 0.011083245397574408,
+              "ci95": [
+                -0.03399316097924583,
+                0.009453160979245846
+              ],
+              "independent_units": 10000
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": -0.021,
+              "standard_error": 0.01131210397625645,
+              "ci95": [
+                -0.04317172379346264,
+                0.0011717237934626389
+              ],
+              "independent_units": 10000
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.017,
+              "standard_error": 0.011310565542416036,
+              "ci95": [
+                -0.03916870846313543,
+                0.005168708463135427
+              ],
+              "independent_units": 10000
+            }
+          },
+          "model_hash": null,
+          "inference_mode": "not_applicable"
+        },
+        "incumbent": {
+          "mean_units_per_round": -0.011972000000000002,
+          "ci95": [
+            -0.018989822551159365,
+            -0.004954177448840639
+          ],
+          "rounds": 100000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.00705,
+              "standard_error": 0.011263667998111324,
+              "ci95": [
+                -0.029126789276298196,
+                0.015026789276298195
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": -0.0217,
+              "standard_error": 0.01130666595727967,
+              "ci95": [
+                -0.04386106527626815,
+                0.0004610652762681508
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.0112,
+              "standard_error": 0.011389487611073832,
+              "ci95": [
+                -0.011123395717704711,
+                0.03352339571770471
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.00655,
+              "standard_error": 0.011424152523320387,
+              "ci95": [
+                -0.028941338945707957,
+                0.015841338945707956
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": 0.01075,
+              "standard_error": 0.01139995349306147,
+              "ci95": [
+                -0.011593908846400481,
+                0.03309390884640048
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.02215,
+              "standard_error": 0.011373494334958746,
+              "ci95": [
+                -0.04444204889651914,
+                0.00014204889651914243
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": -0.03445,
+              "standard_error": 0.011309138314254587,
+              "ci95": [
+                -0.05661591109593899,
+                -0.012284088904061012
+              ],
+              "independent_units": 10000
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": -0.015119999999999993,
+              "standard_error": 0.011103515991195611,
+              "ci95": [
+                -0.03688289134274339,
+                0.006642891342743406
+              ],
+              "independent_units": 10000
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": -0.0206,
+              "standard_error": 0.011349468932267468,
+              "ci95": [
+                -0.042844959107244236,
+                0.0016449591072442357
+              ],
+              "independent_units": 10000
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.01405,
+              "standard_error": 0.01130312062235825,
+              "ci95": [
+                -0.03620411641982217,
+                0.008104116419822168
+              ],
+              "independent_units": 10000
+            }
+          },
+          "model_hash": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+          "inference_mode": "sdk"
+        },
+        "control": {
+          "mean_units_per_round": -0.011972000000000002,
+          "ci95": [
+            -0.018989822551159365,
+            -0.004954177448840639
+          ],
+          "rounds": 100000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.00705,
+              "standard_error": 0.011263667998111324,
+              "ci95": [
+                -0.029126789276298196,
+                0.015026789276298195
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": -0.0217,
+              "standard_error": 0.01130666595727967,
+              "ci95": [
+                -0.04386106527626815,
+                0.0004610652762681508
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.0112,
+              "standard_error": 0.011389487611073832,
+              "ci95": [
+                -0.011123395717704711,
+                0.03352339571770471
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.00655,
+              "standard_error": 0.011424152523320387,
+              "ci95": [
+                -0.028941338945707957,
+                0.015841338945707956
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": 0.01075,
+              "standard_error": 0.01139995349306147,
+              "ci95": [
+                -0.011593908846400481,
+                0.03309390884640048
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.02215,
+              "standard_error": 0.011373494334958746,
+              "ci95": [
+                -0.04444204889651914,
+                0.00014204889651914243
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": -0.03445,
+              "standard_error": 0.011309138314254587,
+              "ci95": [
+                -0.05661591109593899,
+                -0.012284088904061012
+              ],
+              "independent_units": 10000
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": -0.015119999999999993,
+              "standard_error": 0.011103515991195611,
+              "ci95": [
+                -0.03688289134274339,
+                0.006642891342743406
+              ],
+              "independent_units": 10000
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": -0.0206,
+              "standard_error": 0.011349468932267468,
+              "ci95": [
+                -0.042844959107244236,
+                0.0016449591072442357
+              ],
+              "independent_units": 10000
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.01405,
+              "standard_error": 0.01130312062235825,
+              "ci95": [
+                -0.03620411641982217,
+                0.008104116419822168
+              ],
+              "independent_units": 10000
+            }
+          },
+          "model_hash": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+          "inference_mode": "sdk"
+        },
+        "visited": {
+          "mean_units_per_round": -0.012222,
+          "ci95": [
+            -0.019272673722050403,
+            -0.0051713262779495995
+          ],
+          "rounds": 100000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.0046,
+              "standard_error": 0.011342210920929723,
+              "ci95": [
+                -0.026830733405022258,
+                0.017630733405022258
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": -0.0246,
+              "standard_error": 0.01137881504125866,
+              "ci95": [
+                -0.04690247748086697,
+                -0.002297522519133028
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.0113,
+              "standard_error": 0.011467579584993243,
+              "ci95": [
+                -0.011176455986586757,
+                0.033776455986586754
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.006,
+              "standard_error": 0.011487366798339642,
+              "ci95": [
+                -0.028515238924745695,
+                0.016515238924745698
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": 0.00985,
+              "standard_error": 0.011427416870650759,
+              "ci95": [
+                -0.012547737066475486,
+                0.03224773706647548
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.02775,
+              "standard_error": 0.011383253120051381,
+              "ci95": [
+                -0.05006117611530071,
+                -0.005438823884699292
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": -0.0345,
+              "standard_error": 0.011341024507675148,
+              "ci95": [
+                -0.056728408035043296,
+                -0.012271591964956714
+              ],
+              "independent_units": 10000
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": -0.012469999999999997,
+              "standard_error": 0.011160555797565419,
+              "ci95": [
+                -0.034344689363228216,
+                0.009404689363228224
+              ],
+              "independent_units": 10000
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": -0.02035,
+              "standard_error": 0.01139447546651954,
+              "ci95": [
+                -0.0426831719143783,
+                0.0019831719143782976
+              ],
+              "independent_units": 10000
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.0131,
+              "standard_error": 0.011370170054871988,
+              "ci95": [
+                -0.035385533307549094,
+                0.009185533307549096
+              ],
+              "independent_units": 10000
+            }
+          },
+          "model_hash": "8f0be17ef5e36827565d5b11dec4080cde565b1b92a626dafe11da1d0f48920f",
+          "inference_mode": "sdk"
+        }
+      },
+      "candidate": "visited",
+      "paired_candidate_minus": {
+        "basic": {
+          "mean_difference": -0.00053,
+          "ci95": [
+            -0.0018332766602518879,
+            0.000773276660251888
+          ],
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": 0.0046,
+              "standard_error": 0.0023576343745340157,
+              "ci95": [
+                -2.0963374086671073e-05,
+                0.00922096337408667
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": -0.0026,
+              "standard_error": 0.0022180658199427174,
+              "ci95": [
+                -0.006947409007087726,
+                0.0017474090070877264
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.001,
+              "standard_error": 0.0018276307130824707,
+              "ci95": [
+                -0.0025821561976416426,
+                0.004582156197641643
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.001,
+              "standard_error": 0.0018921569770509474,
+              "ci95": [
+                -0.004708627675019857,
+                0.0027086276750198568
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.0011,
+              "standard_error": 0.0019157886168892587,
+              "ci95": [
+                -0.004854945689102947,
+                0.002654945689102947
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.0048,
+              "standard_error": 0.0017415508318536076,
+              "ci95": [
+                -0.00821343963043307,
+                -0.001386560369566929
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": -0.00575,
+              "standard_error": 0.0019785310734281763,
+              "ci95": [
+                -0.009627920903919226,
+                -0.0018720790960807744
+              ],
+              "independent_units": 10000
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": -0.0002,
+              "standard_error": 0.002395948675787046,
+              "ci95": [
+                -0.00489605940454261,
+                0.0044960594045426105
+              ],
+              "independent_units": 10000
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": 0.00065,
+              "standard_error": 0.002635934856034292,
+              "ci95": [
+                -0.0045164323178272115,
+                0.005816432317827212
+              ],
+              "independent_units": 10000
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": 0.0039,
+              "standard_error": 0.001873187092361118,
+              "ci95": [
+                0.0002285532989722088,
+                0.00757144670102779
+              ],
+              "independent_units": 10000
+            }
+          }
+        },
+        "incumbent": {
+          "mean_difference": -0.00025,
+          "ci95": [
+            -0.0016978811794394516,
+            0.0011978811794394516
+          ],
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": 0.00245,
+              "standard_error": 0.0027600111442078663,
+              "ci95": [
+                -0.002959621842647418,
+                0.007859621842647418
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": -0.0029,
+              "standard_error": 0.0024494405434501956,
+              "ci95": [
+                -0.007700903465162383,
+                0.0019009034651623832
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.0001,
+              "standard_error": 0.002363378419922543,
+              "ci95": [
+                -0.004532221703048184,
+                0.004732221703048185
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": 0.00055,
+              "standard_error": 0.0023881038616453435,
+              "ci95": [
+                -0.004130683568824873,
+                0.005230683568824873
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.0009,
+              "standard_error": 0.002221578839756565,
+              "ci95": [
+                -0.005254294525922867,
+                0.003454294525922868
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.0056,
+              "standard_error": 0.002212996551143615,
+              "ci95": [
+                -0.009937473240241485,
+                -0.0012625267597585138
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": -5e-05,
+              "standard_error": 0.00195649751808016,
+              "ci95": [
+                -0.003884735135437114,
+                0.003784735135437114
+              ],
+              "independent_units": 10000
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": 0.00265,
+              "standard_error": 0.00254016593833935,
+              "ci95": [
+                -0.0023287252391451254,
+                0.007628725239145125
+              ],
+              "independent_units": 10000
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": 0.00025,
+              "standard_error": 0.001976837003511884,
+              "ci95": [
+                -0.0036246005268832926,
+                0.004124600526883292
+              ],
+              "independent_units": 10000
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": 0.00095,
+              "standard_error": 0.0023754944848188428,
+              "ci95": [
+                -0.003705969190244932,
+                0.005605969190244932
+              ],
+              "independent_units": 10000
+            }
+          }
+        },
+        "control": {
+          "mean_difference": -0.00025,
+          "ci95": [
+            -0.0016978811794394516,
+            0.0011978811794394516
+          ],
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": 0.00245,
+              "standard_error": 0.0027600111442078663,
+              "ci95": [
+                -0.002959621842647418,
+                0.007859621842647418
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": -0.0029,
+              "standard_error": 0.0024494405434501956,
+              "ci95": [
+                -0.007700903465162383,
+                0.0019009034651623832
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.0001,
+              "standard_error": 0.002363378419922543,
+              "ci95": [
+                -0.004532221703048184,
+                0.004732221703048185
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": 0.00055,
+              "standard_error": 0.0023881038616453435,
+              "ci95": [
+                -0.004130683568824873,
+                0.005230683568824873
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.0009,
+              "standard_error": 0.002221578839756565,
+              "ci95": [
+                -0.005254294525922867,
+                0.003454294525922868
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.0056,
+              "standard_error": 0.002212996551143615,
+              "ci95": [
+                -0.009937473240241485,
+                -0.0012625267597585138
+              ],
+              "independent_units": 10000
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": -5e-05,
+              "standard_error": 0.00195649751808016,
+              "ci95": [
+                -0.003884735135437114,
+                0.003784735135437114
+              ],
+              "independent_units": 10000
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": 0.00265,
+              "standard_error": 0.00254016593833935,
+              "ci95": [
+                -0.0023287252391451254,
+                0.007628725239145125
+              ],
+              "independent_units": 10000
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": 0.00025,
+              "standard_error": 0.001976837003511884,
+              "ci95": [
+                -0.0036246005268832926,
+                0.004124600526883292
+              ],
+              "independent_units": 10000
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": 0.00095,
+              "standard_error": 0.0023754944848188428,
+              "ci95": [
+                -0.003705969190244932,
+                0.005605969190244932
+              ],
+              "independent_units": 10000
+            }
+          }
+        }
+      },
+      "inference": "Fixed equal-weight strata; normal 95% intervals over independent rounds or 100-round blocks. Scenario intervals are exploratory, without multiplicity correction.",
+      "pairing": "Identical initial RNG seeds per unit; different actions can diverge subsequent trajectories.",
+      "limitations": "The basic policy is a multi-deck heuristic. Fixed wagers, no insurance; these simulator results do not establish optimality or real-world profitability."
+    },
+    "continuous": {
+      "identity": {
+        "version": "paired-policy-v1",
+        "scenarios": {
+          "s17-6d-1p": {
+            "players": 1,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-2p": {
+            "players": 2,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-3p": {
+            "players": 3,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-4p": {
+            "players": 4,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-5p": {
+            "players": 5,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-6p": {
+            "players": 6,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-7p": {
+            "players": 7,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "h17-no-das-6to5": {
+            "players": 3,
+            "decks": 6,
+            "hit_soft_17": true,
+            "double_after_split": false,
+            "surrender": true,
+            "blackjack_payout": 1.2,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-2d-3p": {
+            "players": 3,
+            "decks": 2,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "random-tablemates-7p": {
+            "players": 7,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "random"
+          }
+        },
+        "mode": "continuous",
+        "units": 1000,
+        "rounds_per_unit": 100,
+        "seed": 17657312686005554799045798580881969109
+      },
+      "results": {
+        "basic": {
+          "mean_units_per_round": -0.006391999999999999,
+          "ci95": [
+            -0.01339681640223541,
+            0.0006128164022354129
+          ],
+          "rounds": 100000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": 0.0028000000000000013,
+              "standard_error": 0.011238758693454405,
+              "ci95": [
+                -0.019227967039170634,
+                0.024827967039170635
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": -0.008000000000000002,
+              "standard_error": 0.01045818996642045,
+              "ci95": [
+                -0.028498052334184086,
+                0.01249805233418408
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": -0.009499999999999998,
+              "standard_error": 0.011718607322363763,
+              "ci95": [
+                -0.03246847035183297,
+                0.013468470351832976
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.01065,
+              "standard_error": 0.011207333232389326,
+              "ci95": [
+                -0.03261637313548308,
+                0.01131637313548308
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.0133,
+              "standard_error": 0.011256921552017799,
+              "ci95": [
+                -0.035363566241954886,
+                0.008763566241954887
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.012850000000000002,
+              "standard_error": 0.010840965842766979,
+              "ci95": [
+                -0.03409829305182328,
+                0.008398293051823274
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": -0.008050000000000002,
+              "standard_error": 0.011342219110184494,
+              "ci95": [
+                -0.030280749455961608,
+                0.014180749455961605
+              ],
+              "independent_units": 100
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": -0.0017700000000000038,
+              "standard_error": 0.013098684142410116,
+              "ci95": [
+                -0.027443420919123832,
+                0.023903420919123824
+              ],
+              "independent_units": 100
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": -0.009099999999999999,
+              "standard_error": 0.010385591222963913,
+              "ci95": [
+                -0.02945575879700927,
+                0.01125575879700927
+              ],
+              "independent_units": 100
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": 0.006500000000000001,
+              "standard_error": 0.011239473189422963,
+              "ci95": [
+                -0.015529367451269005,
+                0.028529367451269008
+              ],
+              "independent_units": 100
+            }
+          },
+          "model_hash": null,
+          "inference_mode": "not_applicable"
+        },
+        "incumbent": {
+          "mean_units_per_round": -0.004445000000000001,
+          "ci95": [
+            -0.011450519563886753,
+            0.0025605195638867496
+          ],
+          "rounds": 100000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": 0.0127,
+              "standard_error": 0.011443629960229695,
+              "ci95": [
+                -0.009729514722050202,
+                0.0351295147220502
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": 0.005200000000000002,
+              "standard_error": 0.01204031946956944,
+              "ci95": [
+                -0.0183990261603561,
+                0.028799026160356105
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": -0.009099999999999999,
+              "standard_error": 0.010687569481137487,
+              "ci95": [
+                -0.03004763618302947,
+                0.011847636183029473
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.0166,
+              "standard_error": 0.0114679791355995,
+              "ci95": [
+                -0.03907723910577502,
+                0.00587723910577502
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.010450000000000001,
+              "standard_error": 0.011421027700578165,
+              "ci95": [
+                -0.0328352142931332,
+                0.011935214293133201
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.009800000000000005,
+              "standard_error": 0.011424747195664702,
+              "ci95": [
+                -0.03219250450350282,
+                0.012592504503502812
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": -0.005000000000000004,
+              "standard_error": 0.011230370079441377,
+              "ci95": [
+                -0.027011525355705102,
+                0.017011525355705093
+              ],
+              "independent_units": 100
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": 0.012099999999999993,
+              "standard_error": 0.012082063674151971,
+              "ci95": [
+                -0.011580844801337871,
+                0.035780844801337856
+              ],
+              "independent_units": 100
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": -0.019799999999999998,
+              "standard_error": 0.010449474395945242,
+              "ci95": [
+                -0.04028096981605267,
+                0.0006809698160526768
+              ],
+              "independent_units": 100
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.0036999999999999993,
+              "standard_error": 0.010658524354437694,
+              "ci95": [
+                -0.02459070773469788,
+                0.017190707734697882
+              ],
+              "independent_units": 100
+            }
+          },
+          "model_hash": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+          "inference_mode": "sdk"
+        },
+        "control": {
+          "mean_units_per_round": -0.004445000000000001,
+          "ci95": [
+            -0.011450519563886753,
+            0.0025605195638867496
+          ],
+          "rounds": 100000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": 0.0127,
+              "standard_error": 0.011443629960229695,
+              "ci95": [
+                -0.009729514722050202,
+                0.0351295147220502
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": 0.005200000000000002,
+              "standard_error": 0.01204031946956944,
+              "ci95": [
+                -0.0183990261603561,
+                0.028799026160356105
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": -0.009099999999999999,
+              "standard_error": 0.010687569481137487,
+              "ci95": [
+                -0.03004763618302947,
+                0.011847636183029473
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.0166,
+              "standard_error": 0.0114679791355995,
+              "ci95": [
+                -0.03907723910577502,
+                0.00587723910577502
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.010450000000000001,
+              "standard_error": 0.011421027700578165,
+              "ci95": [
+                -0.0328352142931332,
+                0.011935214293133201
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.009800000000000005,
+              "standard_error": 0.011424747195664702,
+              "ci95": [
+                -0.03219250450350282,
+                0.012592504503502812
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": -0.005000000000000004,
+              "standard_error": 0.011230370079441377,
+              "ci95": [
+                -0.027011525355705102,
+                0.017011525355705093
+              ],
+              "independent_units": 100
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": 0.012099999999999993,
+              "standard_error": 0.012082063674151971,
+              "ci95": [
+                -0.011580844801337871,
+                0.035780844801337856
+              ],
+              "independent_units": 100
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": -0.019799999999999998,
+              "standard_error": 0.010449474395945242,
+              "ci95": [
+                -0.04028096981605267,
+                0.0006809698160526768
+              ],
+              "independent_units": 100
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.0036999999999999993,
+              "standard_error": 0.010658524354437694,
+              "ci95": [
+                -0.02459070773469788,
+                0.017190707734697882
+              ],
+              "independent_units": 100
+            }
+          },
+          "model_hash": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+          "inference_mode": "sdk"
+        },
+        "visited": {
+          "mean_units_per_round": -0.0014750000000000004,
+          "ci95": [
+            -0.008587552806201871,
+            0.00563755280620187
+          ],
+          "rounds": 100000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": 0.009150000000000002,
+              "standard_error": 0.01244321546510833,
+              "ci95": [
+                -0.015238702311612326,
+                0.03353870231161233
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": 0.0027,
+              "standard_error": 0.011975652910228427,
+              "ci95": [
+                -0.020772279704047717,
+                0.02617227970404772
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": -0.008299999999999998,
+              "standard_error": 0.011342068825947287,
+              "ci95": [
+                -0.03053045489885668,
+                0.013930454898856682
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.006750000000000001,
+              "standard_error": 0.010667228915105962,
+              "ci95": [
+                -0.02765776867360769,
+                0.014157768673607686
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.006299999999999996,
+              "standard_error": 0.011862771747587219,
+              "ci95": [
+                -0.029551032625270944,
+                0.01695103262527095
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.00905,
+              "standard_error": 0.010896365578865405,
+              "ci95": [
+                -0.030406876534576195,
+                0.012306876534576192
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": 0.0043999999999999985,
+              "standard_error": 0.010609048929659961,
+              "ci95": [
+                -0.016393735902133527,
+                0.025193735902133522
+              ],
+              "independent_units": 100
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": 0.024549999999999992,
+              "standard_error": 0.0119606288051315,
+              "ci95": [
+                0.0011071675419422507,
+                0.04799283245805773
+              ],
+              "independent_units": 100
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": -0.013899999999999997,
+              "standard_error": 0.010856636940441807,
+              "ci95": [
+                -0.03517900840326594,
+                0.007379008403265943
+              ],
+              "independent_units": 100
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.011250000000000005,
+              "standard_error": 0.011968471839872383,
+              "ci95": [
+                -0.034708204806149875,
+                0.012208204806149864
+              ],
+              "independent_units": 100
+            }
+          },
+          "model_hash": "8f0be17ef5e36827565d5b11dec4080cde565b1b92a626dafe11da1d0f48920f",
+          "inference_mode": "sdk"
+        }
+      },
+      "candidate": "visited",
+      "paired_candidate_minus": {
+        "basic": {
+          "mean_difference": 0.004917,
+          "ci95": [
+            0.00026563622092738454,
+            0.009568363779072615
+          ],
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": 0.00635,
+              "standard_error": 0.007905328403786724,
+              "ci95": [
+                -0.00914444367142198,
+                0.02184444367142198
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": 0.010700000000000001,
+              "standard_error": 0.006475681002369128,
+              "ci95": [
+                -0.0019923347646434893,
+                0.02339233476464349
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.0012,
+              "standard_error": 0.00639922659468322,
+              "ci95": [
+                -0.011342484125579111,
+                0.01374248412557911
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": 0.0039000000000000003,
+              "standard_error": 0.006534129512402435,
+              "ci95": [
+                -0.008906893844308771,
+                0.016706893844308773
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": 0.006999999999999998,
+              "standard_error": 0.006223124032772666,
+              "ci95": [
+                -0.005197323104234426,
+                0.019197323104234422
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": 0.003799999999999999,
+              "standard_error": 0.00587844891243954,
+              "ci95": [
+                -0.007721759868381499,
+                0.015321759868381498
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": 0.012450000000000003,
+              "standard_error": 0.006196078508935219,
+              "ci95": [
+                0.00030568612248697315,
+                0.024594313877513034
+              ],
+              "independent_units": 100
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": 0.026319999999999993,
+              "standard_error": 0.006921447854606752,
+              "ci95": [
+                0.012753962204970758,
+                0.03988603779502923
+              ],
+              "independent_units": 100
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": -0.0048,
+              "standard_error": 0.005804004190769046,
+              "ci95": [
+                -0.01617584821390733,
+                0.006575848213907331
+              ],
+              "independent_units": 100
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.017750000000000002,
+              "standard_error": 0.01348481656448384,
+              "ci95": [
+                -0.044180240466388326,
+                0.008680240466388323
+              ],
+              "independent_units": 100
+            }
+          }
+        },
+        "incumbent": {
+          "mean_difference": 0.0029700000000000004,
+          "ci95": [
+            -0.0007819408430433661,
+            0.006721940843043367
+          ],
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.00355,
+              "standard_error": 0.006262077220149166,
+              "ci95": [
+                -0.015823671351492364,
+                0.008723671351492365
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": -0.0025000000000000005,
+              "standard_error": 0.0055856508080522685,
+              "ci95": [
+                -0.013447875583782446,
+                0.008447875583782445
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.0008000000000000005,
+              "standard_error": 0.005662975624995478,
+              "ci95": [
+                -0.010299432224991136,
+                0.011899432224991137
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": 0.009850000000000001,
+              "standard_error": 0.005736844854873529,
+              "ci95": [
+                -0.0013942159155521158,
+                0.02109421591555212
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": 0.0041499999999999974,
+              "standard_error": 0.004695288310980735,
+              "ci95": [
+                -0.005052765089522243,
+                0.013352765089522238
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": 0.0007500000000000003,
+              "standard_error": 0.0037948496463475123,
+              "ci95": [
+                -0.006687905306841123,
+                0.008187905306841124
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": 0.0094,
+              "standard_error": 0.00534150888529797,
+              "ci95": [
+                -0.0010693574151840208,
+                0.019869357415184023
+              ],
+              "independent_units": 100
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": 0.012450000000000001,
+              "standard_error": 0.006579757371720257,
+              "ci95": [
+                -0.00044632444857170377,
+                0.025346324448571704
+              ],
+              "independent_units": 100
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": 0.005900000000000001,
+              "standard_error": 0.003555746522649405,
+              "ci95": [
+                -0.0010692631843928326,
+                0.012869263184392833
+              ],
+              "independent_units": 100
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.007550000000000002,
+              "standard_error": 0.010494225203713833,
+              "ci95": [
+                -0.028118681399279113,
+                0.01301868139927911
+              ],
+              "independent_units": 100
+            }
+          }
+        },
+        "control": {
+          "mean_difference": 0.0029700000000000004,
+          "ci95": [
+            -0.0007819408430433661,
+            0.006721940843043367
+          ],
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.00355,
+              "standard_error": 0.006262077220149166,
+              "ci95": [
+                -0.015823671351492364,
+                0.008723671351492365
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": -0.0025000000000000005,
+              "standard_error": 0.0055856508080522685,
+              "ci95": [
+                -0.013447875583782446,
+                0.008447875583782445
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.0008000000000000005,
+              "standard_error": 0.005662975624995478,
+              "ci95": [
+                -0.010299432224991136,
+                0.011899432224991137
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": 0.009850000000000001,
+              "standard_error": 0.005736844854873529,
+              "ci95": [
+                -0.0013942159155521158,
+                0.02109421591555212
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": 0.0041499999999999974,
+              "standard_error": 0.004695288310980735,
+              "ci95": [
+                -0.005052765089522243,
+                0.013352765089522238
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": 0.0007500000000000003,
+              "standard_error": 0.0037948496463475123,
+              "ci95": [
+                -0.006687905306841123,
+                0.008187905306841124
+              ],
+              "independent_units": 100
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": 0.0094,
+              "standard_error": 0.00534150888529797,
+              "ci95": [
+                -0.0010693574151840208,
+                0.019869357415184023
+              ],
+              "independent_units": 100
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": 0.012450000000000001,
+              "standard_error": 0.006579757371720257,
+              "ci95": [
+                -0.00044632444857170377,
+                0.025346324448571704
+              ],
+              "independent_units": 100
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": 0.005900000000000001,
+              "standard_error": 0.003555746522649405,
+              "ci95": [
+                -0.0010692631843928326,
+                0.012869263184392833
+              ],
+              "independent_units": 100
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.007550000000000002,
+              "standard_error": 0.010494225203713833,
+              "ci95": [
+                -0.028118681399279113,
+                0.01301868139927911
+              ],
+              "independent_units": 100
+            }
+          }
+        }
+      },
+      "inference": "Fixed equal-weight strata; normal 95% intervals over independent rounds or 100-round blocks. Scenario intervals are exploratory, without multiplicity correction.",
+      "pairing": "Identical initial RNG seeds per unit; different actions can diverge subsequent trajectories.",
+      "limitations": "The basic policy is a multi-deck heuristic. Fixed wagers, no insurance; these simulator results do not establish optimality or real-world profitability."
+    }
+  },
+  "interpretation": "The model-visited arm won the frozen selection rule, but the fixed final evaluation did not resolve a return or reference-regret improvement over the incumbent/control. Four planned return contrasts use familywise intervals; comparisons with basic and scenario breakdowns are exploratory. No model promotion or publication.",
+  "policy_unit_records": 404000,
+  "paired_units": {
+    "fresh": 100000,
+    "continuous": 1000
+  },
+  "unit_count_scope": "Policy-unit records count all four policies. Policies share paired seeds; do not treat 404000 records as independent between-policy samples. Continuous units each contain 100 correlated rounds."
+}
