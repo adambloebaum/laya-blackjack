@@ -14,14 +14,20 @@ from pathlib import Path
 import numpy as np
 
 from .engine import value
-from .evaluation import BatchedLaya
+from .evaluation import BatchedLaya, ServingLaya
 from .experiment_data import atomic_json, digest, verify_dataset
 from .model import model_state, questions
 from .reference import clone_world, finish_world, sample_world
 
 
 def audit_model(
-    dataset: Path, source: str, output: Path, device="cuda:1", batch_size=32, allow_new_dataset=False
+    dataset: Path,
+    source: str,
+    output: Path,
+    device="cuda:1",
+    batch_size=32,
+    allow_new_dataset=False,
+    inference_mode="batched",
 ):
     output.mkdir(parents=True, exist_ok=True)
     manifest = verify_dataset(dataset)
@@ -29,7 +35,9 @@ def audit_model(
     same_dataset = expected["dataset_hash"] == digest(dataset / "manifest.json")
     if not same_dataset and not allow_new_dataset:
         raise ValueError("Checkpoint and audit dataset do not match.")
-    actor = BatchedLaya(source, device)
+    if inference_mode not in ("batched", "sdk"):
+        raise ValueError("Unknown inference mode.")
+    actor = (ServingLaya if inference_mode == "sdk" else BatchedLaya)(source, device)
     rows = []
     for shard in manifest["splits"]["test"]:
         with (dataset / shard["path"]).open() as stream:
@@ -157,7 +165,9 @@ def audit_model(
         "teacher_agreement_ci95": intervals[:, 0].tolist(),
         "teacher_ev_regret_ci95": intervals[:, 1].tolist(),
         "trainer_report_metrics": expected["test"] if same_dataset else None,
-        "batched_action_mismatches": mismatches,
+        "inference_mode": inference_mode,
+        "policy_action_mismatches": mismatches,
+        "batched_action_mismatches": mismatches if inference_mode == "batched" else None,
         "batch_size": batch_size,
         "serving_fallbacks": actor.fallbacks,
         "median_sdk_latency_ms": float(np.median(latencies) * 1000),

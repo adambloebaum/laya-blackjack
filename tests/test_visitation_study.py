@@ -1,4 +1,5 @@
 import json
+import sys
 import time
 from copy import deepcopy
 from dataclasses import asdict
@@ -10,6 +11,7 @@ from blackjack.evaluation import BasicPolicy
 from blackjack.experiment_data import atomic_json, digest, generate_large_dataset
 from blackjack.reference import analyze
 from blackjack.research import checkpoint_identity
+from blackjack.sdk_recovery import freeze_recovery, read_sdk_audit, seal_sdk_audit
 from blackjack.visitation import collect_groups, group_path, identities, read_group, write_record
 from blackjack.visitation_data import (
     ARMS,
@@ -22,6 +24,7 @@ from blackjack.visitation_data import (
 )
 from blackjack.visitation_study import (
     audit_study_arm,
+    finalize_study_candidate,
     freeze_study_selection,
     read_audit,
     summarize_study_returns,
@@ -338,3 +341,99 @@ def test_study_namespaces_and_four_predeclared_return_contrasts(tmp_path):
         assert contrast["units_per_100_rounds"] == 1
         assert contrast["familywise_ci95"][0] < contrast["nominal_ci95"][0]
         assert contrast["familywise_ci95"][1] > contrast["nominal_ci95"][1]
+
+
+def prepare_recovery(corpus, monkeypatch):
+    from blackjack.visitation_study import inference_files
+
+    run = json.loads((corpus / "run.json").read_text())
+    source = corpus / "source/blackjack/engine.py"
+    source.parent.mkdir(parents=True)
+    source.write_text("# frozen original source\n")
+    (corpus / "source.tar").write_bytes(b"archive")
+    atomic_json(corpus / "launch.json", {"source_archive_sha256": digest(corpus / "source.tar")})
+    run["config"]["code"] = {"engine.py": digest(source)}
+    run["config"]["runtime"] = {
+        "python": sys.version,
+        **dict.fromkeys(("laya", "torch", "transformers", "numpy"), "test"),
+    }
+    atomic_json(corpus / "run.json", run)
+    atomic_json(
+        corpus / "status.json",
+        {"status": "failed", "stage": "sealed_test_evaluation", "error": "batch/SDK parity"},
+    )
+    atomic_json(corpus / "audit/visited/report.json", {"batched_action_mismatches": [1]})
+    monkeypatch.setattr("blackjack.sdk_recovery.version", lambda name: "test")
+    prepare_candidates(corpus)
+    frozen = freeze_study_selection(corpus)
+    assert frozen["candidates"]["visited"]["files"] == inference_files(corpus / "training/visited/candidate")
+    return frozen
+
+
+def test_sdk_recovery_preserves_parent_deadline_source_and_failure(corpus, tmp_path_factory, monkeypatch):
+    prepare_recovery(corpus, monkeypatch)
+    output = tmp_path_factory.mktemp("sdk-recovery")
+    saved = freeze_recovery(corpus, output)
+    assert saved["deadline_unix"] == json.loads((corpus / "run.json").read_text())["deadline_unix"]
+    assert saved["config"]["inference_mode"] == "sdk"
+    assert freeze_recovery(corpus, output) == saved
+    with pytest.raises(ValueError, match="separate directory"):
+        freeze_recovery(corpus, corpus / "recovery")
+    original = (corpus / "status.json").read_bytes()
+    atomic_json(corpus / "status.json", json.loads(original) | {"error": "changed failure"})
+    with pytest.raises(ValueError, match="inputs or source changed"):
+        freeze_recovery(corpus, output)
+    (corpus / "status.json").write_bytes(original)
+    monkeypatch.setattr("blackjack.sdk_recovery.time.time", lambda: saved["deadline_unix"] + 1)
+    with pytest.raises(TimeoutError, match="cannot extend"):
+        freeze_recovery(corpus, output)
+
+
+def test_sdk_recovery_audits_preserve_original_sdk_actions(corpus, tmp_path_factory, monkeypatch):
+    frozen = prepare_recovery(corpus, monkeypatch)
+    output = tmp_path_factory.mktemp("sdk-recovery")
+    before = [{"index": i, "group_seed": 12, "action": "stand"} for i in range(8)]
+    atomic_json(corpus / "audit/visited/decisions.json", before)
+    freeze_recovery(corpus, output)
+    directory = output / "audit/visited"
+    report = {
+        "model_sha256": frozen["candidates"]["visited"]["files"]["model.safetensors"],
+        "dataset_sha256": frozen["data"]["common_audit_dataset"],
+        "inference_mode": "sdk",
+        "batched_action_mismatches": None,
+        "policy_action_mismatches": [],
+        "metrics": {"states": 8},
+    }
+    atomic_json(directory / "report.json", report)
+    atomic_json(directory / "decisions.json", before)
+    seal_sdk_audit(output, corpus, "visited", frozen)
+    assert read_sdk_audit(output, corpus, "visited", frozen) == report
+    (directory / "completion.json").unlink()
+    atomic_json(directory / "decisions.json", before[:-1])
+    with pytest.raises(ValueError, match="incomplete or reordered"):
+        seal_sdk_audit(output, corpus, "visited", frozen)
+    (directory / "completion.json").unlink()
+    changed = deepcopy(before)
+    changed[0]["action"] = "hit"
+    atomic_json(directory / "decisions.json", changed)
+    with pytest.raises(ValueError, match="preserved original SDK"):
+        seal_sdk_audit(output, corpus, "visited", frozen)
+    (directory / "completion.json").unlink()
+    atomic_json(directory / "decisions.json", before)
+    atomic_json(directory / "report.json", report | {"batched_action_mismatches": []})
+    with pytest.raises(ValueError, match="exact serving policy"):
+        seal_sdk_audit(output, corpus, "visited", frozen)
+
+
+def test_finalized_recovery_candidate_keeps_original_training_sealed(corpus, tmp_path_factory):
+    prepare_candidates(corpus)
+    frozen = freeze_study_selection(corpus)
+    output = tmp_path_factory.mktemp("finalized-recovery")
+    audits = {name: {"metrics": {"states": 8}} for name in ("incumbent", "control", "visited")}
+    assert finalize_study_candidate(corpus, frozen, audits, destination=output) == "evaluated-candidate"
+    assert not (corpus / "evaluated-candidate").exists()
+    original = json.loads((corpus / "training/visited/candidate/training_report.json").read_text())
+    assert original["test_deferred"] and original["test"] is None
+    finalized = json.loads((output / "evaluated-candidate/training_report.json").read_text())
+    assert not finalized["test_deferred"] and finalized["test"] == {"states": 8}
+    assert finalize_study_candidate(corpus, frozen, audits, destination=output) == "evaluated-candidate"

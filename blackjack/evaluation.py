@@ -104,6 +104,25 @@ class BatchedLaya:
         return actions
 
 
+class ServingLaya(BatchedLaya):
+    """Use the dashboard's complete three-question SDK call for every decision."""
+
+    def actions(self, observations):
+        actions = []
+        device = self.agent.device.type
+        for obs in observations:
+            state, qs = model_state(obs), questions(obs)
+            ensure_fits(self.agent, state, qs)
+            result = self.agent.predict(state, qs)
+            if self.agent.device.type != device:
+                raise RuntimeError("SDK changed inference device during evaluation.")
+            action = result["answers"]["action"]["choice"]
+            if action not in obs["legal_actions"]:
+                raise ValueError("Serving SDK returned an illegal action.")
+            actions.append(action)
+        return actions
+
+
 def simulate_units(policy, scenario, rules, indices, *, seed, mode, rounds_per_unit, batch_size):
     records = []
     indices = list(indices)
@@ -175,6 +194,7 @@ def evaluate_policy(
     batch_size=32,
     shard_size=256,
     samples=256,
+    inference_mode="batched",
 ):
     strata = scenarios()
     if units < len(strata) * 2 or units % len(strata) or min(batch_size, shard_size) < 1:
@@ -183,6 +203,8 @@ def evaluate_policy(
         raise ValueError("Invalid evaluation mode or policy.")
     if policy == "laya" and not source:
         raise ValueError("Laya evaluation requires a checkpoint.")
+    if inference_mode not in ("batched", "sdk"):
+        raise ValueError("Unknown inference mode.")
     rounds_per_unit = 1 if mode == "fresh" else 100
     identity = {
         "version": EVALUATION_VERSION,
@@ -199,6 +221,7 @@ def evaluate_policy(
         "shard_size": shard_size,
         "samples": samples,
         "receipt_version": 2,
+        "inference_mode": inference_mode,
         "source_hash": digest(Path(source) / "model.safetensors") if source else None,
         "config_hash": digest(Path(source) / "rl_agent_config.json") if source else None,
         "code": {
@@ -212,7 +235,7 @@ def evaluate_policy(
         raise ValueError("Evaluation resume configuration changed.")
     atomic_json(config_path, config)
     actor = (
-        BatchedLaya(source, device)
+        (ServingLaya if inference_mode == "sdk" else BatchedLaya)(source, device)
         if policy == "laya"
         else ReferencePolicy(samples)
         if policy == "reference"
@@ -343,6 +366,15 @@ def compare_evaluations(inputs: dict[str, Path], output: Path, candidate="candid
             "voids": sum(r["voids"] for r in rows.values()),
             "by_scenario": by_scenario,
             "model_hash": manifest["config"]["source_hash"],
+            **(
+                {
+                    "inference_mode": manifest["config"]["inference_mode"]
+                    if manifest["config"]["policy"] == "laya"
+                    else "not_applicable"
+                }
+                if "inference_mode" in manifest["config"]
+                else {}
+            ),
         }
     comparisons = {}
     candidate_rows = datasets[candidate][1]

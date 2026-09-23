@@ -54,6 +54,7 @@ def main():
     evaluate.add_argument("--batch-size", type=int, default=32)
     evaluate.add_argument("--shard-size", type=int, default=256)
     evaluate.add_argument("--samples", type=int, default=256)
+    evaluate.add_argument("--inference-mode", choices=("batched", "sdk"), default="batched")
     compare = commands.add_parser("compare-evaluations")
     compare.add_argument("--input", action="append", required=True, help="Policy name=artifact directory")
     compare.add_argument("--output", type=Path, required=True)
@@ -65,6 +66,7 @@ def main():
     audit.add_argument("--device", default="cuda:1")
     audit.add_argument("--batch-size", type=int, default=32)
     audit.add_argument("--allow-new-dataset", action="store_true")
+    audit.add_argument("--inference-mode", choices=("batched", "sdk"), default="batched")
     recheck = commands.add_parser("recheck-errors")
     recheck.add_argument("--audit", type=Path, required=True)
     recheck.add_argument("--output", type=Path, required=True)
@@ -79,6 +81,7 @@ def main():
     suite.add_argument("--fresh-units", type=int, default=100000)
     suite.add_argument("--blocks", type=int, default=1000)
     suite.add_argument("--seed", type=int, default=20260922)
+    suite.add_argument("--inference-mode", choices=("batched", "sdk"), default="batched")
     research = commands.add_parser("research")
     research.add_argument("--output", type=Path, required=True)
     research.add_argument("--candidate", required=True)
@@ -113,6 +116,9 @@ def main():
     visitation_audit.add_argument("--root", type=Path, required=True)
     visitation_audit.add_argument("--name", choices=("incumbent", "control", "visited"), required=True)
     visitation_audit.add_argument("--device", default="cuda:0")
+    recover = commands.add_parser("visitation-sdk-recovery", help="Complete frozen study through serving SDK")
+    recover.add_argument("--study", type=Path, required=True)
+    recover.add_argument("--output", type=Path, required=True)
     visit_worker = commands.add_parser("visitation-worker", help="Internal frozen-plan pilot worker")
     visit_worker.add_argument("--root", type=Path, required=True)
     visit_worker.add_argument("--phase", choices=["collect", "label", "audit"], required=True)
@@ -233,6 +239,10 @@ def main():
         from .visitation_study import audit_study_arm, run_visitation_training
 
         (run_visitation_training if command == "visitation-train" else audit_study_arm)(**args)
+    elif command == "visitation-sdk-recovery":
+        from .sdk_recovery import run_sdk_recovery
+
+        run_sdk_recovery(**args)
     elif command == "replay":
         from .engine import Game, Rules
 

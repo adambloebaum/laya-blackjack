@@ -1,0 +1,94 @@
+{
+  "original_run_id": "20260922-225718-visitation-training",
+  "original_run_sha256": "b91554750f34ae98cbaa3a6f364fa01b94e5ff089712dc4c548918c551c3ac20",
+  "failure_time_unix": 1790128980.3226676,
+  "elapsed_seconds_at_failure": 11140.019861221313,
+  "original_deadline_unix": 1790161040.3028064,
+  "completed_updates_per_arm": {
+    "control": 36000,
+    "visited": 36000
+  },
+  "selected_name": "visited",
+  "selection_regrets": {
+    "incumbent": 0.0010630087758017228,
+    "control": 0.0010630087758017228,
+    "visited": 0.0010114334057847191
+  },
+  "frozen_selection_sha256": "cac5e5aa702c0291a92b29f7901ae0eabe8c9b45dda43653cb5324ab1fd0252d",
+  "original_audit_hashes": {
+    "control": "6652b94b636e6f69d50f17ca464708e059f3b1806a249d5aaf938127841d7bcb",
+    "visited": "ccab270741f177ed7069764be98cf1872021f199314941360d74663b54ff71ec"
+  },
+  "original_batched_action_mismatches": {
+    "control": [],
+    "visited": [
+      6243
+    ]
+  },
+  "original_return_rounds": 0,
+  "diagnostic": {
+    "run_id": "20260922-225718-visitation-training",
+    "audit_index": 6243,
+    "weights_sha256": "8f0be17ef5e36827565d5b11dec4080cde565b1b92a626dafe11da1d0f48920f",
+    "batch_action": "hit",
+    "sdk_answer": {
+      "type": "choice",
+      "choice": "surrender",
+      "probabilities": {
+        "stand": 0.1189,
+        "hit": 0.4279,
+        "double": 0.0133,
+        "surrender": 0.44
+      },
+      "confidence": 0.2534,
+      "action": {
+        "act_probability": 1.0
+      }
+    },
+    "batch_logits": [
+      -4.53125,
+      -1.5,
+      -9.4375,
+      -1.703125
+    ],
+    "sdk_logits": [
+      -4.53125,
+      -1.6640625,
+      -9.4375,
+      -1.6015625
+    ],
+    "batch_top_gap": 0.203125,
+    "old_fallback_threshold": 0.15,
+    "original_audit_report_sha256": "ccab270741f177ed7069764be98cf1872021f199314941360d74663b54ff71ec"
+  },
+  "serving_mode_execution_checks": {
+    "control": {
+      "arm": "control",
+      "sdk_checked_states": 32,
+      "original_sdk_actions_match": true,
+      "discrepant_state_matches_when_alone": true,
+      "fresh_execution_rounds": 20,
+      "weights_sha256": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+      "execution_only": true
+    },
+    "visited": {
+      "arm": "visited",
+      "sdk_checked_states": 32,
+      "original_sdk_actions_match": true,
+      "discrepant_state_matches_when_alone": true,
+      "fresh_execution_rounds": 20,
+      "weights_sha256": "8f0be17ef5e36827565d5b11dec4080cde565b1b92a626dafe11da1d0f48920f",
+      "execution_only": true
+    }
+  },
+  "serving_mode_audit_smoke": {
+    "states": 32,
+    "inference_mode": "sdk",
+    "policy_action_mismatches": [],
+    "batched_check_performed": false,
+    "execution_only": true
+  },
+  "recovery_rule": "Use the unchanged serving SDK for every Laya return decision. Preserve original weights, calibration, selection, return seeds/counts, deadline, and failed evidence. No empirical fallback-threshold adjustment.",
+  "activated": false,
+  "published": false
+}

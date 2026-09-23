@@ -228,7 +228,7 @@ def summarize_study_returns(root):
     }
 
 
-def finalize_study_candidate(root, frozen, audits):
+def finalize_study_candidate(root, frozen, audits, destination=None):
     name = frozen["selected_name"]
     if name == "incumbent":
         return None
@@ -246,7 +246,7 @@ def finalize_study_candidate(root, frozen, audits):
         selection_freeze_sha256=digest(root / "selection-frozen.json"),
         study_arm=name,
     )
-    target = root / "evaluated-candidate"
+    target = (destination if destination is not None else root) / "evaluated-candidate"
     if not target.exists():
         staging = target.with_name(target.name + ".staging-" + uuid.uuid4().hex[:8])
         shutil.copytree(source, staging)

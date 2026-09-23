@@ -1,5 +1,6 @@
 import json
 import math
+from types import SimpleNamespace
 
 import pytest
 
@@ -66,6 +67,50 @@ def test_estimate_uses_independent_units():
     assert result["mean_units_per_round"] == 0
     assert result["standard_error"] == pytest.approx(1)
     assert math.isclose(result["ci95"][1], 1.96)
+
+
+def test_serving_policy_uses_full_sdk_questions_for_every_state(monkeypatch):
+    import blackjack.evaluation as evaluation
+    from blackjack.model import model_state, questions
+
+    observations = []
+    for seed in (1, 2):
+        game = Game(Rules(), seed)
+        game.deal()
+        observations.append(game.observation())
+    calls = []
+
+    def predict(state, qs):
+        calls.append((state, qs))
+        return {"answers": {"action": {"choice": next(iter(qs["action"]["criteria"]))}}}
+
+    agent = SimpleNamespace(device=SimpleNamespace(type="cpu"), predict=predict)
+    monkeypatch.setattr(evaluation, "load_agent", lambda *args: agent)
+    monkeypatch.setattr(evaluation, "ensure_fits", lambda *args: None)
+    actor = evaluation.ServingLaya("unused", "cpu")
+    actions = actor.actions(observations)
+    assert calls == [(model_state(o), questions(o)) for o in observations]
+    assert actions == [o["legal_actions"][0] for o in observations]
+    assert actor.actions([]) == []
+
+
+def test_evaluation_freezes_serving_mode_and_rejects_changed_resume(tmp_path, monkeypatch):
+    import blackjack.evaluation as evaluation
+
+    class FakeServing(BasicPolicy):
+        def __init__(self, *args):
+            self.fallbacks = 0
+
+    monkeypatch.setattr(evaluation, "ServingLaya", FakeServing)
+    source = tmp_path / "model"
+    source.mkdir()
+    (source / "model.safetensors").write_bytes(b"model")
+    (source / "rl_agent_config.json").write_text("{}")
+    options = dict(source=str(source), units=20, inference_mode="sdk")
+    result = evaluate_policy(tmp_path / "returns", **options)
+    assert result["config"]["inference_mode"] == "sdk"
+    with pytest.raises(ValueError, match="configuration changed"):
+        evaluate_policy(tmp_path / "returns", **(options | {"inference_mode": "batched"}))
 
 
 def test_interrupted_evaluation_resumes_identical_units_and_cumulative_fallbacks(tmp_path, monkeypatch):

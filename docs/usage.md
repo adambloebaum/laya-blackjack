@@ -95,3 +95,11 @@ uv run --no-sync blackjack visitation-train --output artifacts/overnight/model-v
 ```
 
 This runs both local GPUs, retains 16,000 identical broad training rows in each 32,000-state arm, freezes both selected candidates before final inference, and evaluates four policies over 800,000 rounds. Use `--smoke --workers 4 --hours 0.25` in a different output directory to test execution first. Private candidates and the unchanged source are retained; completion does not replace the live model or publish weights.
+
+A completed training study that stops on final batch/SDK parity can continue through the exact serving path, using a separate output directory and its original deadline:
+
+```bash
+uv run --no-sync blackjack visitation-sdk-recovery --study artifacts/overnight/model-visited-training --output artifacts/evaluations/model-visited-sdk-recovery
+```
+
+This recovery requires the original archived source/launch records and frozen candidates. It preserves failed evidence, selection, seeds, counts, and the deadline. Standalone `audit-model`, `evaluate-policy`, and `evaluate-suite` also accept `--inference-mode sdk`; the default `batched` path remains an acceleration with empirical parity checks. SDK mode runs all three serving questions for each Laya decision and records its mode in audit/return identities. It is slower. Resume rejects a changed mode.
