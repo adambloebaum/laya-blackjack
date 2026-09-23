@@ -88,6 +88,8 @@ Intermediate checkpoints stay private; the project will publish one final select
 
 The stronger-label [model-visited-data pilot](docs/model-visited-pilot.md) qualified fresh collection and labeling. The subsequent [matched training study](docs/model-visited-training.md#completed-results) completed two 32,000-state training arms, three SDK audits, and **800,000 return rounds**. Model-visited training won the frozen selection rule, but its final return differences from the incumbent remain inconclusive: −0.025 units per 100 fresh rounds and +0.297 per 100 continuous rounds, with adjusted intervals spanning zero. Reference regret was 2.11% lower by point estimate, also unresolved. The candidate remains private and inactive; the report preserves the batch-parity failure and exact-SDK evaluation recovery.
 
+A fresh [SDK replication](docs/model-visited-training.md#independent-sdk-replication) is prepared with the same matched training schedule and a fixed **1.6-million-round** evaluation. It will test repeatability before final model selection; no improvement is assumed in advance.
+
 ```bash
 uv run --no-sync pytest -q
 uv run --no-sync ruff check blackjack tests scripts

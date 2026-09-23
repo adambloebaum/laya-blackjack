@@ -28,7 +28,7 @@ def study_seed(seed, *parts):
 
 
 def collection_config(config):
-    return {
+    result = {
         "version": VERSION,
         "seed": study_seed(config["seed"], "replacement", "train"),
         "scenarios": config["scenarios"],
@@ -39,6 +39,9 @@ def collection_config(config):
         "checkpoint": config["checkpoint"],
         "parent_config_sha256": content_hash(config),
     }
+    if "collection_inference_mode" in config:
+        result["inference_mode"] = config["collection_inference_mode"]
+    return result
 
 
 def pair_records(root, scenario, index):
@@ -337,15 +340,22 @@ def verify_collection_serving(root):
             audit = read_group(root / "collection", "audit", "laya", scenario, index)
             if group is None or audit is None:
                 raise ValueError("Collection serving audit is incomplete.")
+            mode = config.get("collection_inference_mode", "batched")
+            if audit.get("inference_mode", "batched") != mode:
+                raise ValueError("Collection serving audit inference mode changed.")
             for row, pred in zip(group["rows"], audit["rows"], strict=True):
                 if (row["event_index"], row["observation_sha256"]) != (
                     pred["event_index"],
                     pred["observation_sha256"],
                 ):
                     raise ValueError("Collection serving audit identities differ.")
-                if row["behavior_action"] != pred["sdk_action"] or pred["batch_action"] != pred["sdk_action"]:
+                policy_action = pred["policy_action"] if mode == "sdk" else pred["batch_action"]
+                if row["behavior_action"] != pred["sdk_action"] or policy_action != pred["sdk_action"]:
                     raise ValueError("Frozen collector and serving actions differ.")
                 count += 1
     if count != config["shared_states"]:
         raise ValueError("Collection serving audit has the wrong state count.")
-    return {"states": count, "action_mismatches": 0}
+    result = {"states": count, "action_mismatches": 0}
+    if "collection_inference_mode" in config:
+        result["inference_mode"] = config["collection_inference_mode"]
+    return result

@@ -106,7 +106,8 @@ def main():
     visitation_train.add_argument("--qualification", type=Path, required=True)
     visitation_train.add_argument("--workers", type=int, default=24)
     visitation_train.add_argument("--hours", type=float, default=12)
-    visitation_train.add_argument("--seed", type=int, default=20261004)
+    visitation_train.add_argument("--seed", type=int, help="Default: 20261004 original; 20261006 replication")
+    visitation_train.add_argument("--study", choices=("original", "replication-sdk"), default="original")
     visitation_train.add_argument("--smoke", action="store_true")
     visitation_assemble = commands.add_parser(
         "visitation-assemble", help="Internal matched dataset assembler"

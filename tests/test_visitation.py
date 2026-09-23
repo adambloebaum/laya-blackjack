@@ -15,6 +15,7 @@ from blackjack.visitation import (
     group_path,
     identities,
     pilot_worker,
+    read_group,
     read_record,
     replay_group,
     run_visitation,
@@ -202,6 +203,43 @@ def test_partial_collection_resume_preserves_batch_context(tmp_path, monkeypatch
     with pytest.raises(ValueError, match="changed a completed trajectory"):
         pilot_worker(tmp_path, "collect", "laya", "cpu")
     assert a.read_bytes() == original[0]
+
+
+def test_sdk_collection_replays_and_audits_without_claiming_batch_parity(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+
+    class SDKPolicy(BasicPolicy):
+        def __init__(self, *args):
+            # The real three-question SDK contract is covered in test_evaluation.py.
+            self.agent = SimpleNamespace(
+                predict=lambda state, questions: {
+                    "answers": {
+                        "action": {"choice": "stand", "probabilities": {"stand": 1}},
+                        "hit_bust": {"noul": 0.5},
+                        "dealer": {"probabilities": {"bust": 1}},
+                    }
+                }
+            )
+
+        def actions(self, observations):
+            return ["stand" for _ in observations]
+
+    def forbidden_batch(*args):
+        raise AssertionError("SDK collection must not use the batched policy")
+
+    monkeypatch.setattr("blackjack.visitation.ServingLaya", SDKPolicy)
+    monkeypatch.setattr("blackjack.visitation.BatchedLaya", forbidden_batch)
+    c = config() | {"groups_per_scenario": 2, "inference_mode": "sdk"}
+    (tmp_path / "run.json").write_text(json.dumps({"config": c, "deadline_unix": c["deadline_unix"]}))
+    pilot_worker(tmp_path, "collect", "laya", "cpu")
+    pilot_worker(tmp_path, "audit", "laya", "cpu")
+    for index in range(2):
+        group = read_group(tmp_path, "collect", "laya", "random", index)
+        assert replay_group(group) == len(group["rows"])
+        audit = read_group(tmp_path, "audit", "laya", "random", index)
+        assert audit["inference_mode"] == "sdk"
+        assert all(r["sdk_action"] == r["policy_action"] == "stand" for r in audit["rows"])
+        assert all("batch_action" not in r for r in audit["rows"])
 
 
 @pytest.mark.parametrize("failure", [None, "sdk", "labels", "smoke"])

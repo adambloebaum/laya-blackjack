@@ -154,11 +154,15 @@ def model_path(root, name):
 def audit_identity(root, name, frozen):
     if name not in ("incumbent", *ARMS):
         raise ValueError("Unknown study audit arm.")
-    return {
+    identity = {
         "selection_sha256": digest(root / "selection-frozen.json"),
         "dataset_sha256": frozen["data"]["common_audit_dataset"],
         "files": frozen["incumbent_files"] if name == "incumbent" else frozen["candidates"][name]["files"],
     }
+    config = json.loads((root / "run.json").read_text())["config"]
+    if "inference_mode" in config:
+        identity["inference_mode"] = config["inference_mode"]
+    return identity
 
 
 def read_audit(root, name, identity):
@@ -177,7 +181,14 @@ def read_audit(root, name, identity):
         or report["dataset_sha256"] != identity["dataset_sha256"]
     ):
         raise ValueError("Audit evaluated different weights or final-test rows.")
-    if report["batched_action_mismatches"]:
+    if identity.get("inference_mode") == "sdk":
+        if (
+            report.get("inference_mode") != "sdk"
+            or report.get("policy_action_mismatches") != []
+            or report.get("batched_action_mismatches", []) is not None
+        ):
+            raise ValueError("Audit must reproduce the canonical serving SDK actions.")
+    elif report["batched_action_mismatches"]:
         raise ValueError("Serving and batched final-test actions differ.")
     return report
 
@@ -193,7 +204,14 @@ def audit_study_arm(root: Path, name: str, device="cuda:0"):
     if existing is not None:
         return existing
     directory = root / "audit" / name
-    audit_model(root / "broad", str(model_path(root, name)), directory, device=device, allow_new_dataset=True)
+    audit_model(
+        root / "broad",
+        str(model_path(root, name)),
+        directory,
+        device=device,
+        allow_new_dataset=True,
+        inference_mode=identity.get("inference_mode", "batched"),
+    )
     if inference_files(model_path(root, name)) != identity["files"]:
         raise ValueError("Inference files changed during the SDK audit.")
     outputs = {
@@ -263,10 +281,21 @@ def finalize_study_candidate(root, frozen, audits, destination=None):
 
 
 def run_visitation_training(
-    output: Path, source: str, qualification: Path, workers=24, hours=12.0, seed=20261004, smoke=False
+    output: Path,
+    source: str,
+    qualification: Path,
+    workers=24,
+    hours=12.0,
+    seed=None,
+    smoke=False,
+    study="original",
 ):
     if not math.isfinite(hours) or not 0 < hours <= 12 or not 1 <= workers <= 32:
         raise ValueError("Use up to 12 hours and 1–32 workers.")
+    if study not in ("original", "replication-sdk"):
+        raise ValueError("Unknown matched study profile.")
+    if seed is None:
+        seed = 20261006 if study == "replication-sdk" else 20261004
     source = Path(source).absolute()
     checkpoint = checkpoint_identity(source)
     evidence = json.loads(qualification.read_text())
@@ -312,6 +341,16 @@ def run_visitation_training(
         },
         "code": {p.name: digest(p) for p in sorted(Path(__file__).parent.glob("*.py"))},
     }
+    if study == "replication-sdk":
+        config.update(
+            study="replication-sdk-v1",
+            inference_mode="sdk",
+            collection_inference_mode="sdk",
+            fresh_units=20 if smoke else 200000,
+            blocks=20 if smoke else 2000,
+            data_budget_fraction=0.25,
+            training_budget_fraction=5 / 12,
+        )
     output = output.absolute()
     output.mkdir(parents=True, exist_ok=True)
     with (output / "supervisor.lock").open("w") as lock:
@@ -400,8 +439,8 @@ def _supervise_study(root, saved):
             "deadline_unix": deadline,
         }
         publish_bytes(root / "collection/run.json", (json.dumps(collection_run, indent=2) + "\n").encode())
-        data_deadline = started + config["hours"] * 1800
-        train_deadline = deadline - config["hours"] * 600
+        data_deadline = started + config["hours"] * 3600 * config.get("data_budget_fraction", 0.5)
+        train_deadline = started + config["hours"] * 3600 * config.get("training_budget_fraction", 5 / 6)
         current_stage = "collecting_training_data"
         commands = {
             f"collect-{arm}": [
@@ -558,6 +597,8 @@ def _supervise_study(root, saved):
                 str(config["blocks"]),
                 "--seed",
                 str(study_seed(config["seed"], "returns")),
+                "--inference-mode",
+                config.get("inference_mode", "batched"),
             ] + ([] if name == "basic" else ["--source", str(model_path(root, name))])
 
         stage(
@@ -572,9 +613,16 @@ def _supervise_study(root, saved):
         for mode in ("fresh", "continuous"):
             inputs = {name: root / "returns" / name / mode for name in ("basic", "incumbent", *ARMS)}
             for name, directory in inputs.items():
+                saved_return = json.loads((directory / "manifest.json").read_text())["config"]
+                expected_units = config["fresh_units"] if mode == "fresh" else config["blocks"]
+                if (
+                    saved_return.get("inference_mode", "batched") != config.get("inference_mode", "batched")
+                    or saved_return["identity"]["units"] != expected_units
+                    or saved_return["identity"]["seed"] != study_seed(config["seed"], "returns")
+                ):
+                    raise ValueError("Return evaluation differs from the frozen SDK mode, count, or seed.")
                 if name == "basic":
                     continue
-                saved_return = json.loads((directory / "manifest.json").read_text())["config"]
                 files = audit_identity(root, name, frozen)["files"]
                 if (
                     saved_return["source_hash"] != files["model.safetensors"]

@@ -19,7 +19,7 @@ from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
 from .engine import Game, Rules, basic_action, tablemate_action
-from .evaluation import BatchedLaya, scenarios
+from .evaluation import BatchedLaya, ServingLaya, scenarios
 from .exact_reference import hybrid_analyze
 from .experiment_data import atomic_json, digest
 from .model import model_state, questions
@@ -233,7 +233,7 @@ def label_group(task):
     }
 
 
-def audit_group(group, actor):
+def audit_group(group, actor, inference_mode="batched"):
     fast = actor.actions([r["observation"] for r in group["rows"]])
     records = []
     for row, fast_action in zip(group["rows"], fast, strict=True):
@@ -247,23 +247,29 @@ def audit_group(group, actor):
                 "event_index": row["event_index"],
                 "observation_sha256": row["observation_sha256"],
                 "sdk_action": action,
-                "batch_action": fast_action,
+                "policy_action" if inference_mode == "sdk" else "batch_action": fast_action,
                 "action_probabilities": answers["action"]["probabilities"],
                 "hit_bust": answers["hit_bust"]["noul"],
                 "dealer": answers["dealer"]["probabilities"],
             }
         )
-    return {
+    result = {
         "scenario": group["scenario"],
         "index": group["index"],
         "policy": group["policy"],
         "rows": records,
     }
+    if inference_mode == "sdk":
+        result["inference_mode"] = inference_mode
+    return result
 
 
 def pilot_worker(root: Path, phase: str, policy="laya", device="cuda:1"):
     saved = json.loads((root / "run.json").read_text())
     config = saved["config"] | {"deadline_unix": saved["deadline_unix"]}
+    inference_mode = config.get("inference_mode", "batched")
+    if inference_mode not in ("batched", "sdk"):
+        raise ValueError("Unknown collection inference mode.")
     if time.time() >= config["deadline_unix"]:
         raise TimeoutError("Original pilot deadline expired.")
     policies = POLICIES if phase == "label" else (policy,)
@@ -294,7 +300,7 @@ def pilot_worker(root: Path, phase: str, policy="laya", device="cuda:1"):
                 "total": len(tasks),
                 "unit": "trajectory groups",
                 "states": states,
-                "scope": "development pilot",
+                "scope": "matched training data" if "parent_config_sha256" in config else "development pilot",
             },
         )
 
@@ -310,7 +316,7 @@ def pilot_worker(root: Path, phase: str, policy="laya", device="cuda:1"):
     if not pending:
         return
     actor = (
-        BatchedLaya(str(root / "checkpoints/source"), device)
+        (ServingLaya if inference_mode == "sdk" else BatchedLaya)(str(root / "checkpoints/source"), device)
         if phase == "audit" or phase == "collect" and policy == "laya"
         else None
     )
@@ -354,7 +360,7 @@ def pilot_worker(root: Path, phase: str, policy="laya", device="cuda:1"):
         for p, s, i in pending:
             if time.time() >= config["deadline_unix"]:
                 raise TimeoutError("Pilot audit reached its original deadline.")
-            finish(audit_group(read_group(root, "collect", p, s, i), actor))
+            finish(audit_group(read_group(root, "collect", p, s, i), actor, inference_mode))
     else:
         raise ValueError("Unknown pilot phase.")
 

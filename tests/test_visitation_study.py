@@ -319,10 +319,10 @@ def test_audit_requires_global_freeze_and_receipts_bind_calibration(tmp_path):
 def test_study_namespaces_and_four_predeclared_return_contrasts(tmp_path):
     seeds = {
         study_seed(root, family)
-        for root in (20261004, 30261004)
+        for root in (20261004, 30261004, 20261006, 30261006)
         for family in ("broad", "replacement", "returns")
     }
-    assert len(seeds) == 6
+    assert len(seeds) == 12
     for mode in ("fresh", "continuous"):
         atomic_json(
             tmp_path / f"{mode}-comparison.json",
@@ -341,6 +341,83 @@ def test_study_namespaces_and_four_predeclared_return_contrasts(tmp_path):
         assert contrast["units_per_100_rounds"] == 1
         assert contrast["familywise_ci95"][0] < contrast["nominal_ci95"][0]
         assert contrast["familywise_ci95"][1] > contrast["nominal_ci95"][1]
+
+
+def test_replication_freezes_fresh_counts_modes_and_original_deadline(tmp_path, monkeypatch):
+    from blackjack import visitation_study
+
+    source = tmp_path / "source"
+    write_checkpoint(source)
+    qualification = tmp_path / "qualification.json"
+    atomic_json(
+        qualification,
+        {
+            "config": {"checkpoint": checkpoint_identity(source)},
+            "report": {
+                "qualified_for_training_design": True,
+                "smoke": False,
+                "checks": {"laya": {"ok": True}},
+            },
+        },
+    )
+    calls = []
+    monkeypatch.setattr(visitation_study, "version", lambda _: "test")
+    monkeypatch.setattr(visitation_study, "_supervise_study", lambda root, saved: calls.append(saved))
+    args = dict(
+        output=tmp_path / "replication",
+        source=str(source),
+        qualification=qualification,
+        study="replication-sdk",
+    )
+    visitation_study.run_visitation_training(**args)
+    visitation_study.run_visitation_training(**args)
+    assert calls[0] == calls[1]
+    config = calls[0]["config"]
+    assert config["seed"] == 20261006
+    assert config["fresh_units"] == 200000 and config["blocks"] == 2000
+    assert config["heldout_states"]["test"] == 8192
+    assert config["inference_mode"] == collection_config(config)["inference_mode"] == "sdk"
+    assert calls[0]["deadline_unix"] - calls[0]["started_unix"] == 43200
+    with pytest.raises(ValueError, match="changed"):
+        visitation_study.run_visitation_training(**(args | {"seed": 20261007}))
+    visitation_study.run_visitation_training(**(args | {"output": tmp_path / "smoke", "smoke": True}))
+    assert calls[-1]["config"]["seed"] == 30261006
+
+
+def test_sdk_audit_receipts_reject_wrong_mode_and_policy_mismatch(tmp_path):
+    identity = {
+        "files": {"model.safetensors": "weights"},
+        "dataset_sha256": "test",
+        "inference_mode": "sdk",
+    }
+    report = {
+        "model_sha256": "weights",
+        "dataset_sha256": "test",
+        "inference_mode": "sdk",
+        "policy_action_mismatches": [],
+        "batched_action_mismatches": None,
+    }
+    directory = tmp_path / "audit/visited"
+    atomic_json(directory / "decisions.json", [])
+    for changes in (
+        {"inference_mode": "batched"},
+        {"policy_action_mismatches": [3]},
+        {"batched_action_mismatches": []},
+        {},
+    ):
+        atomic_json(directory / "report.json", report | changes)
+        atomic_json(
+            directory / "completion.json",
+            {
+                "identity": identity,
+                "outputs": {name: digest(directory / name) for name in ("report.json", "decisions.json")},
+            },
+        )
+        if changes:
+            with pytest.raises(ValueError, match="canonical serving SDK"):
+                read_audit(tmp_path, "visited", identity)
+        else:
+            assert read_audit(tmp_path, "visited", identity) == report
 
 
 def prepare_recovery(corpus, monkeypatch):
