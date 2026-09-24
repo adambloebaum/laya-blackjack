@@ -6,14 +6,11 @@ The simulator, dashboard, training pipeline and final evaluation are implemented
 
 The [final selection](final-release-selection.md#completed-results) retained the hybrid-reference study's ordinary-imitation model from five nominees. The fresh three-million-round benchmark measured continuous-play gains of +0.30854 units per 100 rounds over basic strategy and +0.27458 over packaged v0.2, both with positive familywise intervals. Fresh-shoe differences remain inconclusive and absolute returns remain negative. See the [results report](release-results.md) for the full scope and limitations.
 
-## Remaining launch work
+## Public release
 
-- Replace the historical v0.2 GitHub draft release and its old wheel/checksums with a v1.0.0 draft bound to the selected model pin. Update its notes: the old draft still describes the earlier model and links a removed historical Hub revision.
-- Prepare the README/model card for public availability, removing staging-only language and making authentication conditional. Model-card edits require a new verified package inventory and pinned revision; the selected inference files must remain identical.
-- Publish the selected Hugging Face repository and GitHub project, then create the v1.0.0 tag/release and verify anonymous access and a clean download. Both repositories remain private until that publication step.
-- Load the selected checkpoint into the existing local dashboard when explicitly adopting it there. The default download pin is current; the running process still has the earlier model loaded. This local adoption is separate from public availability.
+Version 1.0.0 publishes the selected model at the canonical [Hugging Face repository](https://huggingface.co/adambloebaum/laya-blackjack), with a matching [GitHub release](https://github.com/adambloebaum/laya-blackjack/releases/tag/v1.0.0), wheel, checksums and pinned download. The public model card preserves the measured gains, unresolved differences and limitations. No account is needed to download the public artifacts.
 
-The [release process](release.md) and model card contain the package and publication contracts. Preserve the original model's offline backup and all private research weights. Only the selected model will be made public.
+The dashboard is a local application: clone the project, download the pinned model and run `blackjack serve`. The developer's local dashboard is not a hosted service or a dependency of the release. Original experimental models and their recovery artifacts remain in local private backups; only the selected model is public. See the [release process](release.md) for artifact and verification details.
 
 ## Optional future research
 

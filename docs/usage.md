@@ -106,7 +106,7 @@ This recovery requires the original archived source/launch records and frozen ca
 
 ## Selected release
 
-The default `blackjack fetch-model` downloads the selected 1.0.0 checkpoint from the pinned private `adambloebaum/laya-blackjack` repository. Authenticate with `uv run --no-sync hf auth login` while it is private. Existing installs should use a new directory:
+The default `blackjack fetch-model` downloads the selected 1.0.0 checkpoint from the pinned public `adambloebaum/laya-blackjack` repository. No Hugging Face account is required. Existing installs should use a new directory:
 
 ```bash
 uv run --no-sync blackjack fetch-model --output artifacts/checkpoints/released-v1

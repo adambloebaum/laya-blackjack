@@ -23,12 +23,11 @@ Requires [uv](https://docs.astral.sh/uv/). Python 3.13 is the tested environment
 git clone https://github.com/adambloebaum/laya-blackjack.git
 cd laya-blackjack
 uv sync --extra model --extra dev
-uv run --no-sync hf auth login
 uv run --no-sync blackjack fetch-model
 uv run --no-sync blackjack serve
 ```
 
-Open **http://127.0.0.1:8000** and click **Load trained Laya**. Both repositories are private during release preparation; authentication requires an account with access. Weights occupy about 1.7 GB, with additional evaluation and training evidence. Downloads use an immutable Hugging Face revision and verify every packaged file before installation.
+Open **http://127.0.0.1:8000** and click **Load trained Laya**. The project and selected model are public; no Hugging Face account is required. Weights occupy about 1.7 GB, with additional evaluation and training evidence. Downloads use an immutable Hugging Face revision and verify every packaged file before installation.
 
 **Existing installation:** if the earlier model already occupies `artifacts/checkpoints/released`, download into a new directory with `uv run --no-sync blackjack fetch-model --output artifacts/checkpoints/released-v1`. The old checkpoint is preserved; the dashboard discovers the new completed installation when reloaded.
 
@@ -51,7 +50,7 @@ These measure agreement with a hybrid exact/Monte Carlo reference, not the proba
 
 Continuous play gained **0.309 betting units per 100 rounds over basic strategy** and **0.275 over packaged v0.2**, with positive intervals after adjustment for the four planned comparisons. Fresh-shoe differences remain inconclusive. Absolute average returns remained negative: **−0.494 units per 100 fresh rounds** and **−0.555 per 100 continuous rounds**. These results do not establish a profitable or globally optimal player.
 
-The [results report](docs/release-results.md) includes the full intervals, test design, limitations, and reproducibility records. One selected model is staged on Hugging Face; intermediate weights remain in local private backups.
+The [results report](docs/release-results.md) includes the full intervals, test design, limitations, and reproducibility records. One selected model is published on Hugging Face; intermediate weights remain in local private backups.
 
 ## How it works
 

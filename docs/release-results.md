@@ -1,6 +1,6 @@
 # Selected release — 1.0.0
 
-The retained research model improves continuous-shoe returns over both the basic heuristic and the previously packaged v0.2 model in a fresh three-million-round benchmark. Fresh-shoe differences remain inconclusive, and average returns remain negative. The selected weights are privately staged for release; experimental weights remain private.
+The retained research model improves continuous-shoe returns over both the basic heuristic and the previously packaged v0.2 model in a fresh three-million-round benchmark. Fresh-shoe differences remain inconclusive, and average returns remain negative. The selected weights are published as version 1.0.0; experimental weights remain in local private backups.
 
 [Model card](../MODEL_CARD.md) · [Full selection protocol](final-release-selection.md) · [Verified measurements](results/final-release-completed.json) · [Historical v0.2 results](release-results-v0.2.md)
 

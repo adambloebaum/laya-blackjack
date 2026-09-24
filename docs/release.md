@@ -1,41 +1,36 @@
-# Release process
+# Release 1.0.0
 
-The project lives on [GitHub](https://github.com/adambloebaum/laya-blackjack). The single selected model is staged privately at [laya-blackjack](https://huggingface.co/adambloebaum/laya-blackjack). At the owner’s request, the original experimental repository was backed up locally and deleted, then the selected repository was renamed to this canonical name. Its clean history contains only the selected weights.
+[GitHub release](https://github.com/adambloebaum/laya-blackjack/releases/tag/v1.0.0) · [Selected model](https://huggingface.co/adambloebaum/laya-blackjack) · [Model card](../MODEL_CARD.md) · [Measured results](release-results.md)
 
-## Prepared model
+The project publishes one selected model. The original experimental Hub repository was backed up locally and deleted before the selected repository took the canonical name. Every weight-bearing revision in the new repository contains the same selected weights; intermediate models and optimizer recovery files remain private.
 
-The [final selection](final-release-selection.md#completed-results) retained the hybrid-reference study's ordinary-imitation model. All three million return rounds and the frozen selection decision were verified. The original run's local review package remains preserved with manifest `26320cadfe1fa7cad548011d689752d1b802c8e1ea8832635699f03d7ea81f04`.
+## Download and run
 
-Presentation preparation creates a separate immutable **1.0.0** package. Its manifest is `475b4804caa4f0aa71fc25f503830bc7ae7dfd11252b509a8125b7636571af79`; all six inference files still match the frozen winner exactly. The new inventory binds the polished card, figures, training-lineage evidence, and a corrected report that separates original training metrics from the matched final release comparison.
+Follow the [README](../README.md#start-locally) to install the project, download the model and start the local dashboard. Neither the public code nor the model download requires authentication. The GitHub release includes the 1.0.0 Python wheel, the model download pin, and SHA-256 checksums. The dashboard runs on your own machine; this release does not provision a hosted application or inference service.
 
-The [download pin](../blackjack/model_release.json) identifies the selected private Hub commit. The [original download/reload receipt](results/final-model-reload.json) verifies every inventory file and 300 saved SDK decisions under the temporary staging name. The [rename receipt](results/final-model-rename.json) preserves the backup/deletion record and verifies the same revision, manifest, clean history, full download and SDK inference under the canonical name. This prepares the default download; it does not replace an already loaded local dashboard model.
+The [download pin](../blackjack/model_release.json) fixes Hub revision `f4480cebf3d477e4e0d49706b069d9f7af7dfbe3` and manifest `fde22c059f6817263350f53c6d2b9d56e55858883edb8facc37f1055e632fb65`. All 43 inventory files are verified before atomic installation. Existing installations remain immutable; use `blackjack fetch-model --output artifacts/checkpoints/released-v1` to preserve an earlier model, then explicitly reload the new checkpoint in the dashboard.
 
-## Package and verify
+## What is in the package
 
-Use a new output directory for every changed package. Weights, tokenizer, encoder configuration, calibration, model card, license, report and evidence share one SHA-256 inventory. Reject incomplete or sealed candidates. Compare inference-file hashes with the frozen selected model as well as checking inventory self-consistency.
+The selected weights, tokenizer, encoder configuration and calibration exactly match the frozen winner of the [final selection](final-release-selection.md#completed-results). Final evaluation completed three million policy-rounds before release preparation. The package adds the model card, license/attribution, original training report plus a separate matched release comparison, raw final evaluation records, archived evaluator source, training-lineage datasets/reports/source, plotting inputs and figures.
+
+The [public-package preparation receipt](results/public-release-preparation.json) records a documentation-only revision: only the model card changed from the verified private presentation package. Weights and every other inventory file are unchanged. The earlier [300-state reload check](results/final-model-reload.json) and [canonical-name migration check](results/final-model-rename.json) remain historical evidence for the identical inference files. Repeated predictions on those inspected states verify the artifact and serving path; they are not new performance tests.
+
+Original local review packages are preserved. Their manifest digests differ because later packages bind revised documentation, not different learned weights. The original 17-file evaluation package used manifest `26320cadfe1fa7cad548011d689752d1b802c8e1ea8832635699f03d7ea81f04`; the private 43-file presentation package used `475b4804caa4f0aa71fc25f503830bc7ae7dfd11252b509a8125b7636571af79`.
+
+## Maintaining a release
+
+Use a new directory for every changed package. Verify both inventory self-consistency and equality with the frozen selected inference files. The preparation publisher intentionally accepts only private repositories; prepare future packages in a private staging repository before the explicit publication step.
 
 ```bash
 uv run --no-sync blackjack package-model --source path/to/completed-candidate --output artifacts/releases/new-version --evidence path/to/public-evidence
-```
-
-For a release evaluated on a new dataset, preserve the original report's metrics and counts. Add a separate `release_evaluation` block containing both models' same-test SDK metrics, baseline label, selection count and dataset/selection hashes. `blackjack.final_release.release_report` constructs it from verified final audit receipts. Do not overwrite only the test scores while retaining an old baseline or count.
-
-Upload into a clean **private** personal repository. First write the pin to a staging location, download that full commit into a new cache/directory, verify the pinned manifest and selected inference identities, and reproduce saved decisions through the SDK. Only then update the project's download pin.
-
-```bash
 uv run --no-sync python scripts/publish_model.py --folder artifacts/releases/new-version --repo adambloebaum/new-private-repository --version new-version --pin artifacts/releases/staged-pin.json
 ```
 
-The publisher verifies personal identity, refuses public repositories, and reads back the uploaded manifest. Keep credentials in the local Hugging Face cache or configured secret environment. After changing the project pin, an existing installation can retain its old checkpoint by downloading the new one with `blackjack fetch-model --output artifacts/checkpoints/released-v1`; installation never overwrites a different immutable package.
+Download the immutable staging commit into a new directory/cache, verify the expected manifest and inference identities, and reproduce saved SDK decisions before updating the project's pin. Authentication remains in credential stores, never command arguments or committed files.
 
-## Evidence and presentation
+For a new evaluation dataset, retain the original training-stage report intact and add a separate `release_evaluation` block with both models' same-test metrics, baseline label, selection count, and dataset/freeze hashes. `blackjack.final_release.release_report` constructs it from both verified SDK audit receipts. Never replace test scores while retaining a different population's baseline or count.
 
-The selected package's `evaluation/` directory includes raw final data/audits/returns with receipts, archived evaluator source, portable summaries, plotting inputs, and training-lineage data/source/reports. It contains no intermediate weights or optimizer recovery files. Original local artifacts are unchanged. Model card, README, results and figures must all describe the same pinned weights. Rebuild current figures with `uv run --extra analysis python scripts/plot_final_release.py`; `plot_results.py` remains the historical v0.2 figure generator.
+Model card, README, figures, GitHub release notes, wheel and model pin must describe the same selected artifact. Inspect draft releases and their attachments as well as tags; a draft can retain obsolete files and model links. Regenerate current figures with `uv run --extra analysis python scripts/plot_final_release.py`; `plot_results.py` remains the historical v0.2 figure generator.
 
-Before public publication, verify code, engine/information boundaries, API/browser behavior, lint, wheel contents, usage examples, links, attribution, and repository history. Treat golden-state reload checks as artifact verification, not new performance evidence. Preserve negative findings and uncertainty alongside improvements.
-
-## Public publication
-
-Both repositories remain private during preparation. Public visibility and the corresponding GitHub tag/release are a separate owner-controlled step. Publish only the selected model repository; retain the original experimental history only in its local private backup. Link project, model, results, license and demo in both directions. Publishing weights does not provision hosted inference or expose the local API.
-
-A documentation-only model revision may retain the identical selected weights. A calibration or weight change requires fresh identity checks and an explicit new pin. Neither a completed run nor a successful upload automatically activates the local dashboard.
+Before publication, complete the unit/API/browser checks, clean installation, package identity and repository-history review. After publication, verify anonymous repository access, wheel/checksums and a fresh model download. Keep original experimental history only in local private backups. Calibration or weight changes require new identity checks and an explicit new pin; documentation-only revisions may retain the identical selected weights.

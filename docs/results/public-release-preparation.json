@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "previous_manifest_sha256": "475b4804caa4f0aa71fc25f503830bc7ae7dfd11252b509a8125b7636571af79",
+  "manifest_sha256": "fde22c059f6817263350f53c6d2b9d56e55858883edb8facc37f1055e632fb65",
+  "inventory_files": 43,
+  "changed_inventory_files": [
+    "README.md"
+  ],
+  "all_inference_files_unchanged": true,
+  "selected_weights_sha256": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+  "scope": "Public wording only; selected weights, calibration, evaluation and training evidence unchanged.",
+  "release": {
+    "repo_id": "adambloebaum/laya-blackjack",
+    "revision": "f4480cebf3d477e4e0d49706b069d9f7af7dfbe3",
+    "manifest_sha256": "fde22c059f6817263350f53c6d2b9d56e55858883edb8facc37f1055e632fb65",
+    "version": "1.0.0"
+  },
+  "remote_history": [
+    {
+      "revision": "f4480cebf3d477e4e0d49706b069d9f7af7dfbe3",
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    {
+      "revision": "369547adbafbd489d0fc859946ca403b2b4b6fff",
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    {
+      "revision": "37bd0a4a91131bf4020c5a0f0816f84bea45e83b",
+      "weight_files": []
+    }
+  ],
+  "download_verified": true,
+  "remote_card_matches_repository": true,
+  "private_at_verification": true,
+  "verified_unix": 1790276713.0721457
+}

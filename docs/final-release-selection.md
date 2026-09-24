@@ -1,5 +1,7 @@
 # Final model selection and release evaluation
 
+This document preserves the completed private selection protocol and its results. The selected model is now the [1.0.0 release](release.md); publication did not alter its inference files or measured outcomes.
+
 This is the final bounded selection/evaluation stage for one public model. It performs **no additional training or temperature fitting**. The existing GitHub and Hugging Face repositories remain private through review; private staging and download verification follow the completed evaluation. The exact nominees are in [final-candidates.json](final-candidates.json).
 
 ## Nominees and frozen inputs

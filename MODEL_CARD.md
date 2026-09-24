@@ -17,7 +17,7 @@ tags:
 
 A full-model adaptation of [Laya](https://huggingface.co/convaiinnovations/laya) for public-information blackjack research. One learned player shares a finite shoe with up to six simulated tablemates. The model predicts legal-action preferences, next-hit bust probability, and the dealer's finish distribution if no player draws again.
 
-**Selected release: 1.0.0, privately staged.** [Project and dashboard](https://github.com/adambloebaum/laya-blackjack) · [Measured results](https://github.com/adambloebaum/laya-blackjack/blob/main/docs/release-results.md) · [Selection protocol](https://github.com/adambloebaum/laya-blackjack/blob/main/docs/final-release-selection.md).
+**Selected release: 1.0.0.** [Project and dashboard](https://github.com/adambloebaum/laya-blackjack) · [Measured results](https://github.com/adambloebaum/laya-blackjack/blob/main/docs/release-results.md) · [Selection protocol](https://github.com/adambloebaum/laya-blackjack/blob/main/docs/final-release-selection.md).
 
 The release contains one selected set of weights. The teacher-cost study's **ordinary-imitation arm** was retained after comparison with four completed research alternatives. Its fresh three-million-round benchmark supports a continuous-play advantage over the basic heuristic and the previously packaged model. Fresh-shoe differences remain inconclusive, and absolute average returns remain negative.
 
@@ -35,12 +35,11 @@ This is a **421,293,830-parameter typed decision model**, not a generative chat 
 git clone https://github.com/adambloebaum/laya-blackjack.git
 cd laya-blackjack
 uv sync --extra model --extra dev
-uv run --no-sync hf auth login
 uv run --no-sync blackjack fetch-model
 uv run --no-sync blackjack serve
 ```
 
-Authentication is required while the repository is private; use an account with access. Open http://127.0.0.1:8000 and choose **Load trained Laya**. The project pins the Hub commit and manifest digest and verifies all files before installation. If an older checkpoint already occupies the default directory, use `blackjack fetch-model --output artifacts/checkpoints/released-v1` instead; the existing installation is preserved and the dashboard discovers the new completed checkpoint.
+The released model is public and requires no Hugging Face account. Open http://127.0.0.1:8000 and choose **Load trained Laya**. The project pins the Hub commit and manifest digest and verifies all files before installation. If an older checkpoint already occupies the default directory, use `blackjack fetch-model --output artifacts/checkpoints/released-v1` instead; the existing installation is preserved and the dashboard discovers the new completed checkpoint.
 
 Programmatic inference after a fresh default installation:
 
