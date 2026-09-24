@@ -4,6 +4,8 @@ The project lives on [GitHub](https://github.com/adambloebaum/laya-blackjack); t
 
 The owner wants **one final public model**, chosen after research is complete. Existing private packages are research artifacts, not commitments to publish multiple versions. Keep intermediate checkpoint weights private; comparative reports can accompany the one selected model.
 
+The [final-selection protocol](final-release-selection.md) freezes five completed nominees, uses new selection games, and then evaluates the chosen model on fresh SDK states and three million return rounds. Its local package is a review artifact; it does not change the existing Hub revision or dashboard pin.
+
 ## Before publication
 
 1. Freeze the selected checkpoint and preserve the criterion used to select it. Final-test results must not become a new selection criterion.

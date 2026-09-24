@@ -1,0 +1,7 @@
+{
+  "incumbent": "../artifacts/research-sources/teacher-cost-v1",
+  "packaged": "../artifacts/releases/v0.2.0",
+  "composition": "../artifacts/research-sources/composition-v1",
+  "visited": "../artifacts/evaluations/20260923-050210-visitation-sdk-recovery/evaluated-candidate",
+  "replication_control": "../artifacts/overnight/20260923-170453-visitation-replication/evaluated-candidate"
+}

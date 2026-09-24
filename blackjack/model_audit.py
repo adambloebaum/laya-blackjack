@@ -28,7 +28,10 @@ def audit_model(
     batch_size=32,
     allow_new_dataset=False,
     inference_mode="batched",
+    split="test",
 ):
+    if split not in ("selection", "test"):
+        raise ValueError("SDK audit split must be selection or test.")
     output.mkdir(parents=True, exist_ok=True)
     manifest = verify_dataset(dataset)
     expected = json.loads((Path(source) / "training_report.json").read_text())
@@ -39,7 +42,7 @@ def audit_model(
         raise ValueError("Unknown inference mode.")
     actor = (ServingLaya if inference_mode == "sdk" else BatchedLaya)(source, device)
     rows = []
-    for shard in manifest["splits"]["test"]:
+    for shard in manifest["splits"][split]:
         with (dataset / shard["path"]).open() as stream:
             rows.extend(json.loads(line) for line in stream)
     records, mismatches, latencies = [], [], []
@@ -99,6 +102,7 @@ def audit_model(
                 "completed": len(records),
                 "total": len(rows),
                 "elapsed_seconds": time.monotonic() - started,
+                "split": split,
             },
         )
         print(f"SDK audit: {len(records)}/{len(rows)}", flush=True)
@@ -164,7 +168,8 @@ def audit_model(
         "cluster_bootstrap_replicates": 2000,
         "teacher_agreement_ci95": intervals[:, 0].tolist(),
         "teacher_ev_regret_ci95": intervals[:, 1].tolist(),
-        "trainer_report_metrics": expected["test"] if same_dataset else None,
+        "trainer_report_metrics": expected["test"] if same_dataset and split == "test" else None,
+        "split": split,
         "inference_mode": inference_mode,
         "policy_action_mismatches": mismatches,
         "batched_action_mismatches": mismatches if inference_mode == "batched" else None,
@@ -174,7 +179,9 @@ def audit_model(
         "by_group": grouped,
         "largest_regrets": worst,
         "elapsed_seconds": time.monotonic() - started,
-        "scope": "Descriptive analysis of the already frozen final test, not a new independent validation or a basis for selecting this release. Reusing these examples for tuning requires a new final test set.",
+        "scope": "Candidate-selection evidence only; these games cannot also serve as the final test."
+        if split == "selection"
+        else "Descriptive analysis of the already frozen final test, not a new independent validation or a basis for selecting this release. Reusing these examples for tuning requires a new final test set.",
         "reference_method": manifest["teacher"],
         "uncertainty": "Game-cluster bootstrap; conditional on recorded reference values and their stated scope. Excludes Monte Carlo label uncertainty where sampling is used.",
     }
@@ -186,7 +193,8 @@ def audit_model(
         [{"audit": r, "observation": rows[r["index"]]["observation"]} for r in worst],
     )
     atomic_json(
-        output / "progress.json", {"stage": "complete", "completed": len(records), "total": len(rows)}
+        output / "progress.json",
+        {"stage": "complete", "completed": len(records), "total": len(rows), "split": split},
     )
     return summary
 

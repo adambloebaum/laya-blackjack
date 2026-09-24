@@ -94,3 +94,11 @@ test('autoplay can pause without a runaway request loop', async ({page})=>{
   await expect(page.locator('#autoplay')).toContainText('Play');
   await expect(page.locator('#step')).toBeEnabled();
 });
+
+test('release selection progress is distinct from final-test inference', async ({page})=>{
+  await page.route('**/api/overnight', route=>route.fulfill({json:{available:true,run:'release-test',experiment:'final-release',status:'running',stage:'candidate_selection',elapsed_seconds:600,deadline_unix:Date.now()/1000+3600,progress:{'selection/incumbent/progress.json':{stage:'sdk_audit',completed:128,total:8192,split:'selection'}}}}));
+  await page.goto('/');
+  await page.getByRole('button',{name:'Experiments',exact:true}).click();
+  await expect(page.locator('#overnight-progress')).toContainText('128 / 8,192 selection states');
+  await expect(page.locator('#overnight-progress')).not.toContainText('final-test states');
+});

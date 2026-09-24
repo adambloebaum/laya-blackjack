@@ -67,6 +67,7 @@ def main():
     audit.add_argument("--batch-size", type=int, default=32)
     audit.add_argument("--allow-new-dataset", action="store_true")
     audit.add_argument("--inference-mode", choices=("batched", "sdk"), default="batched")
+    audit.add_argument("--split", choices=("selection", "test"), default="test")
     recheck = commands.add_parser("recheck-errors")
     recheck.add_argument("--audit", type=Path, required=True)
     recheck.add_argument("--output", type=Path, required=True)
@@ -120,6 +121,20 @@ def main():
     recover = commands.add_parser("visitation-sdk-recovery", help="Complete frozen study through serving SDK")
     recover.add_argument("--study", type=Path, required=True)
     recover.add_argument("--output", type=Path, required=True)
+    final = commands.add_parser(
+        "final-release", help="Select one frozen model and run fresh release evaluation"
+    )
+    final.add_argument("--output", type=Path, required=True)
+    final.add_argument("--candidates", type=Path, required=True)
+    final.add_argument("--workers", type=int, default=24)
+    final.add_argument("--hours", type=float, default=12)
+    final.add_argument("--seed", type=int, default=20261008)
+    final.add_argument("--smoke", action="store_true")
+    final_audit = commands.add_parser("release-audit", help="Internal release selection/final audit worker")
+    final_audit.add_argument("--root", type=Path, required=True)
+    final_audit.add_argument("--phase", choices=("selection", "final"), required=True)
+    final_audit.add_argument("--name", required=True)
+    final_audit.add_argument("--device", default="cuda:0")
     visit_worker = commands.add_parser("visitation-worker", help="Internal frozen-plan pilot worker")
     visit_worker.add_argument("--root", type=Path, required=True)
     visit_worker.add_argument("--phase", choices=["collect", "label", "audit"], required=True)
@@ -240,6 +255,10 @@ def main():
         from .visitation_study import audit_study_arm, run_visitation_training
 
         (run_visitation_training if command == "visitation-train" else audit_study_arm)(**args)
+    elif command in ("final-release", "release-audit"):
+        from .final_release import release_audit, run_final_release
+
+        (run_final_release if command == "final-release" else release_audit)(**args)
     elif command == "visitation-sdk-recovery":
         from .sdk_recovery import run_sdk_recovery
 
