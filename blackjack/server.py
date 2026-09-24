@@ -21,7 +21,7 @@ from .engine import Game, Rules, basic_action, tablemate_action
 from .model import BASE_MODEL, LayaPolicy
 from .reference import analyze
 
-app = FastAPI(title="Laya Blackjack Laboratory", version="0.2.0")
+app = FastAPI(title="Laya Blackjack Laboratory", version="1.0.0")
 STATIC = Path(__file__).parent / "static"
 ARTIFACTS = Path("artifacts")
 policy = LayaPolicy()

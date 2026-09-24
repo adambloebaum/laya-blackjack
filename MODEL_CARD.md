@@ -15,105 +15,106 @@ tags:
 
 # Laya Blackjack
 
-A full-model adaptation of [Laya](https://huggingface.co/convaiinnovations/laya) for a finite-shoe blackjack research simulator. It answers three structured questions from the public table state: which legal action to prefer, whether the next hit busts, and how the dealer finishes if no player draws again.
+A full-model adaptation of [Laya](https://huggingface.co/convaiinnovations/laya) for public-information blackjack research. One learned player shares a finite shoe with up to six simulated tablemates. The model predicts legal-action preferences, next-hit bust probability, and the dealer's finish distribution if no player draws again.
 
-**Project, dashboard, and evaluation code:** [adambloebaum/laya-blackjack](https://github.com/adambloebaum/laya-blackjack).
+**Selected release: 1.0.0, privately staged.** [Project and dashboard](https://github.com/adambloebaum/laya-blackjack) · [Measured results](https://github.com/adambloebaum/laya-blackjack/blob/main/docs/release-results.md) · [Selection protocol](https://github.com/adambloebaum/laya-blackjack/blob/main/docs/final-release-selection.md).
 
-**Version:** 0.2.0. **License:** Apache 2.0. **Model:** 421,293,830 parameters, ModernBERT-large with Laya typed decision heads. This package uses the Laya SDK; it is not a generative chat model or a drop-in Transformers text-generation pipeline.
+The release contains one selected set of weights. The teacher-cost study's **ordinary-imitation arm** was retained after comparison with four completed research alternatives. Its fresh three-million-round benchmark supports a continuous-play advantage over the basic heuristic and the previously packaged model. Fresh-shoe differences remain inconclusive, and absolute average returns remain negative.
 
-## Intended use
+## Use and input contract
 
-Local strategy research, probability inspection, and simulated play across one to seven seats. The model consumes only public observations: hands, legal actions, rules, exposed table cards, and unseen rank counts. No random seed, concealed dealer rank, or future shoe order enters inference.
+Local simulated play, strategy research, and probability inspection. The model sees the active hand, legal actions, exposed cards, rules, and unseen rank counts. It never receives the random seed, concealed dealer rank, or future shoe order. Inputs must use this project's state and question builders.
 
-The supported simulator uses American hole-card rules, 1/2/4/6/8 decks, S17/H17, 3:2 or 6:5 payout, double after split, late surrender, and varying tablemate behavior. Fixed unit wagers, no insurance, no side bets. This model is an experimental approximation of an approximate reference policy. It is not certified optimal and does not establish real-world profitability.
+Supported simulation: American hole-card rules; 1–7 seats; 1/2/4/6/8 decks; S17/H17; 3:2 or 6:5 payout; double after split; late surrender; configurable penetration and tablemate behavior. Wagers are fixed at one initial unit. No insurance or side bets; split aces get one card and cannot resplit. Unusual shoe exhaustion refunds the round.
 
-## Load and play
+This is a **421,293,830-parameter typed decision model**, not a generative chat model. Context budgets are 1,024 tokens total and 256 for question heads; overflow fails explicitly. The tested stack is Python 3.13, `laya==0.3.4`, `torch==2.8.0`, and `transformers==4.57.6`, on RTX 4090 hardware. CPU inference is supported but slower. Weights occupy approximately 1.7 GB; the full download also includes evaluation and training evidence.
+
+## Quick start
 
 ```bash
 git clone https://github.com/adambloebaum/laya-blackjack.git
 cd laya-blackjack
 uv sync --extra model --extra dev
+uv run --no-sync hf auth login
 uv run --no-sync blackjack fetch-model
 uv run --no-sync blackjack serve
 ```
 
-Open http://127.0.0.1:8000 and choose **Load trained Laya**. While the repository is private, run `uv run --no-sync hf auth login` first with an authorized account. The project pins this package to a full Hub commit and SHA-256 manifest. The installer verifies all files and publishes the local checkpoint only after verification.
+Authentication is required while the repository is private; use an account with access. Open http://127.0.0.1:8000 and choose **Load trained Laya**. The project pins the Hub commit and manifest digest and verifies all files before installation. If an older checkpoint already occupies the default directory, use `blackjack fetch-model --output artifacts/checkpoints/released-v1` instead; the existing installation is preserved and the dashboard discovers the new completed checkpoint.
 
-Programmatic inference after downloading:
+Programmatic inference after a fresh default installation:
 
 ```python
 from blackjack.engine import Game, Rules
 from blackjack.model import LayaPolicy
 
-game = Game(Rules(players=3), seed=42)
-game.deal()
 policy = LayaPolicy()
 policy.load("artifacts/checkpoints/released", device="cuda:0")
+game = Game(Rules(players=3), seed=42)
+game.deal()
 if game.phase == "playing":
     prediction = policy.predict(game.observation())
     print(prediction["answers"])
 ```
 
-Use the project's state and question builders; changing their wording, order, or compact representation changes the trained input contract. Context budgets are 1,024 tokens total and 256 for the question head. The integration rejects overflow. Tested with `laya==0.3.4`, `torch==2.8.0`, and `transformers==4.57.6` on RTX 4090 hardware. CPU inference is available but slower. SafeTensors weights occupy about 1.7 GB.
+Use the new installation path if you chose `released-v1`. Model loading is local after download; no paid inference service is required. The dashboard is a localhost research tool, without remote authentication.
 
-## Training and selection
+## Training lineage and final selection
 
-The base checkpoint is `convaiinnovations/laya` at revision `1c5edc17a7acd8701df6fc341c0d179f1c62c982`, using the ModernBERT-large backbone from Answer.AI and LightOn. A six-epoch, 500-state full-model pilot supplied the warm start. The larger experiment used:
+The upstream checkpoint is `convaiinnovations/laya` at `1c5edc17a7acd8701df6fc341c0d179f1c62c982`, with the ModernBERT-large backbone from Answer.AI and LightOn. The selected lineage is:
 
-| Component | Configuration |
-| --- | --- |
-| Training / selection / calibration / test | 100,000 / 2,000 / 2,000 / 5,000 states |
-| Split boundary | Independent whole-game seed groups |
-| Reference | Public-information Monte Carlo, basic-strategy continuations |
-| Training reference budget | 1,024–4,096 sampled worlds per state |
-| Evaluation reference budget | 4,096–8,192 sampled worlds per state |
-| Loss | Supervised distillation; uncertain action labels receive lower weight |
-| Candidates | Full-model learning rates 1e-5 and 5e-6, same seed 20260921 |
-| Selected candidate | 5e-6, epoch 3, batch size 8, 112,500 updates |
-| Selection criterion | Lowest selection-split reference EV regret |
-| Temperature fitting | Separate 2,000-state calibration split, by option-count bucket |
-| Hardware | Two independent RTX 4090 candidates; 24 CPU simulation workers |
+| Stage | Training states | Selection / calibration / test states | Selected training |
+| --- | ---: | --- | --- |
+| Full-model pilot | 500 | See archived pilot report | Six epochs |
+| Broad simulation | 100,000 | 2,000 / 2,000 / 5,000 | LR 5e-6, epoch 3 |
+| Composition-focused | 65,536 | 4,096 / 2,048 / 8,192 | LR 5e-6, epoch 3 |
+| Hybrid-reference follow-up | 65,536 | 4,096 / 2,048 / 8,192 | Ordinary imitation, LR 5e-6, epoch 3 |
 
-The complete generation/training/evaluation overnight run took about 5 hours 47 minutes. The selected candidate's training, calibration, and reporting took about 4 hours 40 minutes. These are local measurements, not general speed claims. Training is supervised adaptation; this project does not reimplement upstream RLCD.
+Each stage uses separate whole-game groups across its splits. The last stage trained for 73,728 updates, batch size eight, seed 40260924. Its action loss weights uncertain labels less heavily. The cost-sensitive alternative did not win that study; “teacher-cost” names the study, not the selected objective. The later model-visited studies did not establish a better policy. Training is supervised distillation, not a reimplementation of upstream RLCD.
 
-## Frozen decision evaluation
+The final release stage did **no training or temperature fitting**. Five frozen nominees were compared on 8,192 new SDK selection states. The incumbent remained unless a challenger improved reference regret with a four-comparison-adjusted paired whole-game bootstrap bound and satisfied the general/depleted guards. No challenger qualified. The selected complete inference files were frozen before the 16,384-state final test and return benchmark. Temperature buckets remain those fitted on the last training stage's 2,048 calibration states.
 
-| Metric | Warm start, trainer | Selected, trainer | Selected, serving SDK |
-| --- | ---: | ---: | ---: |
-| Reference action agreement | 87.04% | 94.74% | 94.72% |
-| Reference EV regret, units / decision ↓ | 0.010262 | 0.001915 | 0.001926 |
-| Next-hit probability Brier distance ↓ | 0.011246 | 0.000821 | 0.000822 |
-| Dealer probability Brier distance ↓ | 0.002351 | 0.001650 | 0.001650 |
+## Fresh SDK evaluation
 
-The 5,000 test states come from 1,479 game groups. A 2,000-replicate game-cluster bootstrap gives serving agreement a 95% interval of **94.08–95.34%**, and reference EV regret **0.001589–0.002261**. Reference sampling uncertainty is not included in these bootstrap intervals. Batched training evaluation and serving inference can select different actions near ties because of numerical differences; both results are retained.
+The final test contains equal general and depleted-shoe strata: **16,384 states from 4,840 game groups**. This enriched mix is not the natural frequency of states during ordinary play. Both models use the same canonical three-question SDK and the same states.
 
-The fast action-only evaluator falls back to the serving three-question call near tied logits. It matched the SDK's actions on all 5,000 audited states, using 32 fallbacks. This is measured parity on that set, not a universal guarantee. Median SDK latency for all three questions was **19.0 ms** in this audit on one RTX 4090.
+| Metric | Previously packaged v0.2 | Selected model |
+| --- | ---: | ---: |
+| Reference action agreement | 92.8345% | **95.9473%** |
+| Reference EV regret, units / decision ↓ | 0.00320423 | **0.00101425** |
+| Next-hit probability Brier distance ↓ | 0.00164981 | **0.00027077** |
+| Dealer probability Brier distance ↓ | 0.00252707 | **0.00087878** |
+| Action preference Brier distance ↓ | 0.10846779 | **0.06084717** |
 
-Action probabilities express preference among legal actions, not probability of winning. The SDK's `confidence` field is normalized entropy; use `probabilities` for the action distribution. Next-hit bust targets use the exact peek-conditioned unseen-rank marginal. Dealer targets approximate the dealer-only terminal distribution with no further player draws. Brier distances measure agreement with these targets, not calibration against realized casino outcomes.
+Selected-model 95% whole-game bootstrap intervals are **95.6276–96.2274%** for agreement and **0.00091122–0.00112688** for reference regret (2,000 replicates). These individual intervals condition on recorded labels and exclude reference sampling uncertainty. Reference-regret reduction is **68.35% by point estimate**. Median measured three-question SDK latency was **19.26 ms** on an RTX 4090, excluding model loading.
 
-## Paired policy returns
+The hybrid reference solves finite-shoe public-belief decisions exactly only for supported single-player unsplit states within a 50,000-node limit. Other states use 4,096–16,384 common-world Monte Carlo samples with basic continuation. More samples reduce sampling noise, not continuation bias. Agreement is an imitation measure, not proof of global optimality.
 
-The release evaluated 600,000 simulated rounds: each of three policies played 100,000 fresh-shoe rounds and 1,000 independent 100-round continuous blocks. Ten fixed scenarios receive equal weights. Values below are selected-model minus comparator **units per 100 rounds**, with paired 95% intervals.
+Action probabilities express preferences among legal actions, **not win probabilities**. SDK `confidence` is normalized entropy; use `probabilities` for distributions. Next-hit bust uses the exact peek-conditioned rank marginal. Dealer predictions assume no further player draws. Brier distances measure proximity to reference probabilities, not calibration against realized casino wins.
 
-| Setting | Comparator | Difference | 95% interval |
+Canonical SDK inference was used for every final Laya decision. The accelerated batched path was not evaluated for this release; earlier empirical fallback thresholds did not universally guarantee action parity on later candidates.
+
+## Three-million-round return benchmark
+
+Each of three policies played **500,000 independent fresh rounds** and **5,000 independent 100-round continuous blocks**. Initial seeds were paired across policies in ten equally weighted scenarios: six-deck S17 tables at each of 1–7 seats; H17/no-DAS/6:5; two-deck S17; and random tablemates at seven seats. Different actions can diverge after the paired start. No rounds were voided.
+
+Values below are selected-model minus comparator **betting units per 100 original-wager rounds**, including doubles and splits. Intervals use a Bonferroni correction across these four predeclared aggregate contrasts and a normal approximation over independent rounds or blocks.
+
+| Setting | Comparator | Difference | Familywise 95% interval |
 | --- | --- | ---: | --- |
-| Fresh | Warm start | +1.344 | [+1.001, +1.687] |
-| Fresh | Basic heuristic | +0.074 | [-0.049, +0.197] |
-| Continuous | Warm start | +1.279 | [+0.585, +1.974] |
-| Continuous | Basic heuristic | -0.109 | [-0.498, +0.280] |
+| Fresh | Basic heuristic | −0.00630 | [−0.08343, +0.07083] |
+| Fresh | Packaged v0.2 | −0.01990 | [−0.09414, +0.05434] |
+| Continuous | Basic heuristic | **+0.30854** | **[+0.03349, +0.58359]** |
+| Continuous | Packaged v0.2 | **+0.27458** | **[+0.01612, +0.53304]** |
 
-The model improves on its warm start in both settings. Neither comparison establishes an improvement over the basic heuristic. The model’s own mean returns were -0.704 units per 100 fresh rounds and -0.240 per 100 continuous rounds; both 95% intervals include zero. These results do not demonstrate positive expected profit. Continuous uncertainty uses independent block averages. Different actions may diverge after the paired initial seed. No rounds were voided. Full return summaries and raw unit records are included under `evaluation/`.
+Continuous-play advantages are resolved under this design. Fresh-shoe differences are unresolved. Absolute selected-model returns were **−0.49368 units per 100 fresh rounds** and **−0.55542 per 100 continuous rounds**. This is reduced loss in the measured continuous setting, not evidence of profitability. Scenario-level contrasts remain exploratory; no claim applies to every rule configuration. The basic comparator is a transparent multi-deck heuristic, not a universally exact strategy.
 
-## Weaknesses and error analysis
+## Limits and reproducibility
 
-Performance weakens in depleted shoes and some unusual compositions. Serving agreement was 97.86% in the first 10% of a shoe, versus 86.86% at 70–80% depletion (137 states) and 78.57% at 80–90% (42 states). These small subgroups are descriptive and confounded by the sampled mix of rules and hands.
+Selection establishes the best-supported nominee under a declared reference-imitation criterion, not the globally best possible model or training method. The final reference is approximate outside its exact scope. Training stability across many random seeds, live casino deployment, varying bet sizes, insurance, and multiplayer exact optimal control are not established. Final test results are now inspected; future tuning requires new locked evaluation games.
 
-The 30 largest recorded reference-regret errors were rechecked using 40,000 fresh sampled worlds each. Fixed reference-versus-model action contrasts remained positive at the individual 95% level in 28 cases. For example, hard 9 against dealer 3 at a strongly negative count preferred double; hit had a rechecked advantage of about 0.205 units. These are selected, exploratory cases with no multiplicity adjustment; they do not estimate overall error prevalence.
+The package includes one Safetensors checkpoint, tokenizer, encoder and calibrated configuration, original training-stage report plus a separately identified release comparison, license/attribution, SHA-256 inventory, raw final evaluation records, evaluator source, training-lineage data and reports, and plotting inputs. Intermediate model weights and optimizer recovery files are excluded. Original local research artifacts are preserved privately. The project records the pinned-download and golden-state reload check separately from the immutable model package.
 
-The final test is now inspected. Any training guided by this analysis requires a newly locked test set. The selected checkpoint was frozen before this audit and return analysis; neither changed the selection decision.
+Weights SHA-256: `64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de`. Calibration configuration SHA-256: `f977fd353d0c0c84a44dd08419369dbd3e91f5d80ad38b09da36588140e51096`.
 
-## Reproducibility and attribution
-
-The package contains SafeTensors weights, encoder configuration, tokenizer, calibrated Laya configuration, sanitized training report, evaluation evidence, and a per-file SHA-256 manifest. Optimizer state is intentionally excluded. The project includes simulator tests, independent paired return evaluation, audit commands, and plotting code. See its [release results](https://github.com/adambloebaum/laya-blackjack/blob/main/docs/release-results.md) for return measurements and full provenance.
-
-Upstream Laya and ModernBERT attribution is preserved in `NOTICE`; see `LICENSE` for Apache 2.0 terms. The simulation data is synthetic. This project is independent of Convai Innovations, Answer.AI, and LightOn.
+See `evaluation/README.md` for archive contents and reproduction steps. Data is synthetic. Code and model modifications use Apache 2.0; upstream attribution is retained in `NOTICE`. This independent project is not affiliated with Convai Innovations, Answer.AI, or LightOn.

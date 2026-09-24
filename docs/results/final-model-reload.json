@@ -1,0 +1,39 @@
+{
+  "release": {
+    "repo_id": "adambloebaum/laya-blackjack-final",
+    "revision": "369547adbafbd489d0fc859946ca403b2b4b6fff",
+    "manifest_sha256": "475b4804caa4f0aa71fc25f503830bc7ae7dfd11252b509a8125b7636571af79",
+    "version": "1.0.0"
+  },
+  "private": true,
+  "history": [
+    {
+      "revision": "369547adbafbd489d0fc859946ca403b2b4b6fff",
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    {
+      "revision": "37bd0a4a91131bf4020c5a0f0816f84bea45e83b",
+      "weight_files": []
+    }
+  ],
+  "inventory_files": 43,
+  "download_cache": "new isolated cache",
+  "all_file_hashes_match": true,
+  "inference_files_match_frozen_selection": true,
+  "selected_weights_sha256": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+  "golden_states": 300,
+  "sampling": "Every 64th final-test state, largest 32 regrets, and first occurrence of every player/deck/H17/hand-category/stratum/reference-kind/selected-action category; deduplicated.",
+  "action_mismatches": 0,
+  "selected_action_probability_mismatches": 0,
+  "probabilities_legal_and_normalized": true,
+  "maximum_probability_sum_error": 0.00019999999999997797,
+  "usage_example_passed": true,
+  "inference_mode": "sdk",
+  "device": "RTX 4090 / cuda:1",
+  "live_dashboard_activated": false,
+  "published": false,
+  "verified_unix": 1790273256.6720695,
+  "scope": "Artifact and serving-path reproduction on inspected golden states, not a new performance test."
+}

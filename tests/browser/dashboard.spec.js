@@ -102,3 +102,33 @@ test('release selection progress is distinct from final-test inference', async (
   await expect(page.locator('#overnight-progress')).toContainText('128 / 8,192 selection states');
   await expect(page.locator('#overnight-progress')).not.toContainText('final-test states');
 });
+
+test('release metrics use a matched comparator and fresh counts while retaining training history', async ({page})=>{
+  const evidence=require('../../docs/results/final-release-completed.json');
+  const old=require('../../docs/results/overnight-100k.json');
+  let report={...old, release_evaluation:{
+    test:evidence.final_audits.incumbent.metrics,
+    baseline:evidence.final_audits.packaged.metrics,
+    baseline_label:'Packaged v0.2',selection_states:8192,
+  }};
+  await page.route('**/api/sessions**',async route=>{
+    const response=await route.fetch();
+    const json=await response.json();
+    if(json.model)json.model.report=report;
+    await route.fulfill({response,json});
+  });
+  await page.goto('/');
+  await page.getByRole('button',{name:'Experiments',exact:true}).click();
+  await expect(page.locator('#report-badge')).toContainText('16,384 TEST STATES');
+  await expect(page.locator('#training-report')).toContainText('Packaged v0.2');
+  await expect(page.locator('#training-report')).toContainText('92.8%');
+  await expect(page.locator('#training-report')).toContainText('95.9%');
+  await expect(page.locator('#training-report')).toContainText('8,192 separate selection states');
+  await expect(page.locator('#training-report')).toContainText('Temperatures were retained');
+  await expect(page.locator('#training-report')).not.toContainText('Warm start');
+  report=old;
+  await page.reload();
+  await page.getByRole('button',{name:'Experiments',exact:true}).click();
+  await expect(page.locator('#report-badge')).toContainText('5,000 TEST STATES');
+  await expect(page.locator('#training-report')).toContainText('Warm start');
+});

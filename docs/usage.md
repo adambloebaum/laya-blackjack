@@ -65,7 +65,7 @@ Use `--mode continuous --units 1000` for 100-round blocks. All policies must use
 
 The basic policy is a transparent multi-deck heuristic, not an exact reference for every rule set. Keep the small serial `benchmark` command for workflow checks; it does not retain paired return differences. Large evaluations store all raw unit returns and their hashes.
 
-The [completed 12-million-round analysis](large-return-results.md) includes all scenario contrasts and a separate selected-error recheck. `scripts/analyze_large_returns.py` revalidates private raw artifacts before exporting portable JSON/CSV evidence. Rebuild its SVG/PNG figures from the committed summaries with `uv run --extra analysis python scripts/plot_large_returns.py`; model weights and GPUs are not required for plotting. These research figures describe a newer private candidate than the default downloadable package.
+The [completed 12-million-round analysis](large-return-results.md) includes all scenario contrasts and a separate selected-error recheck. `scripts/analyze_large_returns.py` revalidates private raw artifacts before exporting portable JSON/CSV evidence. Rebuild its SVG/PNG figures from the committed summaries with `uv run --extra analysis python scripts/plot_large_returns.py`; model weights and GPUs are not required for plotting. These figures describe an earlier evaluation of the same weights selected for the final model; the fresh release results are reported separately in [release-results.md](release-results.md).
 
 ## Model-visited data pilot
 
@@ -103,3 +103,23 @@ uv run --no-sync blackjack visitation-sdk-recovery --study artifacts/overnight/m
 ```
 
 This recovery requires the original archived source/launch records and frozen candidates. It preserves failed evidence, selection, seeds, counts, and the deadline. Standalone `audit-model`, `evaluate-policy`, and `evaluate-suite` also accept `--inference-mode sdk`; the default `batched` path remains an acceleration with empirical parity checks. SDK mode runs all three serving questions for each Laya decision and records its mode in audit/return identities. It is slower. Resume rejects a changed mode.
+
+## Selected release
+
+The default `blackjack fetch-model` downloads the selected 1.0.0 checkpoint from the pinned private `adambloebaum/laya-blackjack-final` repository. Authenticate with `uv run --no-sync hf auth login` while it is private. Existing installs should use a new directory:
+
+```bash
+uv run --no-sync blackjack fetch-model --output artifacts/checkpoints/released-v1
+```
+
+Choose **Reload checkpoint** in the dashboard to explicitly load the newest completed local checkpoint. The downloader preserves earlier installations and rejects a mismatched existing output directory. A currently loaded model stays loaded until that explicit action.
+
+For programmatic inference, use the example in [MODEL_CARD.md](../MODEL_CARD.md), changing its local path to match your installation. For evaluations of the selected release, pass `--inference-mode sdk` so every decision uses the same full three-question serving call as the final benchmark.
+
+The [release report](release-results.md) separates reference agreement from realized returns. The dashboard's release metrics compare both models on the same 16,384-state final test; its 65,536 training count refers to the last training stage, with earlier stages recorded in the model card. Temperatures were retained from that stage's 2,048-state calibration split.
+
+Regenerate the final SVG/PNG figures without model weights:
+
+```bash
+uv run --extra analysis python scripts/plot_final_release.py
+```

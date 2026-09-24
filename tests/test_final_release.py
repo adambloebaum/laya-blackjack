@@ -275,11 +275,34 @@ def test_single_package_excludes_other_weights_and_rejects_rehashed_config(seale
             "outputs": {n: digest(directory / n) for n in ("report.json", "decisions.json")},
         },
     )
+    from blackjack.final_release import release_report
+
+    with pytest.raises(ValueError, match="Both final SDK audits"):
+        release_report(sealed, freeze["selected_name"])
+    # The baseline must be evaluated on the same fresh release test.
+    baseline_identity, _ = audit_receipt(sealed, "final", "packaged")
+    baseline_directory = sealed / "final/packaged"
+    baseline_report = dict(report, model_sha256=baseline_identity["files"]["model.safetensors"])
+    atomic_json(baseline_directory / "report.json", baseline_report)
+    atomic_json(baseline_directory / "decisions.json", [])
+    atomic_json(baseline_directory / "completion.json", {
+        "identity": baseline_identity,
+        "outputs": {n: digest(baseline_directory / n) for n in ("report.json", "decisions.json")},
+    })
     summary = {"comparisons": {}}
     for name in ("summary.json", "fresh-comparison.json", "continuous-comparison.json"):
         atomic_json(sealed / name, summary)
     prepare_package(sealed, freeze, summary)
     package = sealed / "release-package"
+    exported = json.loads((package / "training_report.json").read_text())
+    original = json.loads((sealed / "checkpoints/a/training_report.json").read_text())
+    evaluation = exported.pop("release_evaluation")
+    assert exported == original  # Historical baseline, test and counts remain one coherent stage.
+    assert evaluation["test"]["states"] == evaluation["baseline"]["states"] == 32
+    assert evaluation["test"]["teacher_ev_regret"] == 0.001
+    assert exported["test"]["teacher_ev_regret"] == 0.1
+    assert evaluation["selection_states"] == 16
+    assert evaluation["dataset_sha256"] != original["dataset_hash"]
     assert (package / "model.safetensors").read_bytes() == b"a"
     assert len(list(package.rglob("*.safetensors"))) == 1
     assert json.loads((sealed / "release-review.json").read_text())["published"] is False

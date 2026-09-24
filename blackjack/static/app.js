@@ -145,12 +145,16 @@ function renderInference(r,m,s) {
 }
 function renderReport(report) {
   if (!report) return;
-  $('report-badge').textContent=`${report.states.train.toLocaleString()} TRAIN · ${report.states.test.toLocaleString()} TEST STATES`;
+  const release=report.release_evaluation;
+  const measured=release||report;
+  const testStates=release?release.test.states:report.states.test;
+  $('report-badge').textContent=`${report.states.train.toLocaleString()} TRAIN · ${testStates.toLocaleString()} TEST STATES`;
   const rows=[['Teacher agreement','teacher_agreement',true,true],['Teacher EV regret','teacher_ev_regret',false,false],['Next-hit probability Brier','hit_bust_brier',false,false],['Dealer probability Brier','dealer_brier',false,false],['Action calibration error','teacher_action_ece',false,false]];
   $('training-report').classList.remove('empty');
   const calibration=report.states.calibration||report.states.validation;
-  const selection=report.states.selection?` ${report.states.selection.toLocaleString()} separate selection states chose the checkpoint.`:'';
-  $('training-report').innerHTML=`<table class="report-table"><thead><tr><th>Frozen test metric · ${report.test_inference?'SDK':'trainer'}</th><th>${report.states.selection?'Warm start':'Base / raw'}</th><th>Trained / calibrated</th></tr></thead><tbody>${rows.map(([label,key,up,percent])=>{const a=report.baseline[key],b=report.test[key];return `<tr><td>${label}</td><td>${percent?pct(a,1):a.toFixed(4)}</td><td class="${(up?b>a:b<a)?'improved':'worse'}">${percent?pct(b,1):b.toFixed(4)}</td></tr>`;}).join('')}</tbody></table><p class="footnote">${escape(report.limitations)}${selection} ${calibration.toLocaleString()} separate calibration states fitted temperatures.</p>`;
+  const selection=release?` ${release.selection_states.toLocaleString()} separate selection states compared the frozen nominees. Temperatures were retained from the original ${calibration.toLocaleString()}-state calibration split.`: `${report.states.selection?`${report.states.selection.toLocaleString()} separate selection states chose the checkpoint. `:''}${calibration.toLocaleString()} separate calibration states fitted temperatures.`;
+  const baselineLabel=release?release.baseline_label:report.states.selection?'Warm start':'Base / raw';
+  $('training-report').innerHTML=`<table class="report-table"><thead><tr><th>Frozen test metric · ${release||report.test_inference?'SDK':'trainer'}</th><th>${escape(baselineLabel)}</th><th>${release?'Selected release':'Trained / calibrated'}</th></tr></thead><tbody>${rows.map(([label,key,up,percent])=>{const a=measured.baseline[key],b=measured.test[key];return `<tr><td>${label}</td><td>${percent?pct(a,1):a.toFixed(4)}</td><td class="${(up?b>a:b<a)?'improved':'worse'}">${percent?pct(b,1):b.toFixed(4)}</td></tr>`;}).join('')}</tbody></table><p class="footnote">${escape(report.limitations)}${selection}</p>`;
 }
 async function loadModel() {
   pause();

@@ -224,6 +224,26 @@ def freeze_selection(root):
     return result
 
 
+def release_report(root, name):
+    """Keep training-stage comparisons separate from the fresh release comparison."""
+    _, selected = audit_receipt(root, "final", name)
+    _, baseline = audit_receipt(root, "final", "packaged")
+    if selected is None or baseline is None:
+        raise ValueError("Both final SDK audits are required for release reporting.")
+    report = json.loads((root / "checkpoints" / name / "training_report.json").read_text())
+    report["release_evaluation"] = {
+        "test": selected["metrics"],
+        "baseline": baseline["metrics"],
+        "baseline_label": "Packaged v0.2",
+        "selection_states": run_config(root)["selection_states"],
+        "dataset_sha256": selected["dataset_sha256"],
+        "selection_sha256": digest(root / "selection-frozen.json"),
+        "inference_mode": "sdk",
+        "scope": "Fresh release test; original training and calibration records are preserved separately.",
+    }
+    return report
+
+
 def prepare_package(root, freeze, summary):
     """Build one local review package; no network publication or active pointer writes."""
     name = freeze["selected_name"]
@@ -231,15 +251,7 @@ def prepare_package(root, freeze, summary):
     _, audit = audit_receipt(root, "final", name)
     if audit is None:
         raise ValueError("Cannot package an unaudited finalist.")
-    report = json.loads((source / "training_report.json").read_text())
-    report.update(
-        test=audit["metrics"],
-        test_deferred=False,
-        prior_test=report["test"],
-        audit_dataset_hash=digest(root / "data/manifest.json"),
-        release_selection_sha256=digest(root / "selection-frozen.json"),
-        test_inference="Canonical three-question SDK on fresh release test games",
-    )
+    report = release_report(root, name)
     target = root / "release-candidate"
     if not target.exists():
         staging = root / (".release-candidate-" + uuid.uuid4().hex[:8])

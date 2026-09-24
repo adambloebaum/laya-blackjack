@@ -1,6 +1,6 @@
 [project]
 name = "laya-blackjack"
-version = "0.2.0"
+version = "1.0.0"
 description = "A reproducible blackjack laboratory with Laya inference and training"
 readme = "README.md"
 license = "Apache-2.0"

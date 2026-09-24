@@ -1,52 +1,57 @@
 # Laya Blackjack Laboratory
 
-**Watch a learned policy play. Inspect what it believes. Measure where it fails.**
+**Watch a learned policy play. Inspect its predictions. Measure where it fails.**
 
-A finite-shoe blackjack simulator, interactive research dashboard, and reproducible training pipeline built around [Laya](https://huggingface.co/convaiinnovations/laya). One learned player shares the table with up to six simulated players. Every decision uses the cards a player can observe.
+A finite-shoe blackjack simulator, interactive dashboard, and reproducible research pipeline built around [Laya](https://huggingface.co/convaiinnovations/laya). One learned player shares the table with up to six simulated players. Every decision uses only information a player can observe.
 
-[Model on Hugging Face](https://huggingface.co/adambloebaum/laya-blackjack) · [Measured results](docs/release-results.md) · [Usage](docs/usage.md) · [Model card](MODEL_CARD.md)
+[Selected model](https://huggingface.co/adambloebaum/laya-blackjack-final) · [Results](docs/release-results.md) · [Usage](docs/usage.md) · [Model card](MODEL_CARD.md)
 
 ![Live table with learned predictions and reference probabilities](docs/dashboard.png)
 
-## What you can explore
+## Explore the table
 
-- **Play and observe.** Step through a hand or autoplay; inspect splits, wagers, exposed cards, unseen rank counts, and the return trace. Export a deterministic replay.
-- **Compare beliefs.** The sidebar separates learned action preferences, next-hit bust probability, and dealer finish predictions from the Monte Carlo reference and its uncertainty.
-- **Change the game.** Configure 1–7 seats, 1/2/4/6/8 decks, S17/H17, 3:2 or 6:5 payout, surrender, double after split, shoe penetration, and tablemate behavior.
-- **Run experiments.** Generate independent game splits with parallel CPU workers, fine-tune candidates on separate GPUs, calibrate probabilities, and evaluate paired returns on fresh and continuous shoes.
+- **Watch decisions.** Step through hands or autoplay; inspect splits, wagers, exposed cards, unseen rank counts, and returns. Export a deterministic replay.
+- **Compare predictions.** The sidebar separates learned action preferences, next-hit bust probability, and dealer finish predictions from the Monte Carlo reference and its uncertainty.
+- **Change the rules.** Configure 1–7 seats, 1/2/4/6/8 decks, S17/H17, 3:2 or 6:5 payout, surrender, double after split, shoe penetration, and tablemate behavior.
+- **Run research.** Generate independent game splits with parallel CPU workers, fine-tune candidates, calibrate probability outputs, and evaluate paired returns on fresh and continuous shoes.
 
 ## Start locally
 
-Requires [uv](https://docs.astral.sh/uv/). Python 3.13 is the tested environment; the package permits Python 3.11–3.13. CUDA speeds inference and training; the simulator runs on CPU.
+Requires [uv](https://docs.astral.sh/uv/). Python 3.13 is the tested environment; the package supports Python 3.11–3.13. CUDA speeds model inference and training. The simulator itself runs on CPU.
 
 ```bash
 git clone https://github.com/adambloebaum/laya-blackjack.git
 cd laya-blackjack
 uv sync --extra model --extra dev
+uv run --no-sync hf auth login
 uv run --no-sync blackjack fetch-model
 uv run --no-sync blackjack serve
 ```
 
-Open **http://127.0.0.1:8000** and click **Load trained Laya**. The approximately 1.7 GB model download uses an immutable Hugging Face revision and verifies every packaged file before installation. While this release is private, authenticate first with `uv run --no-sync hf auth login` using an account with repository access.
+Open **http://127.0.0.1:8000** and click **Load trained Laya**. Both repositories are private during release preparation; authentication requires an account with access. Weights occupy about 1.7 GB, with additional evaluation and training evidence. Downloads use an immutable Hugging Face revision and verify every packaged file before installation.
 
-For the simulator alone, use `uv sync --extra dev` and skip the download. Model inference becomes available when dependencies and weights are installed. There is no paid inference API or frontend build step. The server is intended for localhost use and has no remote authentication.
+**Existing installation:** if the earlier model already occupies `artifacts/checkpoints/released`, download into a new directory with `uv run --no-sync blackjack fetch-model --output artifacts/checkpoints/released-v1`. The old checkpoint is preserved; the dashboard discovers the new completed installation when reloaded.
 
-## Measured model quality
+For the simulator alone, use `uv sync --extra dev` and skip authentication and model download. There is no paid inference API or frontend build step. The server is intended for localhost use and has no remote authentication.
 
-The selected checkpoint was fine-tuned on **100,000 simulation states**, with separate **2,000 selection**, **2,000 calibration**, and **5,000 test** states. Two full-model candidates trained on two RTX 4090s; selection used reference EV regret on the selection split.
+## What the selected model achieves
 
-| Frozen test metric | Warm start | Selected model |
+Five frozen research candidates were compared on **8,192 new selection states**, followed by **16,384 untouched test states** and a fixed **3-million-round** policy benchmark. The teacher-cost study's ordinary-imitation model was retained. No training or calibration occurred during final selection.
+
+| Same fresh test, serving SDK | Previously packaged v0.2 | Selected model |
 | --- | ---: | ---: |
-| Reference action agreement | 87.04% | 94.74% |
-| Reference EV regret, units / decision ↓ | 0.010262 | 0.001915 |
-| Next-hit probability Brier distance ↓ | 0.011246 | 0.000821 |
-| Dealer probability Brier distance ↓ | 0.002351 | 0.001650 |
+| Reference action agreement | 92.83% | **95.95%** |
+| Reference EV regret, units / decision ↓ | 0.003204 | **0.001014** |
+| Next-hit probability Brier distance ↓ | 0.001650 | **0.000271** |
+| Dealer probability Brier distance ↓ | 0.002527 | **0.000879** |
 
-These are the trainer's batched metrics. A separate audit through the serving SDK measured **94.72% agreement** (95% game-cluster bootstrap interval: **94.08–95.34%**) and **0.001926 units of reference regret**. Small numerical differences near tied actions can change an argmax. The audit and release preserve both measurements.
+These measure agreement with a hybrid exact/Monte Carlo reference, not the probability of winning. The test equally weights general and depleted-shoe states; it does not represent ordinary-play state frequencies.
 
-![Measured improvement against the approximate reference](docs/figures/model-quality.svg)
+![Selected-model return advantages with adjusted uncertainty](docs/figures/final-returns.svg)
 
-The reference uses Monte Carlo action values with a basic-strategy continuation. Matching it is an imitation result, not proof of optimal play or a casino advantage. See the [full evaluation](docs/release-results.md) for **600,000 simulated rounds**, paired return intervals, subgroup weaknesses, and fresh-world checks of the largest mistakes.
+Continuous play gained **0.309 betting units per 100 rounds over basic strategy** and **0.275 over packaged v0.2**, with positive intervals after adjustment for the four planned comparisons. Fresh-shoe differences remain inconclusive. Absolute average returns remained negative: **−0.494 units per 100 fresh rounds** and **−0.555 per 100 continuous rounds**. These results do not establish a profitable or globally optimal player.
+
+The [results report](docs/release-results.md) includes the full intervals, test design, limitations, and reproducibility records. One selected model is staged on Hugging Face; intermediate weights and the earlier model repository remain private.
 
 ## How it works
 
@@ -54,43 +59,36 @@ The reference uses Monte Carlo action values with a basic-strategy continuation.
 flowchart LR
     G[Finite-shoe game] --> O[Public observation]
     O --> L[Laya: three typed questions]
-    O --> R[Conditional Monte Carlo reference]
+    O --> R[Conditional reference]
     L --> D[Dashboard and policy evaluation]
     R --> D
-    R --> T[Group-disjoint training data]
+    R --> T[Group-disjoint simulation data]
     T --> F[Fine-tune and calibrate]
     F --> L
 ```
 
-The model sees the active hand, legal actions, exposed table, rules, and unseen rank counts. It never receives the seed, dealer hole card, or future shoe order. The reference samples concealed cards without replacement and conditions on a negative dealer peek.
+Laya sees the active hand, legal actions, exposed table, rules, and unseen rank counts. It never receives the seed, dealer hole card, or future shoe order. Unseen cards include the concealed dealer card; reference probabilities condition on the dealer's negative blackjack peek.
 
-Training is supervised distillation. Action preferences describe the model's distribution over legal decisions; they are **not win probabilities**. The next-hit target is an exact conditional rank calculation. Dealer finish predictions assume no additional player draws. Context overflow fails explicitly rather than dropping state silently.
+Training uses supervised distillation. Action probabilities express preferences among legal actions, **not win probabilities**. Next-hit bust has an exact conditional rank target. Dealer finish predictions assume no further player draws. Context overflow fails explicitly rather than silently discarding state.
 
-The simulator uses American hole-card rules, fixed unit wagers, and no insurance or side bets. Doubles and splits count against the original wager; split aces get one card and do not resplit. A conservative reserve may trigger an early shuffle in small crowded shoes. Rare mid-round exhaustion voids the round. The [design](docs/design.md) and [usage guide](docs/usage.md) explain the full contract.
+The research reference uses exact finite-shoe public-belief calculations within a restricted single-player, unsplit scope; other states use Monte Carlo with basic continuation. The live dashboard shows its separately labeled Monte Carlo reference. The simulator uses American hole-card rules, fixed wagers, no insurance or side bets, and a conservative early-shuffle reserve. The [design](docs/design.md) and [usage guide](docs/usage.md) describe the full contract.
 
-## Research and development
+## Research record
 
-Start with the [training and evaluation commands](docs/usage.md), [overnight experiment guide](docs/scaling-experiment.md), and [next research questions](docs/roadmap.md). Machine-readable reports and plotting code accompany the release claims; historical pilot results remain [archived](docs/experiments.md).
+The selected lineage is a 500-state full-model pilot, a 100,000-state broad adaptation, 65,536 composition-focused states, and 65,536 states with the hybrid reference. Separate game groups drive training, candidate selection, temperature calibration, and final evaluation. The [model card](MODEL_CARD.md) records the exact lineage and settings.
 
-The completed [composition-focused experiment](docs/targeted-experiment.md) improved reference agreement on fresh general/depleted games; its return comparison remains inconclusive. Its candidate is retained locally for further research. The protocol seals final-test predictions until both candidates are selected:
+| Study | Main finding |
+| --- | --- |
+| [Broad adaptation](docs/release-results-v0.2.md) | Improved over the pilot; no resolved advantage over basic strategy. |
+| [Composition focus](docs/targeted-experiment.md) | Improved reference imitation; return differences unresolved. |
+| [Hybrid reference and loss comparison](docs/teacher-cost-experiment.md) | Ordinary imitation narrowly won selection; became the retained research leader. |
+| [12-million-round evaluation](docs/large-return-results.md) | Continuous advantage over basic strategy; predecessor comparison unresolved. |
+| [Model-visited training and replication](docs/model-visited-training.md) | Did not establish an improved policy; original failures and negative findings preserved. |
+| [Final selection and evaluation](docs/final-release-selection.md) | Retained the research leader; fresh final evidence supports both continuous-play comparisons. |
 
-```bash
-uv run --no-sync blackjack targeted --output artifacts/overnight/composition-run --source artifacts/checkpoints/released --hours 12 --workers 24
-```
+Reports, raw evaluation records, training data, source snapshots, and standalone figures accompany the selected model. Historical experiment weights remain private. Inspected test sets are never reused as untouched evidence for later tuning. See the [research roadmap](docs/roadmap.md) for limitations and possible future work.
 
-It uses both local GPUs and retains the released model while generating comparison evidence. Run unattended jobs under a process manager; the CLI stays attached to its terminal.
-
-The completed [exact-reference and decision-cost follow-up](docs/teacher-cost-experiment.md) improved same-test reference agreement from 94.96% to 95.90%; the two objectives were almost tied on selection. The subsequent [12-million-round comparison](docs/large-return-results.md) measured a continuous-play advantage of **+0.199 betting units per 100 rounds over the basic heuristic** (adjusted interval +0.086 to +0.312). Differences from the predecessor and both fresh-shoe comparisons remain inconclusive. Average returns were still negative. The report includes all scenario contrasts, fresh-world error checks, and the decision to qualify model-visited data before further training.
-
-![Latest research candidate: paired return differences and uncertainty](docs/figures/large-return-overview.svg)
-
-Intermediate checkpoints stay private; the project will publish one final selected model. These research results describe the latest local candidate; the download above remains the existing packaged model until the selected release is verified and activated.
-
-The stronger-label [model-visited-data pilot](docs/model-visited-pilot.md) qualified fresh collection and labeling. The subsequent [matched training study](docs/model-visited-training.md#completed-results) completed two 32,000-state training arms, three SDK audits, and **800,000 return rounds**. Model-visited training won the frozen selection rule, but its final return differences from the incumbent remain inconclusive: −0.025 units per 100 fresh rounds and +0.297 per 100 continuous rounds, with adjusted intervals spanning zero. Reference regret was 2.11% lower by point estimate, also unresolved. The candidate remains private and inactive; the report preserves the batch-parity failure and exact-SDK evaluation recovery.
-
-The independent [SDK replication](docs/model-visited-training.md#replication-results) completed **1.6 million return rounds** in 9 hours 33 minutes. It did not reproduce a benefit from model-visited training: that arm retained the incumbent weights. The standard-mixture control won selection, but its final reference regret was 17.9% higher and its small return gains remained inconclusive. The research incumbent was retained for the final selection stage.
-
-The [final-selection stage](docs/final-release-selection.md#completed-results) completed in **8 hours 44 minutes**, retaining the research incumbent from five frozen nominees. Its fresh **3-million-round** benchmark measured continuous-play advantages of **+0.309 betting units per 100 rounds over basic strategy** and **+0.275 over the packaged v0.2 model**, both with positive multiplicity-adjusted intervals. Fresh-shoe differences remain inconclusive and average returns remain negative. A verified single-model package is ready locally for release review; upload and activation are pending. No additional fine-tuning is planned.
+## Development
 
 ```bash
 uv run --no-sync pytest -q
@@ -100,6 +98,6 @@ npx playwright install chromium
 npm test
 ```
 
-The application is plain HTML/CSS/JavaScript served by FastAPI. Node is only needed for browser tests. CI exercises the simulator, information boundaries, API, replay, artifact integrity, paired evaluation, and responsive interface without downloading model weights.
+The application is plain HTML/CSS/JavaScript served by FastAPI. Node is used only for browser tests. CI checks simulation rules, hidden-information boundaries, API behavior, replay, artifact integrity, paired evaluation, and the responsive interface without downloading model weights.
 
-See [contributing](CONTRIBUTING.md), [security](SECURITY.md), and the [release process](docs/release.md). Code and released model modifications are licensed under **Apache 2.0**; [NOTICE](NOTICE) credits Laya and its ModernBERT backbone. This is an independent research project.
+Regenerate the release figures with `uv run --extra analysis python scripts/plot_final_release.py`. See [contributing](CONTRIBUTING.md), [security](SECURITY.md), and the [release process](docs/release.md). Code and model modifications use **Apache 2.0**; [NOTICE](NOTICE) credits Laya and ModernBERT. This is an independent research project.
