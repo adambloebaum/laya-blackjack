@@ -1,15 +1,15 @@
-# Final model selection and release evaluation
+# Model selection and final evaluation
 
-This document preserves the completed private selection protocol and its results. The selected model is now the [1.0.0 release](release.md); publication did not alter its inference files or measured outcomes.
+Five completed training candidates were compared before the published model received its final performance test. Selection used new simulated decisions and a rule fixed in advance. The subsequent playing benchmark measured performance without influencing which model was chosen.
 
-This is the final bounded selection/evaluation stage for one public model. It performs **no additional training or temperature fitting**. The existing GitHub and Hugging Face repositories remain private through review; private staging and download verification follow the completed evaluation. The exact nominees are in [final-candidates.json](final-candidates.json).
+This report describes the completed experiment. It performed no additional training or temperature fitting. [Candidate identities](final-candidates.json) and archived reports retain their original machine-readable names for reproducibility; the descriptions below explain what each candidate represents.
 
 ## Nominees and frozen inputs
 
 | Nominee | Origin |
 | --- | --- |
-| Research incumbent | Teacher-cost study winner; retained after both visitation studies |
-| Packaged baseline | Existing private v0.2 package currently offered by the project |
+| Stronger-reference model (`incumbent`) | Ordinary-imitation model after all four training stages; the default candidate under the selection rule |
+| Broad-training baseline (`packaged`) | Model after the initial adaptation and 100,000-state broad-training stage, before the two refinement stages |
 | Composition candidate | Completed composition-focused study winner |
 | Model-visited candidate | First matched visitation study winner, with completed SDK recovery |
 | Replication control | Standard-mixture winner of the completed replication |
@@ -24,7 +24,7 @@ Use root **20261008** in the new `final-release-selection-v1` namespace, with se
 
 Labels use the hybrid exact reference with its existing scope and 50,000-node cap; fallback uses 4,096–16,384 common-world Monte Carlo samples and basic continuation. More samples do not remove continuation bias. All five models predict only the selection split through the complete three-question SDK. Selection and final-test progress are labeled separately in the dashboard.
 
-The predeclared default is the research incumbent. For each of four challengers, calculate paired reference-regret differences and a **20,000-replicate paired whole-game bootstrap within each stratum**, maintaining equal general/depleted weights. Use two-sided percentile bounds at 0.625% and 99.375%, a Bonferroni adjustment across the four planned comparisons. These are approximate bootstrap bounds, conditional on recorded reference labels.
+The predeclared default is the stronger-reference model, called the incumbent in the statistical procedure below. For each of four challengers, calculate paired reference-regret differences and a **20,000-replicate paired whole-game bootstrap within each stratum**, maintaining equal general/depleted weights. Use two-sided percentile bounds at 0.625% and 99.375%, a Bonferroni adjustment across the four planned comparisons. These are approximate bootstrap bounds, conditional on recorded reference labels.
 
 A challenger is eligible only if:
 
@@ -38,19 +38,19 @@ Freeze the decision and the hashes of all selection reports before final inferen
 
 ## Locked final evaluation
 
-Only the frozen winner and the previously packaged v0.2 baseline receive final SDK audits on the 16,384 new test states. They then play a fixed paired return benchmark alongside basic strategy: **500,000 independent fresh rounds plus 5,000 independent 100-round continuous blocks per policy**. This is **3,000,000 policy-rounds** and 1,515,000 policy-unit records. Seeds are paired across policies, so those records are not all independent across policies.
+Only the frozen winner and the broad-training baseline receive final SDK audits on the 16,384 new test states. They then play a fixed paired return benchmark alongside basic strategy: **500,000 independent fresh rounds plus 5,000 independent 100-round continuous blocks per policy**. This is **3,000,000 policy-rounds** and 1,515,000 policy-unit records. Seeds are paired across policies, so those records are not all independent across policies.
 
-Four aggregate contrasts are predeclared: winner minus packaged baseline and winner minus basic, in fresh and continuous play. Use Bonferroni-adjusted 95% normal intervals across those four contrasts. Scenario and other diagnostic analyses remain exploratory. The packaged baseline is deliberately fixed; it is not the newer research incumbent. If selection chooses the packaged model itself, retain the planned evaluation and clearly identify that identical-model comparison.
+Four aggregate contrasts are predeclared: winner minus broad-training baseline and winner minus basic, in fresh and continuous play. Use Bonferroni-adjusted 95% normal intervals across those four contrasts. Scenario and other diagnostic analyses remain exploratory. The broad-training baseline is deliberately fixed; it is not the newer research incumbent. If selection chooses the broad-training model itself, retain the planned evaluation and clearly identify that identical-model comparison.
 
 The approximate SDK throughput observed in the completed replication was about 36 rounds/second/model. One million rounds on each of two GPUs therefore takes roughly 7.7 hours. At similar paired variances, scaling the last screen from 200,000 rounds / 2,000 blocks to 500,000 / 5,000 would reduce interval widths by about 37%; comparisons with different policies can have different variance. This is resource-based sizing, not guaranteed power for a minimum gain. Counts will not be increased or reduced after seeing results.
 
 The **12-hour original limit** includes all work. Data must finish by hour two, selection by hour three, final audits by hour four, and return workers at least two minutes before the overall deadline. Both local 4090s and 24 CPU workers are available; host memory is capped at 28 GiB. Launch from an immutable source archive under systemd with process-group cleanup. Resume retains the original deadline and rejects changed configuration, calibration, counts, or source. If the work cannot finish, retain it as incomplete.
 
-## One package, then review
+## Reproducing the selection workflow
 
-After complete final evaluation, create one separate `release-candidate` and one `release-package`, with unchanged selected inference files, updated serving metrics, a generated model card, license/attribution, source archive, raw evaluation records, and portable summaries. Keep the original training report and selection evidence intact. Package inventory verification is independent of scientific approval; negative or inconclusive outcomes remain visible. No network upload, dashboard activation, release pin change, or public visibility change happens automatically.
+The supervisor verifies complete candidate inputs, freezes selection before final inference, and packages one model only after the evaluation finishes. The package includes the model card, license, source archive, evaluation records and portable summaries. Negative or inconclusive outcomes remain part of the evidence; a final-test result cannot be used to switch to another candidate on that same test.
 
-The package is a private review artifact. Final presentation, provenance and usage examples will be reviewed against the completed results before uploading to a clean private Hugging Face history containing only the chosen model. A pinned download/reload check must pass before any release activation. The public GitHub release and the single final model are a separate publication step. If final evaluation raises concerns, record them rather than switching to a different candidate on that same final test.
+Running this workflow requires all five local candidate checkpoints identified in `docs/final-candidates.json`; those intermediate weights are not included in the public model download. The command below documents the experimental procedure rather than a fresh-install quick start. The distributed evaluation records can be used to recompute the saved comparisons without rerunning model inference.
 
 ```bash
 uv run --no-sync blackjack final-release --output artifacts/overnight/final-release --candidates docs/final-candidates.json --workers 24 --hours 12
@@ -70,25 +70,25 @@ Run **`20260924-034132-final-release`** launched from immutable source **`16a356
 
 The [verified completion receipt](results/final-release-completed.json) records all **7,380 return shards**, **1,515,000 policy-unit records**, and **3,000,000 policy-rounds**. Both paired return reports and the four-contrast adjusted summary reproduced exactly from the saved raw records using the archived evaluator. All five selection audits, both final SDK audits, source hashes, and the package inventory passed verification. Final predictions followed the global selection freeze; original reports were preserved.
 
-The teacher-cost **research incumbent** was retained under the predeclared rule. No challenger qualified. This selects the best-supported nominee under that reference-imitation criterion; return outcomes were assessed afterward and did not change the selection.
+The **stronger-reference ordinary-imitation model** was retained under the predeclared rule. No challenger qualified. This selects the best-supported nominee under that reference-imitation criterion; return outcomes were assessed afterward and did not change the selection.
 
 | Nominee | Selection reference regret | Eligible challenger |
 | --- | ---: | --- |
-| Research incumbent | 0.00091700 | Default retained |
-| Packaged v0.2 | 0.00321610 | No |
+| Stronger-reference model | 0.00091700 | Default retained |
+| Broad-training baseline | 0.00321610 | No |
 | Composition | 0.00136920 | No |
 | Model-visited | 0.00115928 | No |
 | Replication control | 0.00097981 | No |
 
-On **16,384 fresh final-test states**, the selected model agreed with the reference on **95.9473%**, versus **92.8345%** for packaged v0.2. Mean reference regret was **0.00101425** versus **0.00320423** original-wager units per decision, a **68.35% lower point estimate**. These compare predictions with the hybrid reference, including approximate Monte Carlo labels; they are not win probabilities or proof of optimal play.
+On **16,384 fresh final-test states**, the selected model agreed with the reference on **95.9473%**, versus **92.8345%** for the broad-training baseline. Mean reference regret was **0.00101425** versus **0.00320423** original-wager units per decision, a **68.35% lower point estimate**. These compare predictions with the hybrid reference, including approximate Monte Carlo labels; they are not win probabilities or proof of optimal play.
 
 | Paired return contrast | Units per 100 rounds | Familywise 95% interval |
 | --- | ---: | ---: |
 | Fresh: selected minus basic | −0.00630 | [−0.08343, +0.07083] |
-| Fresh: selected minus packaged v0.2 | −0.01990 | [−0.09414, +0.05434] |
+| Fresh: selected minus the broad-training baseline | −0.01990 | [−0.09414, +0.05434] |
 | Continuous: selected minus basic | +0.30854 | [+0.03349, +0.58359] |
-| Continuous: selected minus packaged v0.2 | +0.27458 | [+0.01612, +0.53304] |
+| Continuous: selected minus the broad-training baseline | +0.27458 | [+0.01612, +0.53304] |
 
 Intervals use the predeclared Bonferroni correction across these four aggregate comparisons, with independent rounds or independent 100-round blocks and a normal approximation. Continuous-play advantages are resolved under this design; fresh-shoe differences remain unresolved. These conclusions apply to the fixed equal-weight simulation scenarios. The selected model's absolute average returns remained negative: **−0.49368 units per 100 fresh rounds** and **−0.55542 per 100 continuous rounds**. Lower losses do not establish casino profitability.
 
-The verified local package contains exactly one model and excludes intermediate weights from its evaluation archive. Its weight hash is `64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de`; its package manifest hash is `26320cadfe1fa7cad548011d689752d1b802c8e1ea8832635699f03d7ea81f04`. All inference files match the frozen selected model. That original generated card and review package are preserved. A separate polished 1.0.0 package is now staged in a clean private Hub history, with all files and 300 saved SDK decisions verified after download; see the [release record](release.md). The project download pin now identifies that selected package. The previously running dashboard model was not replaced. These final test results are now inspected and must not be reused as untouched evidence for further tuning.
+The published model has weight hash `64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de`, matching the frozen selection. The [download and verification guide](release.md) describes the public package and supporting records. The final tests are now inspected and must not be reused as untouched evidence for further tuning.

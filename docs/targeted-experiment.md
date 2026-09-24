@@ -1,12 +1,12 @@
 # Composition-focused experiment
 
-The 0.2.0 release's largest confirmed errors cluster in depleted shoes and unusual card compositions. This experiment tests whether targeted examples improve those decisions while preserving general play. It starts from the released checkpoint; it does not reuse the inspected 5,000-state test.
+The model after 100,000-state broad training made its largest confirmed errors in depleted shoes and unusual card compositions. This experiment tests whether targeted examples improve those decisions while preserving general play. It starts from that broad-training checkpoint and uses new evaluation games, separate from the inspected 5,000-state test.
 
 ## Fixed protocol
 
 | Component | Configuration |
 | --- | --- |
-| Warm start | Archived v0.2 package, manifest `c118e0679a88469fca053a0b1d99b3b2667a8289951c7543fd1501f6aa7289d5`; the current default pin now identifies the later selected model |
+| Warm start | Broad-training baseline after 100,000 training states, archived manifest `c118e0679a88469fca053a0b1d99b3b2667a8289951c7543fd1501f6aa7289d5`; the current model download includes further training |
 | Training | 65,536 new states: 32,768 general and 32,768 depleted |
 | Selection | 4,096 new states: 2,048 per stratum |
 | Calibration | 2,048 new general states |
@@ -26,11 +26,11 @@ Complete alternating shards enforce the 50:50 mixture. All decisions from a game
 
 The unchanged source checkpoint is an explicit epoch-zero option. A trained epoch is eligible only if its selection EV regret improves both in the depleted stratum and overall, while general-stratum regret increases by no more than **0.0005 units per decision**. Among eligible epochs/candidates, choose the lowest pooled selection regret. This is a point-estimate guard chosen before the run, not a formal statistical noninferiority test.
 
-Neither trainer predicts the final test. After both candidates finish, `selection-frozen.json` binds the selected weights, calibration config, incumbent, and dataset hashes. Only then do the serving-SDK audits open final-test predictions for the selected candidate and released baseline. Paired whole-game bootstrap intervals summarize their regret and agreement differences, conditional on the approximate teacher labels.
+Neither trainer predicts the final test. After both candidates finish, `selection-frozen.json` binds the selected weights, calibration config, incumbent, and dataset hashes. Only then do the serving-SDK audits open final-test predictions for the trained candidate and broad-training baseline. Paired whole-game bootstrap intervals summarize their regret and agreement differences, conditional on the approximate teacher labels.
 
 Basic strategy, the release, and the selected candidate then play paired fresh and continuous return suites. Scenario weights and independent-unit uncertainty follow the [release evaluation](release-results.md), using new return seeds. The experiment always reports results; final-test performance does not change which candidate was selected. A worse result remains a result.
 
-Raw candidates retain sealed-test metadata and are ineligible for dashboard discovery or release packaging. Completion creates a separate `evaluated-candidate` with final serving metrics and preserved weight/config identities. The live model and private Hugging Face release stay unchanged pending review of the resulting evidence. No profitability or improvement claim is made in advance.
+Raw candidates retain sealed-test metadata and are ineligible for dashboard discovery or release packaging. Completion creates a separate `evaluated-candidate` with final serving metrics and preserved weight/config identities. Experiment completion does not automatically replace an installed model. No profitability or improvement claim is made in advance.
 
 ## Completed local run
 
@@ -40,7 +40,7 @@ On the same new 8,192-state SDK test, the previous model and candidate measured 
 
 Candidate-minus-previous returns were -0.054 units per 100 fresh rounds (95% paired interval -0.182 to +0.074) and -0.008 units per 100 continuous rounds (-0.415 to +0.399). Neither these comparisons nor comparisons with basic strategy established a return gain. Both SDK audits had zero action disagreements with the guarded batched evaluator on the audited states.
 
-The evaluated candidate is saved locally. The active model and private Hugging Face package remain unchanged. Follow-up priorities and the owner's single-public-model requirement are recorded in the [roadmap](roadmap.md). The test has now been inspected for diagnostics; subsequent tuning requires a new locked final test.
+This checkpoint became the starting point for the [stronger-reference training study](teacher-cost-experiment.md). The [final report](release-results.md) evaluates the model after that additional stage. The test has now been inspected for diagnostics; subsequent tuning requires a new locked final test.
 
 ## Run and monitor
 

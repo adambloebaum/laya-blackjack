@@ -43,17 +43,17 @@ Unattended jobs should use a process manager. The Linux supervisors enforce thei
 
 ## Paired policy evaluation
 
-For the complete next-stage training experiment, use `blackjack targeted` as documented in the [composition experiment protocol](targeted-experiment.md). It generates new data, trains both candidates, freezes selection, audits the new final test through the SDK, and runs paired returns. The existing release stays active throughout.
+For a multi-stage training experiment, use `blackjack targeted` as documented in the [composition experiment protocol](targeted-experiment.md). It generates new data, trains both candidates, freezes selection, audits the new final test through the SDK, and runs paired returns. Experiment completion does not automatically replace a loaded model.
 
-The release suite compares the selected model, warm-start model, and basic heuristic on 100,000 independent fresh rounds and 1,000 independent blocks of 100 continuous rounds. Ten fixed scenarios span all table sizes plus additional rule and behavior variants.
+The `research` suite compares a candidate checkpoint, a baseline checkpoint supplied by the user, and the basic-strategy heuristic on 100,000 independent fresh rounds and 1,000 independent blocks of 100 continuous rounds. Ten fixed scenarios span all table sizes plus additional rule and behavior variants.
 
 ```bash
 uv run --no-sync blackjack research --output artifacts/evaluations/my-run --candidate artifacts/checkpoints/released --baseline artifacts/checkpoints/my-pilot --hours 3
 ```
 
-`research` requires complete local evaluated checkpoints and creates private verified copies before play. Pass a new `--seed` for a new comparison; the default retains the historical seed for reproducibility. Within the original deadline, repeat the exact command from its original source snapshot to resume verified completed shards. Model, tokenizer, calibration, runtime/source version, seed, count, or budget changes reject the resume. Use a new output directory for a different experiment. The [large-return protocol](large-return-evaluation.md) specifies the current 12-million-round study and corrected aggregate intervals.
+`research` requires complete local evaluated checkpoints and creates private verified copies before play. Pass a new `--seed` for a new comparison; the default retains the historical seed for reproducibility. Within the original deadline, repeat the exact command from its original source snapshot to resume verified completed shards. Model, tokenizer, calibration, runtime/source version, seed, count, or budget changes reject the resume. Use a new output directory for a different experiment. The [large-return protocol](large-return-evaluation.md) documents the completed 12-million-round study and corrected aggregate intervals.
 
-The supervisor uses GPU 0 for the warm start and GPU 1 for the candidate. For a single GPU, run each policy sequentially:
+The supervisor uses GPU 0 for the supplied baseline and GPU 1 for the candidate. For a single GPU, run each policy sequentially:
 
 ```bash
 uv run --no-sync blackjack evaluate-policy --output artifacts/evaluations/candidate --source artifacts/checkpoints/released --policy laya --device cuda:0 --units 100000
@@ -104,9 +104,9 @@ uv run --no-sync blackjack visitation-sdk-recovery --study artifacts/overnight/m
 
 This recovery requires the original archived source/launch records and frozen candidates. It preserves failed evidence, selection, seeds, counts, and the deadline. Standalone `audit-model`, `evaluate-policy`, and `evaluate-suite` also accept `--inference-mode sdk`; the default `batched` path remains an acceleration with empirical parity checks. SDK mode runs all three serving questions for each Laya decision and records its mode in audit/return identities. It is slower. Resume rejects a changed mode.
 
-## Selected release
+## Downloaded model
 
-The default `blackjack fetch-model` downloads the selected 1.0.0 checkpoint from the pinned public `adambloebaum/laya-blackjack` repository. No Hugging Face account is required. Existing installs should use a new directory:
+The default `blackjack fetch-model` downloads Laya Blackjack 1.0.0 from the pinned public `adambloebaum/laya-blackjack` repository. No Hugging Face account is required. If a different package already occupies the default output directory, choose a new directory:
 
 ```bash
 uv run --no-sync blackjack fetch-model --output artifacts/checkpoints/released-v1
@@ -116,7 +116,7 @@ Choose **Reload checkpoint** in the dashboard to explicitly load the newest comp
 
 For programmatic inference, use the example in [MODEL_CARD.md](../MODEL_CARD.md), changing its local path to match your installation. For evaluations of the selected release, pass `--inference-mode sdk` so every decision uses the same full three-question serving call as the final benchmark.
 
-The [release report](release-results.md) separates reference agreement from realized returns. The dashboard's release metrics compare both models on the same 16,384-state final test; its 65,536 training count refers to the last training stage, with earlier stages recorded in the model card. Temperatures were retained from that stage's 2,048-state calibration split.
+The [release report](release-results.md) separates reference agreement from realized returns. The dashboard compares Laya Blackjack with the broad-training baseline—the model after its initial adaptation and 100,000-state broad-training stage—on the same 16,384-state final test. Its 65,536 training count refers to the last training stage, with the full sequence recorded in the model card. Temperatures were retained from that stage's 2,048-state calibration split.
 
 Regenerate the final SVG/PNG figures without model weights:
 

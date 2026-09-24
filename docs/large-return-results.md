@@ -1,6 +1,6 @@
-# Twelve million rounds: results and next training decision
+# Twelve-million-round evaluation
 
-The latest candidate outperformed the basic-strategy heuristic during continuous play. The comparison does **not** establish that the latest training stage improved realized returns over the preceding model. We retain the already selected candidate as the research incumbent, with one final public model still to be chosen.
+The model trained with stronger reference targets outperformed the basic-strategy heuristic during continuous play. Its comparison with the model before that training stage did **not** establish an incremental return gain. These same weights were later chosen for Laya Blackjack; this report describes an earlier evaluation, separate from the [final benchmark](release-results.md).
 
 The [frozen protocol](large-return-evaluation.md) completed all 12 million rounds in 7 hours 18 minutes. Each policy played one million independent fresh rounds and 30,000 independent blocks of 100 continuous rounds. Ten rule/table scenarios have equal weight. There were no void rounds. Subsequent analysis reverified the raw records and reproduced the saved comparisons.
 
@@ -66,18 +66,18 @@ We rechecked the **25 Monte Carlo cases among the thirty largest recorded errors
 
 This supports a focused follow-up: many costly mistakes persist under fresh sampling. It does not show that the teacher is optimal, remove continuation-policy bias, estimate ordinary-play error prevalence, or prove that a particular training change will improve returns. The cases were selected for large recorded errors, so their original regret magnitudes are selection-biased.
 
-## Training decision
+## Follow-up motivated by these results
 
-**Qualify fresh model-visited data before another large fine-tune.** Do not simply extend the prior training schedule or repeat the decision-cost objective sweep: the loss arms were nearly tied on selection, and the new return comparison does not resolve the latest stage's incremental benefit.
+**These results motivated a test of training on states visited by the learned policy.** Do not simply extend the prior training schedule or repeat the decision-cost objective sweep: the loss arms were nearly tied on selection, and the new return comparison does not resolve the latest stage's incremental benefit.
 
-The next bounded experiment should:
+The follow-up plan was to:
 
 1. Freeze the current candidate and collect new public-state trajectories across all ten scenarios, retaining complete game identities and recording depletion, legal actions, and teacher coverage. Keep execution-smoke games separate. First qualify the collector and label stability on a small pilot; do not train directly on these inspected test errors.
 2. Mix model-visited states with broad coverage. Compare that mixture against equally sized broad-data training, using the same checkpoint, labeling method, optimizer settings, number of updates, and compute budget. Concentrate extra *labeling* effort on costly ambiguous decisions without silently removing general states.
 3. Use the exact public-belief reference only where it supports the state. Preserve explicit Monte Carlo fallback labels elsewhere; verify continuation semantics before interpreting rechecks. A stronger split/multiplayer solver is separate work and should not be confounded with the data-mixture comparison.
 4. Keep the unchanged incumbent eligible. Use new, group-disjoint selection, calibration, and locked final-test games, with guards for general states, fresh shoes, and probability quality. Freeze sample counts, seeds, stopping rules, and practical improvement criteria before training; only the eventual selected candidate reaches a new final return evaluation.
 
-No additional overnight training was launched during this analysis. The latest candidate remains a private research checkpoint, and neither the dashboard default nor the Hugging Face package was replaced. A public release will contain one selected model with its evidence; intermediate weights remain private.
+The resulting [model-visited training study and replication](model-visited-training.md) did not establish a better policy. The model evaluated here was subsequently chosen for Laya Blackjack and tested in the separate [final benchmark](release-results.md).
 
 ## Evidence and reproduction
 

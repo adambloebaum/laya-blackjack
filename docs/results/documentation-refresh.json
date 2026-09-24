@@ -1,0 +1,63 @@
+{
+  "previous_release": {
+    "repo_id": "adambloebaum/laya-blackjack",
+    "revision": "f4480cebf3d477e4e0d49706b069d9f7af7dfbe3",
+    "manifest_sha256": "fde22c059f6817263350f53c6d2b9d56e55858883edb8facc37f1055e632fb65",
+    "version": "1.0.0"
+  },
+  "manifest_sha256": "98e010455024ff8888a57a71c580186d11b8d7846083b253c5b8036708e09b51",
+  "inventory_files": 43,
+  "changed_inventory_files": [
+    "README.md",
+    "evaluation/README.md",
+    "evaluation/figures/final-quality.png",
+    "evaluation/figures/final-quality.svg",
+    "evaluation/figures/final-returns.png",
+    "evaluation/figures/final-returns.svg",
+    "evaluation/plot_final_release.py",
+    "training_report.json"
+  ],
+  "inference_files_unchanged": true,
+  "all_numeric_training_and_evaluation_records_unchanged": true,
+  "created_unix": 1790278117.9359105,
+  "release": {
+    "repo_id": "adambloebaum/laya-blackjack",
+    "revision": "14af6820702b3d6eb47d5f9e395f7852af3767ec",
+    "manifest_sha256": "98e010455024ff8888a57a71c580186d11b8d7846083b253c5b8036708e09b51",
+    "version": "1.0.0"
+  },
+  "anonymous_download_verified": true,
+  "all_downloaded_file_hashes_verified": true,
+  "remote_card_matches_project": true,
+  "public_model_history": [
+    {
+      "revision": "14af6820702b3d6eb47d5f9e395f7852af3767ec",
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    {
+      "revision": "f4480cebf3d477e4e0d49706b069d9f7af7dfbe3",
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    {
+      "revision": "369547adbafbd489d0fc859946ca403b2b4b6fff",
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    {
+      "revision": "37bd0a4a91131bf4020c5a0f0816f84bea45e83b",
+      "weight_files": []
+    }
+  ],
+  "tests": {
+    "package_and_final_release_tests": 12,
+    "browser_tests": 10,
+    "ruff": "passed"
+  },
+  "scope": "Reader-facing documentation, figure labels and comparison display name only; six inference files and all numeric training/evaluation evidence unchanged.",
+  "verified_unix": 1790278287.4318693
+}

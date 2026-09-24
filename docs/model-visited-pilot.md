@@ -1,16 +1,16 @@
 # Model-visited data qualification
 
-This development pilot tests whether fresh states visited by the frozen research candidate can support a controlled training experiment. It collects public observations, replays every trajectory, audits the serving SDK, and repeats reference labeling. It does not fit weights, calibrate probabilities, select a model, or serve as a final test.
+This development pilot tests whether fresh states visited by the frozen ordinary-imitation model from the stronger-reference training stage can support a controlled training experiment. It collects public observations, replays every trajectory, audits the serving SDK, and repeats reference labeling. It does not fit weights, calibrate probabilities, select a model, or serve as a final test.
 
-**Outcome:** the stronger-budget follow-up passed every preset qualification gate. It completed 4,000 states from 20,000 rounds in 14 minutes 7 seconds. Both-resolved label coverage was 87.85% for model-visited states and 89.00% for mixture states. The [matched training study](model-visited-training.md) is now implemented and smoke-validated; no new weights were trained in these pilots.
+**Outcome:** the stronger-budget follow-up passed every preset qualification gate. It completed 4,000 states from 20,000 rounds in 14 minutes 7 seconds. Both-resolved label coverage was 87.85% for model-visited states and 89.00% for mixture states. The [matched training study](model-visited-training.md) subsequently completed alongside an independent replication; no new weights were trained in these pilots.
 
-The [12-million-round analysis](large-return-results.md) motivated this study: the latest model improves on the basic heuristic during continuous play, but its incremental return advantage over its predecessor is unresolved. Costly reference disagreements remain after fresh-world checks. The next question is whether new model-visited data provides usable coverage and stable targets.
+The [12-million-round analysis](large-return-results.md) motivated this study: the latest model improves on the basic heuristic during continuous play, but its incremental return advantage over its predecessor is unresolved. Costly reference disagreements remain after fresh-world checks. The pilot tested whether new model-visited data provides usable coverage and stable targets.
 
 ## Fixed pilot design
 
 | Item | Choice |
 | --- | --- |
-| Frozen model | Teacher-cost selection winner; weights `64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de` |
+| Frozen model | Stronger-reference ordinary-imitation model; weights `64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de` |
 | Behavior arms | Frozen Laya; 75% basic / 25% uniform-random legal action mixture |
 | Scenarios | The ten existing paired-return rule/table scenarios |
 | Trajectories | Ten independently seeded groups per scenario and arm |

@@ -1,12 +1,12 @@
 # Frozen 12-million-round comparison
 
-This private evaluation measures realized returns for the selected teacher-cost candidate, its composition-stage predecessor, and the basic-strategy heuristic. The earlier study improved reference imitation, but its 600,000-round comparison did not establish a return advantage. No weights, calibration, or rule weights change during this evaluation.
+This evaluation measures playing returns for the ordinary-imitation model trained with stronger reference targets, the model before that training stage, and the basic-strategy heuristic. The earlier study improved reference imitation, but its 600,000-round comparison did not establish a return advantage. No weights, calibration, or rule weights change during this evaluation.
 
 ## Completed local run
 
 Run `20260922-051218-returns-12m` launched at 22:12 Pacific on September 21 from immutable source revision `637ba67a9ae24e16d6f73e7048c3b33a3bc8e9df`. It completed all 12,000,000 planned rounds at 05:30 Pacific on September 22 in **7 hours 18 minutes**, within its 12-hour ceiling. Both RTX 4090 workers and the CPU comparator exited successfully. A subsequent analysis reverified every raw shard and recomputed both comparison reports and the four-comparison summary.
 
-The candidate improved on the basic heuristic in continuous play, with no resolved difference from its predecessor. Fresh-shoe comparisons remain inconclusive. See the [measured results and training decision](large-return-results.md), [portable JSON evidence](results/large-return-analysis.json), and [scenario CSV](results/large-return-analysis.csv). The model remains private and inactive; `artifacts/latest-research-run.json` identifies the local launch and source snapshot.
+The candidate improved on the basic heuristic in continuous play, with no resolved difference from its predecessor. Fresh-shoe comparisons remain inconclusive. See the [measured results and training decision](large-return-results.md), [portable JSON evidence](results/large-return-analysis.json), and [scenario CSV](results/large-return-analysis.csv). The same model weights were later chosen for Laya Blackjack and assessed in a separate [final benchmark](release-results.md).
 
 ## Predeclared protocol
 
@@ -33,7 +33,7 @@ The four planned aggregate comparisons are candidate-minus-predecessor and candi
 
 Fresh uncertainty uses independent rounds. Continuous uncertainty uses independent block averages; the three million correlated rounds are **not** treated as three million independent observations. Report paired differences directly. A difference in policy returns does not by itself establish positive expected profit. If intervals still include zero, retain that inconclusive finding.
 
-This run evaluates fixed policies. It does not isolate the effect of the exact teacher from extra data/training, tune a checkpoint, or establish that Laya is optimal. Later training guided by these results needs a new locked final evaluation. The final public project will distribute one selected model; intermediate weights and this run's frozen copies stay private.
+This run evaluates fixed policies. It does not isolate the effect of the exact teacher from extra data/training, tune a checkpoint, or establish that Laya is optimal. Later training guided by these results needs a new locked final evaluation. The public download contains Laya Blackjack; intermediate model weights are not distributed.
 
 ## Freeze, resume, and inspect
 
@@ -47,7 +47,7 @@ Use a process manager for an unattended run. The workstation launch uses an immu
 
 Repeat the exact command from the original source snapshot to resume within the original deadline. The supervisor lock excludes a simultaneous restart. Changing source files, models, tokenizer, calibration, environment versions, seed, counts, or requested hours rejects the resume. After the original deadline, the run cannot acquire more time by restarting. Earlier experiments require their original source snapshot and cannot be adopted into this protocol.
 
-Evaluation receipt version two stores per-shard serving-fallback counts, so resumed progress retains the cumulative diagnostic total. Completed raw units are verified and reused. The existing active model and private Hub package are not changed by completion.
+Evaluation receipt version two stores per-shard serving-fallback counts, so resumed progress retains the cumulative diagnostic total. Completed raw units are verified and reused. Completing an experiment does not automatically replace an installed model.
 
 ## Execution validation
 

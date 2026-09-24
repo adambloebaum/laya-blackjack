@@ -1,6 +1,6 @@
 # Exact-reference and decision-cost experiment
 
-This private follow-up starts from the evaluated composition candidate. It tests whether a training loss that accounts for decision cost improves on ordinary imitation, using identical new data and optimizer settings. It produces research candidates only. The final public release will contain one selected model.
+This study starts from the model trained on shoe-composition-focused data. It tests whether a training loss that accounts for decision cost improves on ordinary imitation, using identical new data and optimizer settings. The ordinary-imitation model from this study was later chosen as Laya Blackjack; the [final evaluation](release-results.md) measures it on a separate test.
 
 ## Completed local run
 
@@ -21,7 +21,7 @@ Reference regret fell 35.54%; the paired whole-game bootstrap interval for the r
 
 Candidate-minus-predecessor returns were -0.0285 units per 100 fresh rounds (95% paired interval -0.1714 to +0.1144) and +0.3840 units per 100 continuous rounds (-0.0478 to +0.8158). Candidate-minus-basic intervals also include zero in both modes. These nominal intervals do not demonstrate a return gain. [Complete measured summaries and identities](results/teacher-cost-results.json).
 
-The candidate remains private and inactive. The next step is the [frozen 12-million-round comparison](large-return-evaluation.md). This inspected test is now diagnostic material; subsequent tuning requires a new final test.
+This model subsequently underwent the [12-million-round comparison](large-return-evaluation.md) and the separate [final evaluation](release-results.md). This inspected test is now diagnostic material; subsequent tuning requires a new final test.
 
 ## Reference contract
 

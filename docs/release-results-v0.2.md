@@ -1,6 +1,6 @@
-# Release results — 0.2.0
+# Broad-training experiment
 
-Historical private package. The default download now identifies the [selected 1.0.0 model](release-results.md); all measurements below describe the earlier v0.2 evaluation.
+This study evaluates the 100,000-state broad-training stage against the initial 500-state adaptation and a basic-strategy heuristic. Its checkpoint is the broad-training baseline in the [final performance report](release-results.md). The measurements below come from this stage’s own evaluation, not the final model’s test.
 
 Measured locally on 2026-09-20/21. The larger fine-tune improves reference imitation and realized returns over the earlier warm-start model. It does **not** establish an advantage over the basic-strategy heuristic or positive expected profit.
 

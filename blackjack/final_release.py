@@ -234,7 +234,7 @@ def release_report(root, name):
     report["release_evaluation"] = {
         "test": selected["metrics"],
         "baseline": baseline["metrics"],
-        "baseline_label": "Packaged v0.2",
+        "baseline_label": "Broad-training baseline",
         "selection_states": run_config(root)["selection_states"],
         "dataset_sha256": selected["dataset_sha256"],
         "selection_sha256": digest(root / "selection-frozen.json"),
@@ -317,7 +317,7 @@ Canonical SDK, {metrics["states"]:,} untouched test states with equal general/de
 | --- | ---: | ---: |
 {comparisons}
 
-`baseline` means the previously packaged v0.2 model; `basic` is the simulator's basic-strategy heuristic. These are fixed-wager simulated returns with paired initial seeds. Fresh rounds and independent 100-round blocks are the sampling units; four aggregate intervals use Bonferroni correction under a normal approximation. Selection games cannot serve as final-test games.
+`baseline` is the model after initial adaptation and 100,000-state broad training, before shoe-composition training and stronger reference targets; `basic` is the simulator's basic-strategy heuristic. These are fixed-wager simulated returns with paired initial seeds. Fresh rounds and independent 100-round blocks are the sampling units; four aggregate intervals use Bonferroni correction under a normal approximation. Selection games cannot serve as final-test games.
 
 ## Intended use and limits
 
@@ -609,7 +609,7 @@ def _supervise(root, saved):
             "smoke": config["smoke"],
             "research_evidence": not config["smoke"],
             "rounds": 3 * (config["fresh_units"] + 100 * config["blocks"]),
-            "baseline": "Previously packaged v0.2 model; selection incumbent is a separate research candidate.",
+            "baseline": "Broad-training baseline before composition and stronger-reference training; distinct from the selection incumbent.",
             "inference_mode": "sdk",
         }
         atomic_json(root / "summary.json", summary)

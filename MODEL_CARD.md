@@ -17,9 +17,9 @@ tags:
 
 A full-model adaptation of [Laya](https://huggingface.co/convaiinnovations/laya) for public-information blackjack research. One learned player shares a finite shoe with up to six simulated tablemates. The model predicts legal-action preferences, next-hit bust probability, and the dealer's finish distribution if no player draws again.
 
-**Selected release: 1.0.0.** [Project and dashboard](https://github.com/adambloebaum/laya-blackjack) · [Measured results](https://github.com/adambloebaum/laya-blackjack/blob/main/docs/release-results.md) · [Selection protocol](https://github.com/adambloebaum/laya-blackjack/blob/main/docs/final-release-selection.md).
+**Model version: 1.0.0.** [Project and dashboard](https://github.com/adambloebaum/laya-blackjack) · [Measured results](https://github.com/adambloebaum/laya-blackjack/blob/main/docs/release-results.md) · [Selection protocol](https://github.com/adambloebaum/laya-blackjack/blob/main/docs/final-release-selection.md).
 
-The release contains one selected set of weights. The teacher-cost study's **ordinary-imitation arm** was retained after comparison with four completed research alternatives. Its fresh three-million-round benchmark supports a continuous-play advantage over the basic heuristic and the previously packaged model. Fresh-shoe differences remain inconclusive, and absolute average returns remain negative.
+Laya Blackjack was developed through broad simulation training, targeted practice on depleted shoes, and improved reference targets. It matched **95.95%** of reference actions on a held-out 16,384-state test. A three-million-round benchmark found a continuous-play advantage over a basic-strategy heuristic; differences on fresh shoes were inconclusive. Average returns remained negative.
 
 ## Use and input contract
 
@@ -58,26 +58,30 @@ if game.phase == "playing":
 
 Use the new installation path if you chose `released-v1`. Model loading is local after download; no paid inference service is required. The dashboard is a localhost research tool, without remote authentication.
 
-## Training lineage and final selection
+## How the model was developed
 
-The upstream checkpoint is `convaiinnovations/laya` at `1c5edc17a7acd8701df6fc341c0d179f1c62c982`, with the ModernBERT-large backbone from Answer.AI and LightOn. The selected lineage is:
+The upstream checkpoint is `convaiinnovations/laya` at `1c5edc17a7acd8701df6fc341c0d179f1c62c982`, with the ModernBERT-large backbone from Answer.AI and LightOn. Training proceeded through four stages:
 
-| Stage | Training states | Selection / calibration / test states | Selected training |
+| Stage | Training states | Selection / calibration / test states | Training configuration |
 | --- | ---: | --- | --- |
-| Full-model pilot | 500 | See archived pilot report | Six epochs |
-| Broad simulation | 100,000 | 2,000 / 2,000 / 5,000 | LR 5e-6, epoch 3 |
-| Composition-focused | 65,536 | 4,096 / 2,048 / 8,192 | LR 5e-6, epoch 3 |
-| Hybrid-reference follow-up | 65,536 | 4,096 / 2,048 / 8,192 | Ordinary imitation, LR 5e-6, epoch 3 |
+| Initial full-model adaptation | 500 | See archived pilot report | Six epochs |
+| Broad training | 100,000 | 2,000 / 2,000 / 5,000 | LR 5e-6, epoch 3 |
+| Shoe-composition training | 65,536 | 4,096 / 2,048 / 8,192 | LR 5e-6, epoch 3 |
+| Stronger reference targets | 65,536 | 4,096 / 2,048 / 8,192 | Ordinary imitation, LR 5e-6, epoch 3 |
 
-Each stage uses separate whole-game groups across its splits. The last stage trained for 73,728 updates, batch size eight, seed 40260924. Its action loss weights uncertain labels less heavily. The cost-sensitive alternative did not win that study; “teacher-cost” names the study, not the selected objective. The later model-visited studies did not establish a better policy. Training is supervised distillation, not a reimplementation of upstream RLCD.
+The broad stage covers varied hands, rules and table sizes. The shoe-composition stage emphasizes decisions after many cards have been dealt. The final training stage combines exact calculations for supported states with Monte Carlo targets for other states. All stages update the full model through supervised distillation; this project does not reimplement upstream RLCD.
 
-The final release stage did **no training or temperature fitting**. Five frozen nominees were compared on 8,192 new SDK selection states. The incumbent remained unless a challenger improved reference regret with a four-comparison-adjusted paired whole-game bootstrap bound and satisfied the general/depleted guards. No challenger qualified. The selected complete inference files were frozen before the 16,384-state final test and return benchmark. Temperature buckets remain those fitted on the last training stage's 2,048 calibration states.
+Each stage separates whole-game groups across its data splits. The last stage trained for 73,728 updates with batch size eight and seed 40260924, and downweighted uncertain action labels. Separate calibration data was used to fit output temperatures. The final model retains the temperatures fitted on that stage's 2,048 calibration states.
 
-## Fresh SDK evaluation
+We also compared ordinary imitation with a loss that penalizes costly action errors more heavily, then tested additional training on states visited by the learned policy. These alternatives did not establish an improved policy. The published model uses ordinary imitation from the stronger-reference stage.
 
-The final test contains equal general and depleted-shoe strata: **16,384 states from 4,840 game groups**. This enriched mix is not the natural frequency of states during ordinary play. Both models use the same canonical three-question SDK and the same states.
+Before final testing, five completed candidates were compared on **8,192 new selection states**. A rule fixed in advance required evidence of lower reference regret, adjusted for four comparisons, while limiting degradation on general and depleted-shoe states. No alternative met those requirements. The model, tokenizer and calibration were frozen before the final 16,384-state test and playing benchmark; there was no further training or temperature fitting. The [selection protocol](https://github.com/adambloebaum/laya-blackjack/blob/main/docs/final-release-selection.md) gives the exact criteria.
 
-| Metric | Previously packaged v0.2 | Selected model |
+## Decision quality
+
+The final test contains equal general and depleted-shoe strata: **16,384 states from 4,840 game groups**. This enriched mix is not the natural frequency of states during ordinary play. The comparison is against the **broad-training baseline**: Laya after the initial adaptation and 100,000-state broad-training stage, before shoe-composition training and stronger reference targets. Both models predict the same states using the full three-question inference call.
+
+| Metric | Broad-training baseline | Laya Blackjack |
 | --- | ---: | ---: |
 | Reference action agreement | 92.8345% | **95.9473%** |
 | Reference EV regret, units / decision ↓ | 0.00320423 | **0.00101425** |
@@ -85,35 +89,37 @@ The final test contains equal general and depleted-shoe strata: **16,384 states 
 | Dealer probability Brier distance ↓ | 0.00252707 | **0.00087878** |
 | Action preference Brier distance ↓ | 0.10846779 | **0.06084717** |
 
-Selected-model 95% whole-game bootstrap intervals are **95.6276–96.2274%** for agreement and **0.00091122–0.00112688** for reference regret (2,000 replicates). These individual intervals condition on recorded labels and exclude reference sampling uncertainty. Reference-regret reduction is **68.35% by point estimate**. Median measured three-question SDK latency was **19.26 ms** on an RTX 4090, excluding model loading.
+Laya Blackjack’s 95% whole-game bootstrap intervals are **95.6276–96.2274%** for agreement and **0.00091122–0.00112688** for reference regret (2,000 replicates). These individual intervals condition on recorded labels and exclude reference sampling uncertainty. Reference regret—the reference-estimated value lost by choosing an action rather than its preferred action—is **68.35% lower than the broad-training baseline by point estimate**. This is not a 68% increase in profit or win rate. Median measured three-question SDK latency was **19.26 ms** on an RTX 4090, excluding model loading.
 
 The hybrid reference solves finite-shoe public-belief decisions exactly only for supported single-player unsplit states within a 50,000-node limit. Other states use 4,096–16,384 common-world Monte Carlo samples with basic continuation. More samples reduce sampling noise, not continuation bias. Agreement is an imitation measure, not proof of global optimality.
 
 Action probabilities express preferences among legal actions, **not win probabilities**. SDK `confidence` is normalized entropy; use `probabilities` for distributions. Next-hit bust uses the exact peek-conditioned rank marginal. Dealer predictions assume no further player draws. Brier distances measure proximity to reference probabilities, not calibration against realized casino wins.
 
-Canonical SDK inference was used for every final Laya decision. The accelerated batched path was not evaluated for this release; earlier empirical fallback thresholds did not universally guarantee action parity on later candidates.
+Every final Laya decision used the same complete three-question SDK call as the application. These measurements do not validate the separate accelerated, action-only evaluation path.
 
 ## Three-million-round return benchmark
 
-Each of three policies played **500,000 independent fresh rounds** and **5,000 independent 100-round continuous blocks**. Initial seeds were paired across policies in ten equally weighted scenarios: six-deck S17 tables at each of 1–7 seats; H17/no-DAS/6:5; two-deck S17; and random tablemates at seven seats. Different actions can diverge after the paired start. No rounds were voided.
+Laya Blackjack, the broad-training baseline and the basic-strategy heuristic each played **500,000 independent fresh rounds** and **5,000 independent 100-round continuous blocks**. Initial seeds were paired across policies in ten equally weighted scenarios: six-deck S17 tables at each of 1–7 seats; H17/no-DAS/6:5; two-deck S17; and random tablemates at seven seats. Different actions can diverge after the paired start. No rounds were voided.
 
-Values below are selected-model minus comparator **betting units per 100 original-wager rounds**, including doubles and splits. Intervals use a Bonferroni correction across these four predeclared aggregate contrasts and a normal approximation over independent rounds or blocks.
+Fresh-shoe evaluation starts each round from a newly shuffled shoe. Continuous play carries the remaining cards across rounds until the simulator shuffles.
+
+Values below are Laya Blackjack minus comparator **betting units per 100 original-wager rounds**, including doubles and splits. Intervals use a Bonferroni correction across these four predeclared aggregate contrasts and a normal approximation over independent rounds or blocks.
 
 | Setting | Comparator | Difference | Familywise 95% interval |
 | --- | --- | ---: | --- |
 | Fresh | Basic heuristic | −0.00630 | [−0.08343, +0.07083] |
-| Fresh | Packaged v0.2 | −0.01990 | [−0.09414, +0.05434] |
+| Fresh | Broad-training baseline | −0.01990 | [−0.09414, +0.05434] |
 | Continuous | Basic heuristic | **+0.30854** | **[+0.03349, +0.58359]** |
-| Continuous | Packaged v0.2 | **+0.27458** | **[+0.01612, +0.53304]** |
+| Continuous | Broad-training baseline | **+0.27458** | **[+0.01612, +0.53304]** |
 
-Continuous-play advantages are resolved under this design. Fresh-shoe differences are unresolved. Absolute selected-model returns were **−0.49368 units per 100 fresh rounds** and **−0.55542 per 100 continuous rounds**. This is reduced loss in the measured continuous setting, not evidence of profitability. Scenario-level contrasts remain exploratory; no claim applies to every rule configuration. The basic comparator is a transparent multi-deck heuristic, not a universally exact strategy.
+The adjusted intervals support both continuous-play advantages under this design. Fresh-shoe differences remain inconclusive. Absolute Laya Blackjack returns were **−0.49368 units per 100 fresh rounds** and **−0.55542 per 100 continuous rounds**. This is reduced loss in the measured continuous setting, not evidence of profitability. Scenario-level contrasts remain exploratory; no claim applies to every rule configuration. The basic comparator is a transparent multi-deck heuristic, not a universally exact strategy.
 
 ## Limits and reproducibility
 
-Selection establishes the best-supported nominee under a declared reference-imitation criterion, not the globally best possible model or training method. The final reference is approximate outside its exact scope. Training stability across many random seeds, live casino deployment, varying bet sizes, insurance, and multiplayer exact optimal control are not established. Final test results are now inspected; future tuning requires new locked evaluation games.
+Candidate selection compares a finite set of trained models under a declared reference-imitation criterion; it does not establish the globally best model or training method. The final reference is approximate outside its exact scope. Training stability across many random seeds, live casino deployment, varying bet sizes, insurance, and multiplayer exact optimal control are not established. Final test results are now inspected; future tuning requires new locked evaluation games.
 
-The package includes one Safetensors checkpoint, tokenizer, encoder and calibrated configuration, original training-stage report plus a separately identified release comparison, license/attribution, SHA-256 inventory, raw final evaluation records, evaluator source, training-lineage data and reports, and plotting inputs. Intermediate model weights and optimizer recovery files are excluded. Original local research artifacts are preserved privately. The project records the pinned-download and golden-state reload check separately from the immutable model package.
+The package includes one Safetensors checkpoint, tokenizer, encoder and calibrated configuration, original training-stage report plus a separately identified release comparison, license/attribution, SHA-256 inventory, raw final evaluation records, evaluator source, training-lineage data and reports, and plotting inputs. Training datasets, settings and source snapshots document how the model was built; intermediate model weights and optimizer recovery files are not distributed. Download and inference verification records are linked from the project’s release guide.
 
 Weights SHA-256: `64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de`. Calibration configuration SHA-256: `f977fd353d0c0c84a44dd08419369dbd3e91f5d80ad38b09da36588140e51096`.
 
-See `evaluation/README.md` for archive contents and reproduction steps. Data is synthetic. Code and model modifications use Apache 2.0; upstream attribution is retained in `NOTICE`. This independent project is not affiliated with Convai Innovations, Answer.AI, or LightOn.
+See the [evidence guide](https://huggingface.co/adambloebaum/laya-blackjack/blob/main/evaluation/README.md) for archive contents and reproduction steps. Data is synthetic. Code and model modifications use Apache 2.0; upstream attribution is retained in `NOTICE`. This independent project is not affiliated with Convai Innovations, Answer.AI, or LightOn.

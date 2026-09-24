@@ -1,6 +1,6 @@
 # Controlled model-visited training study
 
-**Completed: no resolved improvement over the incumbent.** The fresh stronger-budget [qualification pilot](model-visited-pilot.md) passed every unchanged gate. Dataset assembly, matched training supervision, and sealed evaluation passed a real-model dual-GPU execution smoke and restart verification. This is one bounded comparison, not an open-ended search for a favorable result.
+**Result: no established improvement over the starting model.** Here, the starting model (the “incumbent” in the protocol) is the ordinary-imitation model from the [stronger-reference training stage](teacher-cost-experiment.md), subsequently published as Laya Blackjack. The fresh stronger-budget [qualification pilot](model-visited-pilot.md) passed every unchanged gate. Dataset assembly, matched training supervision, and sealed evaluation passed a real-model dual-GPU execution smoke and restart verification. This is one bounded comparison, not an open-ended search for a favorable result.
 
 The full run `20260922-225718-visitation-training` launched at **15:57 Pacific on September 22, 2026**, from immutable revision `6e4b5dfd01498990254f0ad062273b39bed9ac5f`. Its original deadline is **03:57 Pacific on September 23**. The process-group runtime ceiling includes shutdown grace within the 12-hour budget. The [launch receipt](results/visitation-training-launch.json) records the fixed inputs and counts. The initial service completed data generation and both training arms, then stopped at the final inference-parity gate. The original failed run remains intact; see the recovery record below.
 
@@ -8,7 +8,7 @@ The full run `20260922-225718-visitation-training` launched at **15:57 Pacific o
 
 Does replacing half of the next training set with states visited by the frozen incumbent improve a fine-tuned policy, relative to the same amount of additional training on the basic/random behavior mixture?
 
-Both arms start from the teacher-cost selection winner, weights `64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de`. The incumbent remains an explicit selection option and an unchanged evaluation comparator. Neither pilot's observations become a held-out test.
+Both arms start from the stronger-reference ordinary-imitation model, weights `64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de`. The incumbent remains an explicit selection option and an unchanged evaluation comparator. Neither pilot's observations become a held-out test.
 
 | Setting | Control | Model-visited arm |
 | --- | --- | --- |
@@ -64,7 +64,7 @@ The original deadline, source/runtime/checkpoint identities, and qualified-pilot
 
 `assembly/report.json` records label reuse and realized reference work. `selection-frozen.json` binds both complete candidates, all inference files, both training manifests, and the common audit dataset. `sdk-comparisons.json` compares both arms with the incumbent and each other. The return reports use `visited` as their fixed candidate for the four predeclared contrasts, regardless of which arm won selection. A separate `evaluated-candidate` is created only when an adapted checkpoint wins selection; sealed raw candidates remain intact. The dashboard names the control and model-visited GPUs and distinguishes collection/labeling counts from final-test counts.
 
-Keep all candidates private. This study does not replace the dashboard model, upload new weights, or select a public release automatically. The final project will publish one best-supported model with its calibration and evidence; comparative reports can describe private intermediate candidates.
+Training candidates are evaluated before any publication decision. The public download contains one model; the comparative reports retain the measurements for all experimental candidates.
 
 ## Serving inference recovery
 
@@ -106,11 +106,11 @@ The model-visited candidate's reference regret is 2.11% lower by point estimate,
 
 All four intervals include zero. The fixed comparison therefore does not establish that model-visited training improved returns. Mean model-visited returns were −1.2222 units per 100 fresh rounds and −0.1475 per 100 continuous rounds. The model-visited versus basic comparison is exploratory, outside the four predeclared contrasts; its nominal continuous-play interval is not a substitute for evidence of improvement over the incumbent.
 
-The study-selected candidate remains private and inactive. The previous research incumbent remains the comparison baseline; the dashboard and private Hub package are unchanged. Before choosing the single final release, a promising configuration needs independent training replication and a separately planned, fresh return evaluation. This completed screen will not be extended or reused as an untouched final test.
+The first study was followed by the independent replication described below. Both were later considered in the separate [final model comparison](final-release-selection.md). This completed screen will not be extended or reused as an untouched final test.
 
 ## Independent SDK replication
 
-The authorized replication uses `--study replication-sdk` and fresh root **20261006** (smoke **30261006**). It repeats the two 32,000-state arms from the same frozen teacher-cost incumbent: 16,000 shared broad states and 16,000 replacement states, three epochs / 36,000 updates per arm, and unchanged labels, optimizer, selection guard, and split sizes. This tests repeatability of the data-mixture approach; it does not train further on the first study's winner. All training, selection, calibration, final-test, and return games have new seed namespaces.
+The replication used `--study replication-sdk` and fresh root **20261006** (smoke **30261006**). It repeats the two 32,000-state arms from the same frozen starting model: 16,000 shared broad states and 16,000 replacement states, three epochs / 36,000 updates per arm, and unchanged labels, optimizer, selection guard, and split sizes. This tests repeatability of the data-mixture approach; it does not train further on the first study's winner. All training, selection, calibration, final-test, and return games have new seed namespaces.
 
 The operational correction is declared before any new data: model collection, collector rechecks, final audits, and all Laya return decisions use the canonical three-question SDK. Training and epoch selection retain the existing trainer implementation and are reported separately from SDK measurements. SDK-only receipts record policy consistency and do not claim fast-batch parity. A sampled collector action must reproduce through the SDK before its data can enter training.
 
@@ -124,7 +124,7 @@ uv run --no-sync blackjack visitation-train --study replication-sdk --output art
 
 Validate execution in a separate output with `--smoke --workers 4 --hours 0.5`. The smoke still uses 160 training states and 60 updates per arm, 32 final-test states, and 8,080 return rounds. All smoke metrics are execution evidence only. Archive the exact tested source, preserve 24-worker/two-GPU limits and the 28 GiB memory ceiling, and launch with systemd cleanup and a 12-hour hard stop.
 
-The replication compares the newly trained arms with their common incumbent. It does not rank the first study's candidate against the replication candidate, nor automatically choose a public release. After reviewing repeatability, final model selection across retained candidates needs its own selection protocol followed by a fresh locked final evaluation. Only one selected model will be published; intermediate weights and preparation repositories remain private.
+The replication compares both newly trained arms with their common starting model. Ranking candidates from different studies was reserved for the separate [final model selection](final-release-selection.md), followed by new locked evaluation games.
 
 The [real-model replication smoke](results/visitation-replication-smoke.json) completed in **254.2 seconds** on both local GPUs: 60 updates per arm, 80 audited collection states, 32 final SDK states per model, and 8,080 return rounds. All SDK action checks passed; all paired comparison reports reproduced from their saved records. Restart preserved **500 artifact hashes**, cumulative counts, and the original deadline. The implementation passed 119 Python tests, eight browser tests, lint, wheel checks, and [GitHub CI](https://github.com/adambloebaum/laya-blackjack/actions/runs/35892461120).
 
@@ -155,4 +155,4 @@ The control's final reference regret was **17.9% higher** than the incumbent's d
 
 Because the selected model-visited arm reproduced the incumbent's recorded returns, the control's gains over the incumbent are the reversed contrasts: +0.01550 fresh and +0.10515 continuous units per 100 rounds. Both adjusted intervals include zero. This replication **did not establish a benefit from the model-visited training procedure**, and does not justify promoting the control.
 
-The teacher-cost research incumbent remains retained for subsequent comparison; the existing dashboard model and private Hub package are unchanged. Both visitation studies are now inspected research evidence. Do not extend their counts, tune against their final tests, or describe either as a locked final release evaluation. A final selection protocol may compare retained candidates on new selection games, then freeze the single chosen model before a separately planned fresh final evaluation. No additional run, activation, upload, or public release follows automatically from this result.
+The stronger-reference starting model remained the leading candidate after these studies and was subsequently retained in the [final selection and evaluation](final-release-selection.md). Both visitation studies are inspected research evidence; their tests cannot be reused for tuning or presented as untouched final evaluation.

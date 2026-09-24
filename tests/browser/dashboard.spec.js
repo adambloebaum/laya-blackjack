@@ -109,7 +109,7 @@ test('release metrics use a matched comparator and fresh counts while retaining 
   let report={...old, release_evaluation:{
     test:evidence.final_audits.incumbent.metrics,
     baseline:evidence.final_audits.packaged.metrics,
-    baseline_label:'Packaged v0.2',selection_states:8192,
+    baseline_label:'Broad-training baseline',selection_states:8192,
   }};
   await page.route('**/api/sessions**',async route=>{
     const response=await route.fetch();
@@ -120,7 +120,7 @@ test('release metrics use a matched comparator and fresh counts while retaining 
   await page.goto('/');
   await page.getByRole('button',{name:'Experiments',exact:true}).click();
   await expect(page.locator('#report-badge')).toContainText('16,384 TEST STATES');
-  await expect(page.locator('#training-report')).toContainText('Packaged v0.2');
+  await expect(page.locator('#training-report')).toContainText('Broad-training baseline');
   await expect(page.locator('#training-report')).toContainText('92.8%');
   await expect(page.locator('#training-report')).toContainText('95.9%');
   await expect(page.locator('#training-report')).toContainText('8,192 separate selection states');
