@@ -1,0 +1,294 @@
+{
+  "run_id": "20260924-034132-final-release",
+  "source_commit": "16a356f68a633c6a455309a4bab867dbf4081d8e",
+  "source_archive_sha256": "ecef880a159dd0d1b8893a1d680f946b9b75ab144b3ae95043fc632ddff4250e",
+  "run_sha256": "301e685ffb3a5d6395a77fefbc88a3912f78ac41d48f521cde91a1aaca20a2d4",
+  "nomination_sha256": "7dcf8653295be42fa228782ef51142999f3833118a2a68970ae59f66af1ba0da",
+  "started_unix": 1790221301.2978733,
+  "original_deadline_unix": 1790264501.2978733,
+  "started_pacific": "2026-09-23T20:41:41.297873-07:00",
+  "deadline_pacific": "2026-09-24T08:41:41.297873-07:00",
+  "phase_at_launch_verification": "generating_release_games",
+  "checkpoint_identities": {
+    "incumbent": {
+      "LICENSE": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "bytes": 11358
+      },
+      "NOTICE": {
+        "sha256": "dcc7704bec9d9e0f044a10f91f288aa5a15cd76d3bcb65ec997222aaa20c4542",
+        "bytes": 790
+      },
+      "README.md": {
+        "sha256": "ffcb7105c753b9416f9e49244d67b904d42dc0dac7940aa32e9b3f90091d8ebd",
+        "bytes": 1047
+      },
+      "encoder/config.json": {
+        "sha256": "5c887ce4335a901d15b8024f5ead2d0744eb18439da011511df5ae8f7cbf862a",
+        "bytes": 2117
+      },
+      "manifest.json": {
+        "sha256": "978f2c6b34c3fcdb13cfab2dcab7fb0c3fa9228d0114285cb63d8cabb053fac1",
+        "bytes": 1678
+      },
+      "model.safetensors": {
+        "sha256": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+        "bytes": 1685197088
+      },
+      "rl_agent_config.json": {
+        "sha256": "f977fd353d0c0c84a44dd08419369dbd3e91f5d80ad38b09da36588140e51096",
+        "bytes": 632
+      },
+      "tokenizer/special_tokens_map.json": {
+        "sha256": "ea97ecdbcc73713039d8d64dbb05e3689495c96657fbd9a18f5bed381be81049",
+        "bytes": 694
+      },
+      "tokenizer/tokenizer.json": {
+        "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+        "bytes": 3583228
+      },
+      "tokenizer/tokenizer_config.json": {
+        "sha256": "2966a59b9e9cf122279aec1249e22e5bc7ad8430c754e95031b13fd128d4e560",
+        "bytes": 20840
+      },
+      "training_report.json": {
+        "sha256": "26f479d4a145a85f128822a4c2963325fb2615dc6d1ec316a91c74e42f81144e",
+        "bytes": 14664
+      }
+    },
+    "packaged": {
+      "LICENSE": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "bytes": 11358
+      },
+      "NOTICE": {
+        "sha256": "dcc7704bec9d9e0f044a10f91f288aa5a15cd76d3bcb65ec997222aaa20c4542",
+        "bytes": 790
+      },
+      "README.md": {
+        "sha256": "f857d480aae33bad3702317d7f30bc4d15d0a8dc3a6eaea9aba4fa84f18be563",
+        "bytes": 9017
+      },
+      "encoder/config.json": {
+        "sha256": "5c887ce4335a901d15b8024f5ead2d0744eb18439da011511df5ae8f7cbf862a",
+        "bytes": 2117
+      },
+      "evaluation/README.md": {
+        "sha256": "586d94d0413f6140b36ee2817379d68ab12a2b3d2c30a425a914e6662cd1ae58",
+        "bytes": 1042
+      },
+      "evaluation/candidate-selection.json": {
+        "sha256": "f6d1677df3535e01b4ee778fead5206bca2d1048a8dc936f275e044bc7633d34",
+        "bytes": 5541
+      },
+      "evaluation/continuous-comparison.json": {
+        "sha256": "6892fd1177d295281b07f11aed8e1c408e4d85759e710ca5245a7e3af47332c7",
+        "bytes": 18587
+      },
+      "evaluation/dataset-plan.json": {
+        "sha256": "680c8c764d7d21334d2525f3cb149f0ae17e2c21c0bffeb32020d1eb134e4569",
+        "bytes": 655
+      },
+      "evaluation/error-recheck.json": {
+        "sha256": "149dcd446ffd6f75cf8bd8bab11424ef1c7cd91f942bf2fbaa741d49ea84035b",
+        "bytes": 47966
+      },
+      "evaluation/evaluation-source.zip": {
+        "sha256": "75616067fd741093237fb45accf532be5c891b9e8ec1d80308461c5ad53e7c91",
+        "bytes": 42811
+      },
+      "evaluation/fresh-comparison.json": {
+        "sha256": "89d154f65632e9a29bc4e8d57742a032b45e9682aa78fec50b79d1bf15b6371c",
+        "bytes": 18242
+      },
+      "evaluation/overnight-100k.json": {
+        "sha256": "e81d374bf5659315320f58a61f2d9a5158601e0ac9cf3163611756a572c109f6",
+        "bytes": 10938
+      },
+      "evaluation/paired-return-records.zip": {
+        "sha256": "6ed2966df2d6d37ceb21a66743008e9a6f002aa527bfbdb26840e3f71233e134",
+        "bytes": 2471134
+      },
+      "evaluation/pilot-data.zip": {
+        "sha256": "1efcaedc286022f42f6d3133728e0f6c9c6d05de5e1cd9d90ca6de5f1df075a3",
+        "bytes": 274439
+      },
+      "evaluation/provenance.json": {
+        "sha256": "a450986a6ad5ed3eee588e635ad0a14b2714dcbcab91b3eb42d97140abacc3ff",
+        "bytes": 2230
+      },
+      "evaluation/sdk-audit.json": {
+        "sha256": "07b61adbb3f53cb83c01709958849010cd73e8564fa0c10c04144fd7e90a0d80",
+        "bytes": 31162
+      },
+      "evaluation/synthetic-training-data.zip": {
+        "sha256": "140db050452ba9948f493b59a7eb95a95aa1f61a031b54e76edc92bd00b42cff",
+        "bytes": 52610560
+      },
+      "manifest.json": {
+        "sha256": "c118e0679a88469fca053a0b1d99b3b2667a8289951c7543fd1501f6aa7289d5",
+        "bytes": 3658
+      },
+      "model.safetensors": {
+        "sha256": "04e4b4fb3bf7332d1df15e6d61d2ec23173f35111aa3afe23898fbc453a36dd7",
+        "bytes": 1685197088
+      },
+      "rl_agent_config.json": {
+        "sha256": "8e89ed6b9c2097fca8248ad2f77e3cbd7ce7598a958608ad3f445be9af37ca47",
+        "bytes": 633
+      },
+      "tokenizer/special_tokens_map.json": {
+        "sha256": "ea97ecdbcc73713039d8d64dbb05e3689495c96657fbd9a18f5bed381be81049",
+        "bytes": 694
+      },
+      "tokenizer/tokenizer.json": {
+        "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+        "bytes": 3583228
+      },
+      "tokenizer/tokenizer_config.json": {
+        "sha256": "2966a59b9e9cf122279aec1249e22e5bc7ad8430c754e95031b13fd128d4e560",
+        "bytes": 20840
+      },
+      "training_report.json": {
+        "sha256": "e81d374bf5659315320f58a61f2d9a5158601e0ac9cf3163611756a572c109f6",
+        "bytes": 10938
+      }
+    },
+    "composition": {
+      "LICENSE": {
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "bytes": 11358
+      },
+      "NOTICE": {
+        "sha256": "dcc7704bec9d9e0f044a10f91f288aa5a15cd76d3bcb65ec997222aaa20c4542",
+        "bytes": 790
+      },
+      "README.md": {
+        "sha256": "e74fe0e11e267571cee468dd98494dab5e1f57af6f177421a49ee70f3416237a",
+        "bytes": 725
+      },
+      "encoder/config.json": {
+        "sha256": "5c887ce4335a901d15b8024f5ead2d0744eb18439da011511df5ae8f7cbf862a",
+        "bytes": 2117
+      },
+      "manifest.json": {
+        "sha256": "a882d33e49d9961f2d57c25a56819a5559567cf8b99f28d8621c57356a04def6",
+        "bytes": 1677
+      },
+      "model.safetensors": {
+        "sha256": "e12e1dd8c42885abe3ce5814f8de863aacb1b971496dab5d9c47f023a2adbf8c",
+        "bytes": 1685197088
+      },
+      "rl_agent_config.json": {
+        "sha256": "d24048128bfeb30b9d98cb4559cffe5226ab696dfa58a0dcb1b783b26dc14126",
+        "bytes": 647
+      },
+      "tokenizer/special_tokens_map.json": {
+        "sha256": "ea97ecdbcc73713039d8d64dbb05e3689495c96657fbd9a18f5bed381be81049",
+        "bytes": 694
+      },
+      "tokenizer/tokenizer.json": {
+        "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+        "bytes": 3583228
+      },
+      "tokenizer/tokenizer_config.json": {
+        "sha256": "2966a59b9e9cf122279aec1249e22e5bc7ad8430c754e95031b13fd128d4e560",
+        "bytes": 20840
+      },
+      "training_report.json": {
+        "sha256": "001f59b5bc6e770c9f015345917229a8ca3783248154cb0238d99751c06b7124",
+        "bytes": 12304
+      }
+    },
+    "visited": {
+      "encoder/config.json": {
+        "sha256": "5c887ce4335a901d15b8024f5ead2d0744eb18439da011511df5ae8f7cbf862a",
+        "bytes": 2117
+      },
+      "model.safetensors": {
+        "sha256": "8f0be17ef5e36827565d5b11dec4080cde565b1b92a626dafe11da1d0f48920f",
+        "bytes": 1685197088
+      },
+      "rl_agent_config.json": {
+        "sha256": "2d7cae2791236e34aea27923cfdafa958d8b5a2a82c4d3c074ad7c29d2731569",
+        "bytes": 618
+      },
+      "tokenizer/special_tokens_map.json": {
+        "sha256": "ea97ecdbcc73713039d8d64dbb05e3689495c96657fbd9a18f5bed381be81049",
+        "bytes": 694
+      },
+      "tokenizer/tokenizer.json": {
+        "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+        "bytes": 3583228
+      },
+      "tokenizer/tokenizer_config.json": {
+        "sha256": "2966a59b9e9cf122279aec1249e22e5bc7ad8430c754e95031b13fd128d4e560",
+        "bytes": 20840
+      },
+      "training_report.json": {
+        "sha256": "caea183ebbde31757475e1da5e8d4b9807b4ea5cd555fca612eade3639f1fb66",
+        "bytes": 14927
+      }
+    },
+    "replication_control": {
+      "encoder/config.json": {
+        "sha256": "5c887ce4335a901d15b8024f5ead2d0744eb18439da011511df5ae8f7cbf862a",
+        "bytes": 2117
+      },
+      "model.safetensors": {
+        "sha256": "14ad486fa00c0d1f8de03013898c34a4b4b373b78c5f15e0a7b0a4461ee1b9fa",
+        "bytes": 1685197088
+      },
+      "rl_agent_config.json": {
+        "sha256": "355f46df5d80dd238c8d5078e4e7959bc383942a5140ca2bd50c350c5b56d014",
+        "bytes": 618
+      },
+      "tokenizer/special_tokens_map.json": {
+        "sha256": "ea97ecdbcc73713039d8d64dbb05e3689495c96657fbd9a18f5bed381be81049",
+        "bytes": 694
+      },
+      "tokenizer/tokenizer.json": {
+        "sha256": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+        "bytes": 3583228
+      },
+      "tokenizer/tokenizer_config.json": {
+        "sha256": "2966a59b9e9cf122279aec1249e22e5bc7ad8430c754e95031b13fd128d4e560",
+        "bytes": 20840
+      },
+      "training_report.json": {
+        "sha256": "bbc76add7b173cca868863c6520ab4eae83920408845a4c16921db03273bae53",
+        "bytes": 14921
+      }
+    }
+  },
+  "seed": 20261008,
+  "workers": 24,
+  "hours": 12,
+  "memory_max_gib": 28,
+  "gpus": [
+    "RTX 4090 / cuda:0",
+    "RTX 4090 / cuda:1"
+  ],
+  "candidate_count": 5,
+  "selection_states_per_candidate": 8192,
+  "final_states_per_model": 16384,
+  "selection_bootstrap_repeats": 20000,
+  "selection_criterion": "Retain incumbent unless a challenger has lower overall SDK selection regret, an upper Bonferroni 95% paired-game bootstrap bound below zero across four challengers, depleted difference <= 0 and general difference <= 0.0005. Among eligible models choose lowest regret, with incumbent first on ties. Calibration stays frozen. Final results cannot change this selection.",
+  "fresh_rounds_per_policy": 500000,
+  "continuous_blocks_per_policy": 5000,
+  "rounds_per_block": 100,
+  "return_rounds": 3000000,
+  "return_policies": [
+    "selected candidate",
+    "packaged v0.2 baseline",
+    "basic"
+  ],
+  "inference_mode": "sdk",
+  "systemd_runtime_max_seconds": 43170,
+  "code_matches_verified_smoke": true,
+  "dashboard_heartbeat_verified": true,
+  "automatic_upload": false,
+  "automatic_activation": false,
+  "public_visibility_change": false,
+  "results_pending": true
+}

@@ -90,7 +90,7 @@ The stronger-label [model-visited-data pilot](docs/model-visited-pilot.md) quali
 
 The independent [SDK replication](docs/model-visited-training.md#replication-results) completed **1.6 million return rounds** in 9 hours 33 minutes. It did not reproduce a benefit from model-visited training: that arm retained the incumbent weights. The standard-mixture control won selection, but its final reference regret was 17.9% higher and its small return gains remained inconclusive. The research incumbent is retained; one final public model still awaits final selection.
 
-The next [final-selection stage](docs/final-release-selection.md) compares five frozen research candidates on fresh SDK selection games, then evaluates one chosen model in a fixed **3-million-round** benchmark and prepares its private release package. No additional fine-tuning is planned.
+The [final-selection stage](docs/final-release-selection.md) is running: it compares five frozen research candidates on fresh SDK selection games, then evaluates one chosen model in a fixed **3-million-round** benchmark and prepares its private release package. No additional fine-tuning is planned.
 
 ```bash
 uv run --no-sync pytest -q

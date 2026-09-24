@@ -59,3 +59,7 @@ A separate `--smoke --workers 4 --hours 0.5` run exercises all five candidates, 
 ## Execution verification
 
 The [real five-model smoke](results/final-release-smoke.json) completed in **206.9 seconds** from archived source `051fbaa`. It exercised all selection audits, the global freeze, final SDK audits, 6,060 return rounds, raw-report reproduction, and creation of a verified package with exactly one set of weights. Restart preserved **211 tracked artifact hashes**, the package inventory, and the original deadline. These results validate execution only. All 126 Python tests, nine browser tests, lint and wheel checks passed; [GitHub CI](https://github.com/adambloebaum/laya-blackjack/actions/runs/35952013826) passed too.
+
+## Full launch
+
+Run **`20260924-034132-final-release`** launched from immutable source **`16a356f`** at **20:41 Pacific, September 23**, with its original deadline at **08:41 Pacific, September 24**. Its Python source hashes match the verified smoke exactly. The [launch receipt](results/final-release-launch.json) freezes all five model identities, selection criterion, fresh counts, resource limits, and verified dashboard heartbeat. The run is generating new games; final selection and performance results are pending. General run pointers now identify this release study; completed visitation pointers retain their historical experiments.
