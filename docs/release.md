@@ -1,6 +1,6 @@
 # Release process
 
-The project lives on [GitHub](https://github.com/adambloebaum/laya-blackjack). The single selected model is staged privately at [laya-blackjack-final](https://huggingface.co/adambloebaum/laya-blackjack-final). The older experimental Hub repository remains private. Never make that historical repository public: its revision history includes earlier weights.
+The project lives on [GitHub](https://github.com/adambloebaum/laya-blackjack). The single selected model is staged privately at [laya-blackjack](https://huggingface.co/adambloebaum/laya-blackjack). At the owner’s request, the original experimental repository was backed up locally and deleted, then the selected repository was renamed to this canonical name. Its clean history contains only the selected weights.
 
 ## Prepared model
 
@@ -8,7 +8,7 @@ The [final selection](final-release-selection.md#completed-results) retained the
 
 Presentation preparation creates a separate immutable **1.0.0** package. Its manifest is `475b4804caa4f0aa71fc25f503830bc7ae7dfd11252b509a8125b7636571af79`; all six inference files still match the frozen winner exactly. The new inventory binds the polished card, figures, training-lineage evidence, and a corrected report that separates original training metrics from the matched final release comparison.
 
-The [download pin](../blackjack/model_release.json) identifies the selected private Hub commit. The [download/reload receipt](results/final-model-reload.json) verifies every inventory file, the clean repository history, and representative saved SDK decisions. This prepares the default download; it does not replace an already loaded local dashboard model.
+The [download pin](../blackjack/model_release.json) identifies the selected private Hub commit. The [original download/reload receipt](results/final-model-reload.json) verifies every inventory file and 300 saved SDK decisions under the temporary staging name. The [rename receipt](results/final-model-rename.json) preserves the backup/deletion record and verifies the same revision, manifest, clean history, full download and SDK inference under the canonical name. This prepares the default download; it does not replace an already loaded local dashboard model.
 
 ## Package and verify
 
@@ -36,6 +36,6 @@ Before public publication, verify code, engine/information boundaries, API/brows
 
 ## Public publication
 
-Both repositories remain private during preparation. Public visibility and the corresponding GitHub tag/release are a separate owner-controlled step. Publish only the selected model repository; keep the old experimental repository and its history private. Link project, model, results, license and demo in both directions. Publishing weights does not provision hosted inference or expose the local API.
+Both repositories remain private during preparation. Public visibility and the corresponding GitHub tag/release are a separate owner-controlled step. Publish only the selected model repository; retain the original experimental history only in its local private backup. Link project, model, results, license and demo in both directions. Publishing weights does not provision hosted inference or expose the local API.
 
 A documentation-only model revision may retain the identical selected weights. A calibration or weight change requires fresh identity checks and an explicit new pin. Neither a completed run nor a successful upload automatically activates the local dashboard.

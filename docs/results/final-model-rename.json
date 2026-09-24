@@ -1,0 +1,54 @@
+{
+  "from_repo": "adambloebaum/laya-blackjack-final",
+  "to_repo": "adambloebaum/laya-blackjack",
+  "selected_revision": "369547adbafbd489d0fc859946ca403b2b4b6fff",
+  "manifest_sha256": "475b4804caa4f0aa71fc25f503830bc7ae7dfd11252b509a8125b7636571af79",
+  "original_deleted_revision": "a617f19274e5dcfc6d47b83e87146281ca703e9d",
+  "backup_receipt_sha256": "08b43719f2cac1b193d004747e5e4c86f70e5891ad8f81d9ea1f46e588439582",
+  "started_unix": 1790275334.382499,
+  "old_repository_deleted": true,
+  "renamed": true,
+  "private": true,
+  "revision_preserved": true,
+  "manifest_preserved": true,
+  "history_preserved": true,
+  "completed_unix": 1790275336.2436383,
+  "release": {
+    "repo_id": "adambloebaum/laya-blackjack",
+    "revision": "369547adbafbd489d0fc859946ca403b2b4b6fff",
+    "manifest_sha256": "475b4804caa4f0aa71fc25f503830bc7ae7dfd11252b509a8125b7636571af79",
+    "version": "1.0.0"
+  },
+  "backup": {
+    "original_repo": "adambloebaum/laya-blackjack",
+    "commits": [
+      "a617f19274e5dcfc6d47b83e87146281ca703e9d",
+      "257d8f6c323de624ef1d091d9ecace5cc4f2c85a"
+    ],
+    "private": true,
+    "backup_name": "original-laya-blackjack-20260924.git",
+    "all_git_objects_verified": true,
+    "lfs_payloads": {
+      "75616067fd741093237fb45accf532be5c891b9e8ec1d80308461c5ad53e7c91": 42811,
+      "6ed2966df2d6d37ceb21a66743008e9a6f002aa527bfbdb26840e3f71233e134": 2471134,
+      "1efcaedc286022f42f6d3133728e0f6c9c6d05de5e1cd9d90ca6de5f1df075a3": 274439,
+      "140db050452ba9948f493b59a7eb95a95aa1f61a031b54e76edc92bd00b42cff": 52610560,
+      "04e4b4fb3bf7332d1df15e6d61d2ec23173f35111aa3afe23898fbc453a36dd7": 1685197088
+    },
+    "lfs_bytes": 1740596032,
+    "local_package_manifest_sha256": "c118e0679a88469fca053a0b1d99b3b2667a8289951c7543fd1501f6aa7289d5",
+    "mirror_remote_removed": true,
+    "verified_unix": 1790275276.660491
+  },
+  "download_verified": true,
+  "inventory_files": 43,
+  "inference_files_match_frozen_selection": true,
+  "canonical_name_sdk_states": 32,
+  "action_mismatches": 0,
+  "selected_action_probability_mismatches": 0,
+  "verified_unix": 1790275439.9205737,
+  "previous_full_reload_receipt": "final-model-reload.json",
+  "published": false,
+  "live_dashboard_activated": false,
+  "scope": "Name migration and artifact verification; selected inference bytes and performance evidence are unchanged."
+}

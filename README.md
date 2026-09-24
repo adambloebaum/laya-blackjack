@@ -4,7 +4,7 @@
 
 A finite-shoe blackjack simulator, interactive dashboard, and reproducible research pipeline built around [Laya](https://huggingface.co/convaiinnovations/laya). One learned player shares the table with up to six simulated players. Every decision uses only information a player can observe.
 
-[Selected model](https://huggingface.co/adambloebaum/laya-blackjack-final) · [Results](docs/release-results.md) · [Usage](docs/usage.md) · [Model card](MODEL_CARD.md)
+[Selected model](https://huggingface.co/adambloebaum/laya-blackjack) · [Results](docs/release-results.md) · [Usage](docs/usage.md) · [Model card](MODEL_CARD.md)
 
 ![Live table with learned predictions and reference probabilities](docs/dashboard.png)
 
@@ -51,7 +51,7 @@ These measure agreement with a hybrid exact/Monte Carlo reference, not the proba
 
 Continuous play gained **0.309 betting units per 100 rounds over basic strategy** and **0.275 over packaged v0.2**, with positive intervals after adjustment for the four planned comparisons. Fresh-shoe differences remain inconclusive. Absolute average returns remained negative: **−0.494 units per 100 fresh rounds** and **−0.555 per 100 continuous rounds**. These results do not establish a profitable or globally optimal player.
 
-The [results report](docs/release-results.md) includes the full intervals, test design, limitations, and reproducibility records. One selected model is staged on Hugging Face; intermediate weights and the earlier model repository remain private.
+The [results report](docs/release-results.md) includes the full intervals, test design, limitations, and reproducibility records. One selected model is staged on Hugging Face; intermediate weights remain in local private backups.
 
 ## How it works
 
