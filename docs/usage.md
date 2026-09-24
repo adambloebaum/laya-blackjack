@@ -8,7 +8,7 @@ uv run --no-sync blackjack fetch-model
 uv run --no-sync blackjack serve
 ```
 
-Open http://127.0.0.1:8000 and select **Load trained Laya**. The release download is pinned to a commit and verified before installation. While the model repository is private, authenticate with `uv run --no-sync hf auth login` first.
+Open http://127.0.0.1:8000 and select **Load trained Laya**. The public release download requires no account and is pinned to a commit and verified before installation.
 
 For the simulator alone, use `uv sync --extra dev`; inference remains explicitly unavailable until weights and model dependencies are present. `LAYA_DEVICE=cuda:1` selects the dashboard GPU. `LAYA_CPU_THREADS` defaults to four. The server does not automatically source environment files.
 
