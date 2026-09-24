@@ -1,0 +1,67 @@
+{
+  "source_commit": "3f18a5cb11a9d2227c29ac135a66ddd641944702",
+  "tag": "v1.0.0",
+  "github_repo": "https://github.com/adambloebaum/laya-blackjack",
+  "github_release_id": 392702898,
+  "github_release": "https://github.com/adambloebaum/laya-blackjack/releases/tag/v1.0.0",
+  "github_published_at": "2026-09-24T19:15:15Z",
+  "model": {
+    "repo_id": "adambloebaum/laya-blackjack",
+    "revision": "f4480cebf3d477e4e0d49706b069d9f7af7dfbe3",
+    "manifest_sha256": "fde22c059f6817263350f53c6d2b9d56e55858883edb8facc37f1055e632fb65",
+    "version": "1.0.0"
+  },
+  "model_url": "https://huggingface.co/adambloebaum/laya-blackjack",
+  "github_public": true,
+  "huggingface_public": true,
+  "ci_run": "https://github.com/adambloebaum/laya-blackjack/actions/runs/36046560432",
+  "published_unix": 1790277315.531797,
+  "anonymous_http_statuses": {
+    "github_api": 200,
+    "github_page": 200,
+    "github_release_page": 200,
+    "huggingface_api": 200,
+    "huggingface_page": 200
+  },
+  "anonymous_assets_sha256": {
+    "laya_blackjack-1.0.0-py3-none-any.whl": "4906f44498269cf2874cb5176cd5cb3653c6fd0173042f6e52624e36086b9baf",
+    "model_release.json": "cf12ca71901309fddab71459f9f20dd9cc30874b37c9b21cdf2421d5a1e65c17",
+    "SHA256SUMS": "9f09d724776e2c15b275d96f2d0b2f7d9660365f7d720e3d61ba0be2ce03281e"
+  },
+  "anonymous_git_clone_matches_tag": true,
+  "clean_wheel_install": true,
+  "wheel_seven_seat_api_and_static_assets": true,
+  "anonymous_model": {
+    "authenticated": false,
+    "isolated_empty_hf_cache": true,
+    "installed_release_wheel_used": true,
+    "inventory_files": 43,
+    "inference_files_match_frozen_selection": true,
+    "model_card_matches": true,
+    "golden_states": 32,
+    "sampling": "Every 512th inspected final-test state.",
+    "action_mismatches": 0,
+    "selected_action_probability_mismatches": 0,
+    "inference_mode": "sdk",
+    "device": "RTX 4090 / cuda:1",
+    "verified_unix": 1790277358.9131691
+  },
+  "checks": {
+    "python_tests": 126,
+    "browser_tests": 10,
+    "ruff": "passed"
+  },
+  "verified_unix": 1790277360.8035607,
+  "scope": "Publication, artifact and serving-path verification. Golden-state reuse is not new performance evidence.",
+  "local_dashboard": {
+    "public_model_installed": true,
+    "selected_model_loaded_before_shutdown": true,
+    "release_test_states_displayed": 16384,
+    "inference_smoke_passed": true,
+    "service": "laya-blackjack-dashboard.service",
+    "service_state": "inactive",
+    "port_8000_closed": true,
+    "stopped_unix": 1790277381.8621774,
+    "local_artifacts_preserved": true
+  }
+}

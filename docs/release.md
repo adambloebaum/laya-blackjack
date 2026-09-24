@@ -4,6 +4,8 @@
 
 The project publishes one selected model. The original experimental Hub repository was backed up locally and deleted before the selected repository took the canonical name. Every weight-bearing revision in the new repository contains the same selected weights; intermediate models and optimizer recovery files remain private.
 
+Version 1.0.0 was published on September 24, 2026. The [publication receipt](results/public-release.json) records anonymous page access, a source clone matching the annotated tag, verified release assets, a clean wheel installation, and a fresh 43-file model download. The downloaded model reproduced 32 saved SDK actions and selected-action probabilities exactly. After a final local inference check, the developer's dashboard was stopped; the public downloads work independently of that service.
+
 ## Download and run
 
 Follow the [README](../README.md#start-locally) to install the project, download the model and start the local dashboard. Neither the public code nor the model download requires authentication. The GitHub release includes the 1.0.0 Python wheel, the model download pin, and SHA-256 checksums. The dashboard runs on your own machine; this release does not provision a hosted application or inference service.

@@ -4,7 +4,7 @@
 
 A finite-shoe blackjack simulator, interactive dashboard, and reproducible research pipeline built around [Laya](https://huggingface.co/convaiinnovations/laya). One learned player shares the table with up to six simulated players. Every decision uses only information a player can observe.
 
-[Selected model](https://huggingface.co/adambloebaum/laya-blackjack) · [Results](docs/release-results.md) · [Usage](docs/usage.md) · [Model card](MODEL_CARD.md)
+[Release 1.0.0](https://github.com/adambloebaum/laya-blackjack/releases/tag/v1.0.0) · [Selected model](https://huggingface.co/adambloebaum/laya-blackjack) · [Results](docs/release-results.md) · [Usage](docs/usage.md) · [Model card](MODEL_CARD.md)
 
 ![Live table with learned predictions and reference probabilities](docs/dashboard.png)
 
