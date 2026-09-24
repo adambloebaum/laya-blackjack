@@ -1,0 +1,30 @@
+{
+  "run_id": "20260924-033341-final-release-smoke",
+  "source_commit": "051fbaaf159c87d94ffc7148bf7325eab2207dc0",
+  "source_archive_sha256": "c5a03730904d32a9db04ecb57896a4b6fc1139a2b5061b4a823ddd627a7305be",
+  "run_sha256": "069aacc455ca0a947f33526bf06e322176cb1874a6a6751563114be88c4cad54",
+  "first_elapsed_seconds": 206.89434480667114,
+  "seed": 30261008,
+  "candidate_count": 5,
+  "selection_states_per_candidate": 32,
+  "test_states_per_finalist": 32,
+  "return_rounds": 6060,
+  "policy_unit_records": 120,
+  "return_shards": 60,
+  "inference_mode": "sdk",
+  "all_comparisons_reproduced": true,
+  "final_predictions_after_freeze": true,
+  "private_package_verified": true,
+  "public_model_count": 1,
+  "intermediate_weights_excluded": true,
+  "resume": {
+    "preserved_artifacts": 211,
+    "all_hashes_match": true,
+    "original_deadline_preserved": true
+  },
+  "package_manifest_sha256": "c33f5ffaa2ce5909f32bcd6bb590d16c3f26742ea0dd72af05c1f57386de0c26",
+  "execution_only": true,
+  "research_evidence": false,
+  "activated": false,
+  "published": false
+}

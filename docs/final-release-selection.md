@@ -30,7 +30,7 @@ A challenger is eligible only if:
 - Depleted-stratum regret does not increase.
 - General-stratum regret increases by no more than 0.0005 original-wager units per decision.
 
-Among eligible candidates, select the lowest overall regret; exact ties retain the incumbent first, then use stable candidate-name order. If none qualifies, retain the incumbent. Existing calibrated configurations remain frozen. Probability distances and latency are reported, but do not introduce a new selection criterion after inspection.
+The subgroup thresholds are point-estimate guards, not statistical noninferiority conclusions. Among eligible candidates, select the lowest overall regret; exact ties retain the incumbent first, then use stable candidate-name order. If none qualifies, retain the incumbent. Existing calibrated configurations remain frozen. Probability distances and latency are reported, but do not introduce a new selection criterion after inspection.
 
 Freeze the decision and the hashes of all selection reports before final inference. A missing candidate audit, changed input, incomplete count, or premature final prediction blocks progression. The selection criterion is reference imitation, not measured return maximization; the separate final benchmark measures the chosen policy's realized performance without selecting on its results.
 
@@ -55,3 +55,7 @@ uv run --no-sync blackjack final-release --output artifacts/overnight/final-rele
 ```
 
 A separate `--smoke --workers 4 --hours 0.5` run exercises all five candidates, 32 selection and 32 final states, 400 bootstrap replicates, and 6,060 return rounds. Smoke results are execution evidence only. It also exercises single-package creation and verification; its package must never be uploaded as a trained release.
+
+## Execution verification
+
+The [real five-model smoke](results/final-release-smoke.json) completed in **206.9 seconds** from archived source `051fbaa`. It exercised all selection audits, the global freeze, final SDK audits, 6,060 return rounds, raw-report reproduction, and creation of a verified package with exactly one set of weights. Restart preserved **211 tracked artifact hashes**, the package inventory, and the original deadline. These results validate execution only. All 126 Python tests, nine browser tests, lint and wheel checks passed; [GitHub CI](https://github.com/adambloebaum/laya-blackjack/actions/runs/35952013826) passed too.
