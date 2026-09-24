@@ -110,7 +110,7 @@ The study-selected candidate remains private and inactive. The previous research
 
 ## Independent SDK replication
 
-The next authorized run uses `--study replication-sdk` and fresh root **20261006** (smoke **30261006**). It repeats the two 32,000-state arms from the same frozen teacher-cost incumbent: 16,000 shared broad states and 16,000 replacement states, three epochs / 36,000 updates per arm, and unchanged labels, optimizer, selection guard, and split sizes. This tests repeatability of the data-mixture approach; it does not train further on the first study's winner. All training, selection, calibration, final-test, and return games have new seed namespaces.
+The authorized replication uses `--study replication-sdk` and fresh root **20261006** (smoke **30261006**). It repeats the two 32,000-state arms from the same frozen teacher-cost incumbent: 16,000 shared broad states and 16,000 replacement states, three epochs / 36,000 updates per arm, and unchanged labels, optimizer, selection guard, and split sizes. This tests repeatability of the data-mixture approach; it does not train further on the first study's winner. All training, selection, calibration, final-test, and return games have new seed namespaces.
 
 The operational correction is declared before any new data: model collection, collector rechecks, final audits, and all Laya return decisions use the canonical three-question SDK. Training and epoch selection retain the existing trainer implementation and are reported separately from SDK measurements. SDK-only receipts record policy consistency and do not claim fast-batch parity. A sampled collector action must reproduce through the SDK before its data can enter training.
 
@@ -128,4 +128,31 @@ The replication compares the newly trained arms with their common incumbent. It 
 
 The [real-model replication smoke](results/visitation-replication-smoke.json) completed in **254.2 seconds** on both local GPUs: 60 updates per arm, 80 audited collection states, 32 final SDK states per model, and 8,080 return rounds. All SDK action checks passed; all paired comparison reports reproduced from their saved records. Restart preserved **500 artifact hashes**, cumulative counts, and the original deadline. The implementation passed 119 Python tests, eight browser tests, lint, wheel checks, and [GitHub CI](https://github.com/adambloebaum/laya-blackjack/actions/runs/35892461120).
 
-Full run **`20260923-170453-visitation-replication`** launched from immutable source `4063f75` at **10:04 Pacific, September 23**, with the original deadline at **22:04 Pacific the same day**. Its Python source hashes exactly match the verified smoke. The [launch receipt](results/visitation-replication-launch.json) records frozen counts, seed, checkpoint identity, resource bounds, and verified dashboard heartbeat. The run is collecting fresh training data; performance results are pending.
+Full run **`20260923-170453-visitation-replication`** launched from immutable source `4063f75` at **10:04 Pacific, September 23**, with the original deadline at **22:04 Pacific the same day**. Its Python source hashes exactly match the verified smoke. The [launch receipt](results/visitation-replication-launch.json) records frozen counts, seed, checkpoint identity, resource bounds, and verified dashboard heartbeat. The run completed at 19:37 Pacific, September 23; verified results follow.
+
+
+## Replication results
+
+The replication completed at **19:37 Pacific, September 23**, in **9 hours 33 minutes**, before the original 22:04 deadline. Both arms finished all 36,000 updates. All 16,000 sampled collection actions and all three 8,192-state final audits passed canonical SDK consistency checks. Verification reproduced every SDK/return comparison and adjusted summary from preserved inputs, checked all **3,960 return shards / 808,000 policy-unit records / 1,600,000 rounds**, and confirmed that the separate evaluated candidate retained its frozen inference files. The [portable completed report](results/visitation-replication-completed.json) contains the evidence and model identities. There are 200,000 fresh-round units and 2,000 independent 100-round blocks per policy; paired policies reuse initial seeds, so policy-unit records are not independent across policies.
+
+The **control selected epoch two** and won the predeclared selection criterion. The **model-visited arm selected epoch zero**, retaining the incumbent weights after completing its full training schedule. Recalibration produced a distinct configuration, but every recorded final SDK action and every paired return unit matched the incumbent exactly. The zero-width visited-minus-incumbent intervals below describe those identical recorded outcomes; they are not evidence that a separately trained model has established equivalence.
+
+| Final SDK metric | Incumbent | Standard-mixture control | Model-visited selected arm |
+| --- | ---: | ---: | ---: |
+| Reference action agreement | 95.92% | 95.74% | 95.92% |
+| Reference EV regret / decision | 0.000955588 | 0.001126877 | 0.000955588 |
+| Hit-bust Brier distance | 0.000267715 | 0.000252520 | 0.000267715 |
+| Dealer Brier distance | 0.000849060 | 0.000844902 | 0.000849060 |
+
+The control's final reference regret was **17.9% higher** than the incumbent's despite winning selection. Its paired whole-game difference was +0.000171289 units/decision, with nominal 95% bootstrap interval [+0.000026011, +0.000335332]. This interval is conditional on the saved reference estimates and unadjusted across audit comparisons. The small descriptive probability-distance improvements do not establish better playing returns.
+
+| Predeclared contrast | Units per 100 rounds | Familywise 95% interval |
+| --- | ---: | ---: |
+| Fresh: model-visited minus control | −0.01550 | [−0.11623, +0.08523] |
+| Fresh: model-visited minus incumbent | 0 | [0, 0] |
+| Continuous: model-visited minus control | −0.10515 | [−0.46382, +0.25352] |
+| Continuous: model-visited minus incumbent | 0 | [0, 0] |
+
+Because the selected model-visited arm reproduced the incumbent's recorded returns, the control's gains over the incumbent are the reversed contrasts: +0.01550 fresh and +0.10515 continuous units per 100 rounds. Both adjusted intervals include zero. This replication **did not establish a benefit from the model-visited training procedure**, and does not justify promoting the control.
+
+The teacher-cost research incumbent remains retained for subsequent comparison; the existing dashboard model and private Hub package are unchanged. Both visitation studies are now inspected research evidence. Do not extend their counts, tune against their final tests, or describe either as a locked final release evaluation. A final selection protocol may compare retained candidates on new selection games, then freeze the single chosen model before a separately planned fresh final evaluation. No additional run, activation, upload, or public release follows automatically from this result.
