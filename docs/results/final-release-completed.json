@@ -1,0 +1,2162 @@
+{
+  "run_id": "20260924-034132-final-release",
+  "source_commit": "16a356f68a633c6a455309a4bab867dbf4081d8e",
+  "source_archive_sha256": "ecef880a159dd0d1b8893a1d680f946b9b75ab144b3ae95043fc632ddff4250e",
+  "run_sha256": "301e685ffb3a5d6395a77fefbc88a3912f78ac41d48f521cde91a1aaca20a2d4",
+  "seed": 20261008,
+  "elapsed_seconds": 31441.354570388794,
+  "completed_pacific": "2026-09-24T05:25:42.652444-07:00",
+  "completed_before_original_deadline": true,
+  "candidate_count": 5,
+  "selection_states_per_candidate": 8192,
+  "test_states_per_finalist": 16384,
+  "return_rounds": 3000000,
+  "policy_unit_records": 1515000,
+  "return_shards": 7380,
+  "inference_mode": "sdk",
+  "all_comparisons_reproduced": true,
+  "final_predictions_after_freeze": true,
+  "private_package_verified": true,
+  "public_model_count": 1,
+  "intermediate_weights_excluded": true,
+  "original_reports_preserved": true,
+  "package_manifest_sha256": "26320cadfe1fa7cad548011d689752d1b802c8e1ea8832635699f03d7ea81f04",
+  "selected_inference_files": {
+    "encoder/config.json": "5c887ce4335a901d15b8024f5ead2d0744eb18439da011511df5ae8f7cbf862a",
+    "model.safetensors": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+    "rl_agent_config.json": "f977fd353d0c0c84a44dd08419369dbd3e91f5d80ad38b09da36588140e51096",
+    "tokenizer/special_tokens_map.json": "ea97ecdbcc73713039d8d64dbb05e3689495c96657fbd9a18f5bed381be81049",
+    "tokenizer/tokenizer.json": "6c8aaa9a542084f2457eab775d4eeb51f92a70c0fd9de28d5edb0ddec3c08d30",
+    "tokenizer/tokenizer_config.json": "2966a59b9e9cf122279aec1249e22e5bc7ad8430c754e95031b13fd128d4e560"
+  },
+  "selection": {
+    "identity": {
+      "run_sha256": "301e685ffb3a5d6395a77fefbc88a3912f78ac41d48f521cde91a1aaca20a2d4",
+      "dataset_sha256": "1f261a9e6f27778e237680295810e3b979ed4efa7edd3dedfe3e5b9eb45cc018",
+      "selection_receipts": {
+        "incumbent": "458151a0b873f0b0b0122ee8de92acad363af7f75948cca956ec59aa113c037a",
+        "packaged": "16ccc4630fafcd4b299685e0e2798c68b23eca0f7e79b76384ac44c8dcd1900c",
+        "composition": "33976efdcd58226c0dc308e97b11c239588717e0c208930973473747bb25af99",
+        "visited": "df4b4389859efe81d6778d32fda0a2be4fd74491ca059773bd8c21107791b539",
+        "replication_control": "7590a852c07663370f6d7d4e991b385bf581aa8f8facb4a0513c9fa5259b86fc"
+      }
+    },
+    "selected_name": "incumbent",
+    "selection_regrets": {
+      "incumbent": 0.0009170045793499336,
+      "packaged": 0.0032161026483999945,
+      "composition": 0.0013692026893130408,
+      "visited": 0.00115927783729831,
+      "replication_control": 0.0009798089154582548
+    },
+    "contrasts": {
+      "packaged": {
+        "regret_difference": 0.0022990980690500607,
+        "familywise_ci95": [
+          0.0018532722441973286,
+          0.0027673430220034145
+        ],
+        "by_stratum": {
+          "depleted": 0.0033502188348456135,
+          "general": 0.0012479773032545078
+        },
+        "eligible": false,
+        "bootstrap_replicates": 20000,
+        "comparison_family": 4
+      },
+      "composition": {
+        "regret_difference": 0.0004521981099631072,
+        "familywise_ci95": [
+          0.00023377129617618522,
+          0.0006820091488378285
+        ],
+        "by_stratum": {
+          "depleted": 0.000555418105318823,
+          "general": 0.0003489781146073914
+        },
+        "eligible": false,
+        "bootstrap_replicates": 20000,
+        "comparison_family": 4
+      },
+      "visited": {
+        "regret_difference": 0.00024227325794837624,
+        "familywise_ci95": [
+          2.527930563795902e-05,
+          0.000505076159525738
+        ],
+        "by_stratum": {
+          "depleted": 0.00036582698791541807,
+          "general": 0.00011871952798133439
+        },
+        "eligible": false,
+        "bootstrap_replicates": 20000,
+        "comparison_family": 4
+      },
+      "replication_control": {
+        "regret_difference": 6.280433610832114e-05,
+        "familywise_ci95": [
+          -8.189864632711781e-05,
+          0.00021787446339544607
+        ],
+        "by_stratum": {
+          "depleted": -4.514310886516747e-05,
+          "general": 0.00017075178108180974
+        },
+        "eligible": false,
+        "bootstrap_replicates": 20000,
+        "comparison_family": 4
+      }
+    },
+    "criterion": "Retain incumbent unless a challenger has lower overall SDK selection regret, an upper Bonferroni 95% paired-game bootstrap bound below zero across four challengers, depleted difference <= 0 and general difference <= 0.0005. Among eligible models choose lowest regret, with incumbent first on ties. Calibration stays frozen. Final results cannot change this selection.",
+    "frozen_unix": 1790224602.9594927
+  },
+  "selection_metrics": {
+    "incumbent": {
+      "states": 8192,
+      "teacher_agreement": 0.9566650390625,
+      "teacher_ev_regret": 0.0009170045793499336,
+      "hit_bust_brier": 0.0002738585877880213,
+      "dealer_brier": 0.0009049436190701947,
+      "action_brier": 0.06430175347167968,
+      "teacher_action_ece": 0.014777136230468679
+    },
+    "packaged": {
+      "states": 8192,
+      "teacher_agreement": 0.9234619140625,
+      "teacher_ev_regret": 0.0032161026483999945,
+      "hit_bust_brier": 0.0016019305963851016,
+      "dealer_brier": 0.0025789021251003894,
+      "action_brier": 0.11185015809692382,
+      "teacher_action_ece": 0.02430964355468758
+    },
+    "composition": {
+      "states": 8192,
+      "teacher_agreement": 0.94873046875,
+      "teacher_ev_regret": 0.0013692026893130408,
+      "hit_bust_brier": 0.0006980243534589897,
+      "dealer_brier": 0.001538811170331349,
+      "action_brier": 0.0768249473425293,
+      "teacher_action_ece": 0.013831628417968766
+    },
+    "visited": {
+      "states": 8192,
+      "teacher_agreement": 0.95654296875,
+      "teacher_ev_regret": 0.00115927783729831,
+      "hit_bust_brier": 0.00022099153706243253,
+      "dealer_brier": 0.0007621793492446189,
+      "action_brier": 0.06485642311401367,
+      "teacher_action_ece": 0.013532824707031179
+    },
+    "replication_control": {
+      "states": 8192,
+      "teacher_agreement": 0.957763671875,
+      "teacher_ev_regret": 0.0009798089154582548,
+      "hit_bust_brier": 0.00025292433386389353,
+      "dealer_brier": 0.0008776553240310587,
+      "action_brier": 0.06578408002685546,
+      "teacher_action_ece": 0.011762451171875004
+    }
+  },
+  "final_audits": {
+    "incumbent": {
+      "metrics": {
+        "states": 16384,
+        "teacher_agreement": 0.95947265625,
+        "teacher_ev_regret": 0.0010142500523316195,
+        "hit_bust_brier": 0.0002707670232742885,
+        "dealer_brier": 0.0008787809315606064,
+        "action_brier": 0.0608471745513916,
+        "teacher_action_ece": 0.011771899414062644
+      },
+      "game_groups": 4840,
+      "teacher_agreement_ci95": [
+        0.9562756858614538,
+        0.9622735386856365
+      ],
+      "teacher_ev_regret_ci95": [
+        0.0009112232580139911,
+        0.0011268789459288814
+      ],
+      "by_group": {
+        "players": {
+          "1": {
+            "states": 3073,
+            "teacher_agreement": 0.9521640091116174,
+            "teacher_ev_regret": 0.0013519431165782633,
+            "hit_bust_brier": 0.00038762500865942144,
+            "dealer_brier": 0.0010551116513672508,
+            "action_brier": 0.07264683589977222,
+            "teacher_action_ece": 0.014058704848681948
+          },
+          "2": {
+            "states": 2742,
+            "teacher_agreement": 0.9558716265499635,
+            "teacher_ev_regret": 0.0012766854072643143,
+            "hit_bust_brier": 0.00032271323365667704,
+            "dealer_brier": 0.0009929612870513602,
+            "action_brier": 0.06753220827498176,
+            "teacher_action_ece": 0.012860175054704631
+          },
+          "3": {
+            "states": 2478,
+            "teacher_agreement": 0.9596448748991122,
+            "teacher_ev_regret": 0.0010117106710931195,
+            "hit_bust_brier": 0.00026935158543964753,
+            "dealer_brier": 0.0008917005840927675,
+            "action_brier": 0.06265824605730429,
+            "teacher_action_ece": 0.009073365617433635
+          },
+          "4": {
+            "states": 2170,
+            "teacher_agreement": 0.9594470046082949,
+            "teacher_ev_regret": 0.0008373629662298387,
+            "hit_bust_brier": 0.00021235434431096024,
+            "dealer_brier": 0.0007758157221916567,
+            "action_brier": 0.059073390281105996,
+            "teacher_action_ece": 0.012171705069124386
+          },
+          "5": {
+            "states": 2149,
+            "teacher_agreement": 0.9678920428106096,
+            "teacher_ev_regret": 0.0006366230932265007,
+            "hit_bust_brier": 0.00021895081232950757,
+            "dealer_brier": 0.000779261549722708,
+            "action_brier": 0.04872025412284784,
+            "teacher_action_ece": 0.01692107957189392
+          },
+          "6": {
+            "states": 2004,
+            "teacher_agreement": 0.9635728542914171,
+            "teacher_ev_regret": 0.0008192233696669162,
+            "hit_bust_brier": 0.0001925208533537477,
+            "dealer_brier": 0.000733428598991554,
+            "action_brier": 0.05382044915668663,
+            "teacher_action_ece": 0.011892814371257417
+          },
+          "7": {
+            "states": 1768,
+            "teacher_agreement": 0.9626696832579186,
+            "teacher_ev_regret": 0.0009210163651548359,
+            "hit_bust_brier": 0.00021244136274755666,
+            "dealer_brier": 0.0007892028742486644,
+            "action_brier": 0.0523137269117647,
+            "teacher_action_ece": 0.017473303167420715
+          }
+        },
+        "decks": {
+          "1": {
+            "states": 1033,
+            "teacher_agreement": 0.9554695062923524,
+            "teacher_ev_regret": 0.001462024665301055,
+            "hit_bust_brier": 0.0004909197073879545,
+            "dealer_brier": 0.0011215920338337312,
+            "action_brier": 0.0697357533301065,
+            "teacher_action_ece": 0.012549951597289397
+          },
+          "2": {
+            "states": 2336,
+            "teacher_agreement": 0.9559075342465754,
+            "teacher_ev_regret": 0.0012893578738485997,
+            "hit_bust_brier": 0.0003281582821354247,
+            "dealer_brier": 0.0010086240210534078,
+            "action_brier": 0.06742073446489726,
+            "teacher_action_ece": 0.014258090753424652
+          },
+          "4": {
+            "states": 3940,
+            "teacher_agreement": 0.9624365482233502,
+            "teacher_ev_regret": 0.0009275044482966898,
+            "hit_bust_brier": 0.0002604674553341694,
+            "dealer_brier": 0.0009082253466834326,
+            "action_brier": 0.056910699807106606,
+            "teacher_action_ece": 0.012021827411167519
+          },
+          "6": {
+            "states": 4498,
+            "teacher_agreement": 0.9599822143174744,
+            "teacher_ev_regret": 0.0009340587356611421,
+            "hit_bust_brier": 0.00023365619678402473,
+            "dealer_brier": 0.0007950687129907984,
+            "action_brier": 0.060784025900400177,
+            "teacher_action_ece": 0.012163872832369962
+          },
+          "8": {
+            "states": 4577,
+            "teacher_agreement": 0.9591435438059864,
+            "teacher_ev_regret": 0.0009262612334590691,
+            "hit_bust_brier": 0.00023712513816357076,
+            "dealer_brier": 0.0008146317591419349,
+            "action_brier": 0.058936756218046754,
+            "teacher_action_ece": 0.013044242953899835
+          }
+        },
+        "hit_soft_17": {
+          "False": {
+            "states": 8226,
+            "teacher_agreement": 0.9597617310965232,
+            "teacher_ev_regret": 0.0010561605161449371,
+            "hit_bust_brier": 0.00027758609941360676,
+            "dealer_brier": 0.000923907844383975,
+            "action_brier": 0.060705501470945784,
+            "teacher_action_ece": 0.012640943350352629
+          },
+          "True": {
+            "states": 8158,
+            "teacher_agreement": 0.9591811718558471,
+            "teacher_ev_regret": 0.0009719902490307673,
+            "hit_bust_brier": 0.00026389110756920987,
+            "dealer_brier": 0.0008332778689367981,
+            "action_brier": 0.06099002853027703,
+            "teacher_action_ece": 0.011136283402794803
+          }
+        },
+        "category": {
+          "hard": {
+            "states": 13095,
+            "teacher_agreement": 0.9595265368461244,
+            "teacher_ev_regret": 0.00090067446197221,
+            "hit_bust_brier": 0.0003161812040038346,
+            "dealer_brier": 0.0008704775371472563,
+            "action_brier": 0.06042960008705613,
+            "teacher_action_ece": 0.01211837342497124
+          },
+          "pair": {
+            "states": 2070,
+            "teacher_agreement": 0.9676328502415459,
+            "teacher_ev_regret": 0.0012036309725996378,
+            "hit_bust_brier": 0.00014292450381436173,
+            "dealer_brier": 0.000906704667815554,
+            "action_brier": 0.049419622193236715,
+            "teacher_action_ece": 0.00937647342995168
+          },
+          "soft": {
+            "states": 1219,
+            "teacher_agreement": 0.9450369155045119,
+            "teacher_ev_regret": 0.00191273557390805,
+            "hit_bust_brier": 2.6251025430680885e-10,
+            "dealer_brier": 0.0009205617484556679,
+            "action_brier": 0.08473820899917964,
+            "teacher_action_ece": 0.014284003281378226
+          }
+        },
+        "depth": {
+          "0": {
+            "states": 1024,
+            "teacher_agreement": 0.974609375,
+            "teacher_ev_regret": 0.0003171293439546127,
+            "hit_bust_brier": 7.783160332522399e-05,
+            "dealer_brier": 0.0005208842507164044,
+            "action_brier": 0.035521620937500005,
+            "teacher_action_ece": 0.018558105468750027
+          },
+          "1": {
+            "states": 1447,
+            "teacher_agreement": 0.9758120248790602,
+            "teacher_ev_regret": 0.00035971337056922445,
+            "hit_bust_brier": 0.0001173964271946352,
+            "dealer_brier": 0.000566711514861518,
+            "action_brier": 0.03920058841741534,
+            "teacher_action_ece": 0.011021147201105667
+          },
+          "2": {
+            "states": 1457,
+            "teacher_agreement": 0.967741935483871,
+            "teacher_ev_regret": 0.0006769573068361285,
+            "hit_bust_brier": 0.00017778518341724994,
+            "dealer_brier": 0.0006527613586586391,
+            "action_brier": 0.04669122768016472,
+            "teacher_action_ece": 0.015558407687028118
+          },
+          "3": {
+            "states": 1320,
+            "teacher_agreement": 0.9696969696969697,
+            "teacher_ev_regret": 0.0006024020335464522,
+            "hit_bust_brier": 0.00020482108616951003,
+            "dealer_brier": 0.0007407887494703186,
+            "action_brier": 0.04588985318939394,
+            "teacher_action_ece": 0.007749545454545473
+          },
+          "4": {
+            "states": 1139,
+            "teacher_agreement": 0.9675153643546971,
+            "teacher_ev_regret": 0.0005109198022620147,
+            "hit_bust_brier": 0.00023908086218047181,
+            "dealer_brier": 0.0007967983026242411,
+            "action_brier": 0.049649493687445125,
+            "teacher_action_ece": 0.007013520632133494
+          },
+          "5": {
+            "states": 3631,
+            "teacher_agreement": 0.9606169099421646,
+            "teacher_ev_regret": 0.0009985076306640575,
+            "hit_bust_brier": 0.00027860065087293475,
+            "dealer_brier": 0.0008464910775614639,
+            "action_brier": 0.05951736870559075,
+            "teacher_action_ece": 0.010470806940236872
+          },
+          "6": {
+            "states": 3101,
+            "teacher_agreement": 0.9490486939696872,
+            "teacher_ev_regret": 0.0012701365584074293,
+            "hit_bust_brier": 0.00030593951657762825,
+            "dealer_brier": 0.0009355429624823374,
+            "action_brier": 0.07726054581747822,
+            "teacher_action_ece": 0.01598339245404714
+          },
+          "7": {
+            "states": 2323,
+            "teacher_agreement": 0.9504950495049505,
+            "teacher_ev_regret": 0.0013884925141473747,
+            "hit_bust_brier": 0.0003732082921691988,
+            "dealer_brier": 0.0011766863348273576,
+            "action_brier": 0.07173748024106759,
+            "teacher_action_ece": 0.014739733103745175
+          },
+          "8": {
+            "states": 942,
+            "teacher_agreement": 0.9331210191082803,
+            "teacher_ev_regret": 0.002780307050884383,
+            "hit_bust_brier": 0.0005920217647857035,
+            "dealer_brier": 0.0015922418761230759,
+            "action_brier": 0.1022606511358811,
+            "teacher_action_ece": 0.02688227176220826
+          }
+        },
+        "resolved": {
+          "False": {
+            "states": 1487,
+            "teacher_agreement": 0.7175521183591123,
+            "teacher_ev_regret": 0.00354229658341039,
+            "hit_bust_brier": 0.0002615663059760522,
+            "dealer_brier": 0.0006249775961429286,
+            "action_brier": 0.419734704936113,
+            "teacher_action_ece": 0.1289366509751177
+          },
+          "True": {
+            "states": 14897,
+            "teacher_agreement": 0.9836208632610592,
+            "teacher_ev_regret": 0.0007619035938692357,
+            "hit_bust_brier": 0.0002716854274242837,
+            "dealer_brier": 0.0009041152646321032,
+            "action_brier": 0.025023467920386653,
+            "teacher_action_ece": 0.00958392965026512
+          }
+        },
+        "stratum": {
+          "depleted": {
+            "states": 8192,
+            "teacher_agreement": 0.9517822265625,
+            "teacher_ev_regret": 0.0013341577017807558,
+            "hit_bust_brier": 0.00034773528794346926,
+            "dealer_brier": 0.0010465924372064328,
+            "action_brier": 0.07264635811279296,
+            "teacher_action_ece": 0.010869873046875013
+          },
+          "general": {
+            "states": 8192,
+            "teacher_agreement": 0.9671630859375,
+            "teacher_ev_regret": 0.000694342402882483,
+            "hit_bust_brier": 0.00019379875860510778,
+            "dealer_brier": 0.0007109694259147801,
+            "action_brier": 0.049047990989990235,
+            "teacher_action_ece": 0.01271889648437506
+          }
+        },
+        "teacher_kind": {
+          "exact": {
+            "states": 2112,
+            "teacher_agreement": 0.9540719696969697,
+            "teacher_ev_regret": 0.001305541856235797,
+            "hit_bust_brier": 0.0004924686134645425,
+            "dealer_brier": 0.0010329723230369237,
+            "action_brier": 0.0692722725094697,
+            "teacher_action_ece": 0.01251448863636365
+          },
+          "monte_carlo": {
+            "states": 14272,
+            "teacher_agreement": 0.960271860986547,
+            "teacher_ev_regret": 0.0009711440903188936,
+            "hit_bust_brier": 0.00023795916463626888,
+            "dealer_brier": 0.0008559633713869811,
+            "action_brier": 0.05960041117642938,
+            "teacher_action_ece": 0.01267669562780276
+          }
+        }
+      },
+      "median_sdk_latency_ms": 19.262430490925908,
+      "inference_mode": "sdk",
+      "policy_action_mismatches": [],
+      "batched_action_mismatches": null,
+      "serving_fallbacks": 0
+    },
+    "packaged": {
+      "metrics": {
+        "states": 16384,
+        "teacher_agreement": 0.9283447265625,
+        "teacher_ev_regret": 0.0032042316146959245,
+        "hit_bust_brier": 0.0016498112438239993,
+        "dealer_brier": 0.0025270695927741118,
+        "action_brier": 0.10846779101623535,
+        "teacher_action_ece": 0.01973449707031245
+      },
+      "game_groups": 4840,
+      "teacher_agreement_ci95": [
+        0.9241311928225754,
+        0.9322707883372442
+      ],
+      "teacher_ev_regret_ci95": [
+        0.0029156091683480287,
+        0.003505296153640974
+      ],
+      "by_group": {
+        "players": {
+          "1": {
+            "states": 3073,
+            "teacher_agreement": 0.9225512528473804,
+            "teacher_ev_regret": 0.004426158595841775,
+            "hit_bust_brier": 0.0025153791151599153,
+            "dealer_brier": 0.0037257142620495663,
+            "action_brier": 0.12649020119752685,
+            "teacher_action_ece": 0.027079303612105424
+          },
+          "2": {
+            "states": 2742,
+            "teacher_agreement": 0.9197665937272064,
+            "teacher_ev_regret": 0.0042395170894876,
+            "hit_bust_brier": 0.0020962501378760123,
+            "dealer_brier": 0.0031211642608800546,
+            "action_brier": 0.12299685247629466,
+            "teacher_action_ece": 0.026748322392414228
+          },
+          "3": {
+            "states": 2478,
+            "teacher_agreement": 0.914043583535109,
+            "teacher_ev_regret": 0.0037575291471196527,
+            "hit_bust_brier": 0.0016729996206284357,
+            "dealer_brier": 0.002595798603909341,
+            "action_brier": 0.1262861627360775,
+            "teacher_action_ece": 0.030904600484261528
+          },
+          "4": {
+            "states": 2170,
+            "teacher_agreement": 0.936405529953917,
+            "teacher_ev_regret": 0.002526461693548387,
+            "hit_bust_brier": 0.001337319840123624,
+            "dealer_brier": 0.0022015092205805538,
+            "action_brier": 0.09575933524423963,
+            "teacher_action_ece": 0.01540999999999996
+          },
+          "5": {
+            "states": 2149,
+            "teacher_agreement": 0.9367147510469986,
+            "teacher_ev_regret": 0.002195050295922522,
+            "hit_bust_brier": 0.0011974144806950714,
+            "dealer_brier": 0.0018806639700890118,
+            "action_brier": 0.08980634250814332,
+            "teacher_action_ece": 0.012960958585388486
+          },
+          "6": {
+            "states": 2004,
+            "teacher_agreement": 0.9331337325349301,
+            "teacher_ev_regret": 0.002271640800430389,
+            "hit_bust_brier": 0.001123173168474226,
+            "dealer_brier": 0.0016329123616127957,
+            "action_brier": 0.09694488783433135,
+            "teacher_action_ece": 0.020389620758483006
+          },
+          "7": {
+            "states": 1768,
+            "teacher_agreement": 0.9462669683257918,
+            "teacher_ev_regret": 0.001814863800463094,
+            "hit_bust_brier": 0.0009508312546653719,
+            "dealer_brier": 0.0016247673551239472,
+            "action_brier": 0.08097753180429865,
+            "teacher_action_ece": 0.008577828054298619
+          }
+        },
+        "decks": {
+          "1": {
+            "states": 1033,
+            "teacher_agreement": 0.9177153920619555,
+            "teacher_ev_regret": 0.003776021270945485,
+            "hit_bust_brier": 0.0026684912620776333,
+            "dealer_brier": 0.004008794357882807,
+            "action_brier": 0.12230635522749274,
+            "teacher_action_ece": 0.018176476282671866
+          },
+          "2": {
+            "states": 2336,
+            "teacher_agreement": 0.9173801369863014,
+            "teacher_ev_regret": 0.0051778375533317956,
+            "hit_bust_brier": 0.0024395706709133013,
+            "dealer_brier": 0.0038418863206940695,
+            "action_brier": 0.13212750926369865,
+            "teacher_action_ece": 0.03147975171232873
+          },
+          "4": {
+            "states": 3940,
+            "teacher_agreement": 0.9256345177664974,
+            "teacher_ev_regret": 0.003396342088473609,
+            "hit_bust_brier": 0.001875255086896484,
+            "dealer_brier": 0.002786957268231325,
+            "action_brier": 0.11236182919543147,
+            "teacher_action_ece": 0.021710761421319752
+          },
+          "6": {
+            "states": 4498,
+            "teacher_agreement": 0.9299688750555802,
+            "teacher_ev_regret": 0.0028832767713260956,
+            "hit_bust_brier": 0.001404760354744064,
+            "dealer_brier": 0.0020679469608077044,
+            "action_brier": 0.10665768030680303,
+            "teacher_action_ece": 0.02154206313917287
+          },
+          "8": {
+            "states": 4577,
+            "teacher_agreement": 0.9370766877867599,
+            "teacher_ev_regret": 0.0022179387222410886,
+            "hit_bust_brier": 0.001063579143504871,
+            "dealer_brier": 0.0017490802107564536,
+            "action_brier": 0.09169589433471707,
+            "teacher_action_ece": 0.014575442429539027
+          }
+        },
+        "hit_soft_17": {
+          "False": {
+            "states": 8226,
+            "teacher_agreement": 0.9274252370532458,
+            "teacher_ev_regret": 0.003340603265424113,
+            "hit_bust_brier": 0.0016334018029198706,
+            "dealer_brier": 0.0026688693233284347,
+            "action_brier": 0.10918795255652808,
+            "teacher_action_ece": 0.020696620471675115
+          },
+          "True": {
+            "states": 8158,
+            "teacher_agreement": 0.929271880362834,
+            "teacher_ev_regret": 0.0030667232549398474,
+            "hit_bust_brier": 0.0016663574635932279,
+            "dealer_brier": 0.002384087908103867,
+            "action_brier": 0.10774162665849472,
+            "teacher_action_ece": 0.019374503554792828
+          }
+        },
+        "category": {
+          "hard": {
+            "states": 13095,
+            "teacher_agreement": 0.9237113402061856,
+            "teacher_ev_regret": 0.0033147676916594976,
+            "hit_bust_brier": 0.0019079140497690946,
+            "dealer_brier": 0.0025144973029361,
+            "action_brier": 0.11476213448720887,
+            "teacher_action_ece": 0.02010488736158843
+          },
+          "pair": {
+            "states": 2070,
+            "teacher_agreement": 0.957487922705314,
+            "teacher_ev_regret": 0.002273574313103865,
+            "hit_bust_brier": 0.0009885859599449835,
+            "dealer_brier": 0.0024515540436269973,
+            "action_brier": 0.06984411169565218,
+            "teacher_action_ece": 0.018592657004830888
+          },
+          "soft": {
+            "states": 1219,
+            "teacher_agreement": 0.9286300246103364,
+            "teacher_ev_regret": 0.0035971690112977035,
+            "hit_bust_brier": 0.0,
+            "dealer_brier": 0.002790360259027838,
+            "action_brier": 0.1064387413371616,
+            "teacher_action_ece": 0.026455537325676567
+          }
+        },
+        "depth": {
+          "0": {
+            "states": 1024,
+            "teacher_agreement": 0.982421875,
+            "teacher_ev_regret": 0.00019038286405350508,
+            "hit_bust_brier": 0.00010250424738269956,
+            "dealer_brier": 0.0005943355283954411,
+            "action_brier": 0.03238089251953125,
+            "teacher_action_ece": 0.0246069335937499
+          },
+          "1": {
+            "states": 1447,
+            "teacher_agreement": 0.9599170697995854,
+            "teacher_ev_regret": 0.0007017368295808192,
+            "hit_bust_brier": 0.00028052016736327583,
+            "dealer_brier": 0.0008510996007374688,
+            "action_brier": 0.05576024352453352,
+            "teacher_action_ece": 0.01207297857636496
+          },
+          "2": {
+            "states": 1457,
+            "teacher_agreement": 0.9492107069320521,
+            "teacher_ev_regret": 0.0012511142565345816,
+            "hit_bust_brier": 0.0006864869461698903,
+            "dealer_brier": 0.0012233641693410527,
+            "action_brier": 0.06818443520247082,
+            "teacher_action_ece": 0.012227796842827647
+          },
+          "3": {
+            "states": 1320,
+            "teacher_agreement": 0.9575757575757575,
+            "teacher_ev_regret": 0.0013011454352463603,
+            "hit_bust_brier": 0.000982718205729003,
+            "dealer_brier": 0.001500723544154324,
+            "action_brier": 0.06642003618181817,
+            "teacher_action_ece": 0.005217196969697007
+          },
+          "4": {
+            "states": 1139,
+            "teacher_agreement": 0.9367866549604916,
+            "teacher_ev_regret": 0.001973809716977744,
+            "hit_bust_brier": 0.0009905924221471603,
+            "dealer_brier": 0.0019202018300806657,
+            "action_brier": 0.0932382721334504,
+            "teacher_action_ece": 0.01606523266022829
+          },
+          "5": {
+            "states": 3631,
+            "teacher_agreement": 0.915725695400716,
+            "teacher_ev_regret": 0.003533636235713361,
+            "hit_bust_brier": 0.0015910171124600943,
+            "dealer_brier": 0.0024543125223538903,
+            "action_brier": 0.12781543626824565,
+            "teacher_action_ece": 0.029374855411732344
+          },
+          "6": {
+            "states": 3101,
+            "teacher_agreement": 0.9213157046114157,
+            "teacher_ev_regret": 0.003443208678652988,
+            "hit_bust_brier": 0.001964005651994809,
+            "dealer_brier": 0.002857034461185226,
+            "action_brier": 0.12346873553047405,
+            "teacher_action_ece": 0.029537181554337353
+          },
+          "7": {
+            "states": 2323,
+            "teacher_agreement": 0.9078777442961687,
+            "teacher_ev_regret": 0.005438367412004267,
+            "hit_bust_brier": 0.0030351177364055216,
+            "dealer_brier": 0.00414977457614654,
+            "action_brier": 0.1396006486870426,
+            "teacher_action_ece": 0.03807361170899703
+          },
+          "8": {
+            "states": 942,
+            "teacher_agreement": 0.8598726114649682,
+            "teacher_ev_regret": 0.009934034005929954,
+            "hit_bust_brier": 0.004433124142793951,
+            "dealer_brier": 0.006583505280255543,
+            "action_brier": 0.2110498036199575,
+            "teacher_action_ece": 0.07564830148619961
+          }
+        },
+        "resolved": {
+          "False": {
+            "states": 1487,
+            "teacher_agreement": 0.6355077336919973,
+            "teacher_ev_regret": 0.005129539012588265,
+            "hit_bust_brier": 0.0015046678852184056,
+            "dealer_brier": 0.001964853604924767,
+            "action_brier": 0.5364929312642905,
+            "teacher_action_ece": 0.1871445191661063
+          },
+          "True": {
+            "states": 14897,
+            "teacher_agreement": 0.95757535074176,
+            "teacher_ev_regret": 0.0030120498263717043,
+            "hit_bust_brier": 0.0016642992732424406,
+            "dealer_brier": 0.002583189292977641,
+            "action_brier": 0.06574285421360006,
+            "teacher_action_ece": 0.00404343827616298
+          }
+        },
+        "stratum": {
+          "depleted": {
+            "states": 8192,
+            "teacher_agreement": 0.906494140625,
+            "teacher_ev_regret": 0.00482507722579314,
+            "hit_bust_brier": 0.0024270746553047154,
+            "dealer_brier": 0.0034551535189282683,
+            "action_brier": 0.14294590445068361,
+            "teacher_action_ece": 0.03562113037109364
+          },
+          "general": {
+            "states": 8192,
+            "teacher_agreement": 0.9501953125,
+            "teacher_ev_regret": 0.001583386003598709,
+            "hit_bust_brier": 0.0008725478323432834,
+            "dealer_brier": 0.0015989856666199552,
+            "action_brier": 0.07398967758178711,
+            "teacher_action_ece": 0.005579162597656147
+          }
+        },
+        "teacher_kind": {
+          "exact": {
+            "states": 2112,
+            "teacher_agreement": 0.9180871212121212,
+            "teacher_ev_regret": 0.004465807556976455,
+            "hit_bust_brier": 0.0031875908041765003,
+            "dealer_brier": 0.004100837941873205,
+            "action_brier": 0.13725445688446972,
+            "teacher_action_ece": 0.03443693181818178
+          },
+          "monte_carlo": {
+            "states": 14272,
+            "teacher_agreement": 0.9298626681614349,
+            "teacher_ev_regret": 0.0030175410044032897,
+            "hit_bust_brier": 0.0014222474523817015,
+            "dealer_brier": 0.002294180106136129,
+            "action_brier": 0.10420788082048767,
+            "teacher_action_ece": 0.018714644058295954
+          }
+        }
+      },
+      "median_sdk_latency_ms": 19.3995195440948,
+      "inference_mode": "sdk",
+      "policy_action_mismatches": [],
+      "batched_action_mismatches": null,
+      "serving_fallbacks": 0
+    }
+  },
+  "summary": {
+    "comparisons": {
+      "fresh:candidate-minus-basic": {
+        "units_per_100_rounds": -0.006300000000000004,
+        "nominal_ci95": [
+          -0.06682385764059916,
+          0.05422385764059915
+        ],
+        "familywise_ci95": [
+          -0.08342794416402026,
+          0.07082794416402025
+        ]
+      },
+      "fresh:candidate-minus-baseline": {
+        "units_per_100_rounds": -0.019900000000000008,
+        "nominal_ci95": [
+          -0.07816102831134994,
+          0.03836102831134993
+        ],
+        "familywise_ci95": [
+          -0.09414433130518012,
+          0.054344331305180106
+        ]
+      },
+      "continuous:candidate-minus-basic": {
+        "units_per_100_rounds": 0.3085400000000001,
+        "nominal_ci95": [
+          0.09270502359398003,
+          0.5243749764060202
+        ],
+        "familywise_ci95": [
+          0.033492958092356306,
+          0.5835870419076439
+        ]
+      },
+      "continuous:candidate-minus-baseline": {
+        "units_per_100_rounds": 0.27457999999999994,
+        "nominal_ci95": [
+          0.07175908350806225,
+          0.47740091649193767
+        ],
+        "familywise_ci95": [
+          0.016117289057526654,
+          0.5330427109424732
+        ]
+      }
+    },
+    "uncertainty": "Normal intervals over independent rounds or 100-round blocks. Bonferroni correction over the four predeclared aggregate comparisons gives at least 95% family coverage under the normal approximation; individual corrected intervals have 98.75% coverage. Scenario intervals remain exploratory.",
+    "activated": false,
+    "published": false,
+    "selected_name": "incumbent",
+    "selection_sha256": "1ae28756bbe9ce00bbb0a85c9cfd0d56285257c71cbc243de9002e9269c450f6",
+    "smoke": false,
+    "research_evidence": true,
+    "rounds": 3000000,
+    "baseline": "Previously packaged v0.2 model; selection incumbent is a separate research candidate.",
+    "inference_mode": "sdk"
+  },
+  "return_reports": {
+    "fresh": {
+      "identity": {
+        "version": "paired-policy-v1",
+        "scenarios": {
+          "s17-6d-1p": {
+            "players": 1,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-2p": {
+            "players": 2,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-3p": {
+            "players": 3,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-4p": {
+            "players": 4,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-5p": {
+            "players": 5,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-6p": {
+            "players": 6,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-7p": {
+            "players": 7,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "h17-no-das-6to5": {
+            "players": 3,
+            "decks": 6,
+            "hit_soft_17": true,
+            "double_after_split": false,
+            "surrender": true,
+            "blackjack_payout": 1.2,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-2d-3p": {
+            "players": 3,
+            "decks": 2,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "random-tablemates-7p": {
+            "players": 7,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "random"
+          }
+        },
+        "mode": "fresh",
+        "units": 500000,
+        "rounds_per_unit": 1,
+        "seed": 239324845287449030880303474053315326362
+      },
+      "results": {
+        "candidate": {
+          "mean_units_per_round": -0.0049368,
+          "ci95": [
+            -0.008092002888866728,
+            -0.0017815971111332725
+          ],
+          "rounds": 500000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.00574,
+              "standard_error": 0.005104376763253554,
+              "ci95": [
+                -0.015744578455976967,
+                0.004264578455976966
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": 0.00275,
+              "standard_error": 0.005094631277664469,
+              "ci95": [
+                -0.007235477304222359,
+                0.012735477304222358
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": -0.00112,
+              "standard_error": 0.005093141831313387,
+              "ci95": [
+                -0.011102557989374238,
+                0.008862557989374239
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.00499,
+              "standard_error": 0.005114794738843818,
+              "ci95": [
+                -0.015014997688133884,
+                0.005034997688133884
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.00376,
+              "standard_error": 0.0051021209198486885,
+              "ci95": [
+                -0.013760157002903428,
+                0.006240157002903429
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": 0.00045,
+              "standard_error": 0.005118439207258241,
+              "ci95": [
+                -0.009582140846226151,
+                0.010482140846226153
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": -0.01452,
+              "standard_error": 0.005097911647534048,
+              "ci95": [
+                -0.024511906829166735,
+                -0.004528093170833266
+              ],
+              "independent_units": 50000
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": -0.016168,
+              "standard_error": 0.004960692702129582,
+              "ci95": [
+                -0.02589095769617398,
+                -0.006445042303826018
+              ],
+              "independent_units": 50000
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": 0.00227,
+              "standard_error": 0.005112193231128167,
+              "ci95": [
+                -0.007749898733011207,
+                0.012289898733011206
+              ],
+              "independent_units": 50000
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.00854,
+              "standard_error": 0.005106061378915857,
+              "ci95": [
+                -0.018547880302675082,
+                0.001467880302675079
+              ],
+              "independent_units": 50000
+            }
+          },
+          "model_hash": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+          "inference_mode": "sdk"
+        },
+        "baseline": {
+          "mean_units_per_round": -0.004737799999999999,
+          "ci95": [
+            -0.007900233687418202,
+            -0.0015753663125817946
+          ],
+          "rounds": 500000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.00439,
+              "standard_error": 0.005126523206111883,
+              "ci95": [
+                -0.01443798548397929,
+                0.00565798548397929
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": 0.00412,
+              "standard_error": 0.005115582459083024,
+              "ci95": [
+                -0.005906541619802726,
+                0.014146541619802727
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.00028,
+              "standard_error": 0.0051012075902062215,
+              "ci95": [
+                -0.009718366876804193,
+                0.010278366876804194
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.00347,
+              "standard_error": 0.005121482575746546,
+              "ci95": [
+                -0.01350810584846323,
+                0.0065681058484632305
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.00233,
+              "standard_error": 0.005105909598519794,
+              "ci95": [
+                -0.012337582813098796,
+                0.007677582813098795
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.00016,
+              "standard_error": 0.005119758170702454,
+              "ci95": [
+                -0.01019472601457681,
+                0.009874726014576809
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": -0.01586,
+              "standard_error": 0.005102792370633902,
+              "ci95": [
+                -0.025861473046442447,
+                -0.005858526953557552
+              ],
+              "independent_units": 50000
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": -0.017217999999999994,
+              "standard_error": 0.004974019865962794,
+              "ci95": [
+                -0.02696707893728707,
+                -0.007468921062712918
+              ],
+              "independent_units": 50000
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": 0.0015,
+              "standard_error": 0.005146774211649051,
+              "ci95": [
+                -0.00858767745483214,
+                0.01158767745483214
+              ],
+              "independent_units": 50000
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.00985,
+              "standard_error": 0.005106924824551785,
+              "ci95": [
+                -0.019859572656121496,
+                0.00015957265612149933
+              ],
+              "independent_units": 50000
+            }
+          },
+          "model_hash": "04e4b4fb3bf7332d1df15e6d61d2ec23173f35111aa3afe23898fbc453a36dd7",
+          "inference_mode": "sdk"
+        },
+        "basic": {
+          "mean_units_per_round": -0.004873799999999999,
+          "ci95": [
+            -0.008029964914337606,
+            -0.0017176350856623916
+          ],
+          "rounds": 500000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.00592,
+              "standard_error": 0.005123477732212901,
+              "ci95": [
+                -0.015962016355137283,
+                0.004122016355137285
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": 0.00248,
+              "standard_error": 0.005114743415265724,
+              "ci95": [
+                -0.007544897093920819,
+                0.012504897093920818
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.00101,
+              "standard_error": 0.005096116070693457,
+              "ci95": [
+                -0.008978387498559174,
+                0.010998387498559175
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.0041,
+              "standard_error": 0.005117634961947958,
+              "ci95": [
+                -0.014130564525417999,
+                0.0059305645254179975
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.00251,
+              "standard_error": 0.0050981853465597495,
+              "ci95": [
+                -0.012502443279257109,
+                0.007482443279257109
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.00114,
+              "standard_error": 0.0051101170509026,
+              "ci95": [
+                -0.011155829419769095,
+                0.008875829419769094
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": -0.01499,
+              "standard_error": 0.005099482924034736,
+              "ci95": [
+                -0.024984986531108082,
+                -0.004995013468891918
+              ],
+              "independent_units": 50000
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": -0.015477999999999997,
+              "standard_error": 0.004966569235047401,
+              "ci95": [
+                -0.025212475700692905,
+                -0.005743524299307091
+              ],
+              "independent_units": 50000
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": 0.00097,
+              "standard_error": 0.005093368240172764,
+              "ci95": [
+                -0.009013001750738617,
+                0.010953001750738618
+              ],
+              "independent_units": 50000
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.00906,
+              "standard_error": 0.005100282206463845,
+              "ci95": [
+                -0.019056553124669137,
+                0.0009365531246691358
+              ],
+              "independent_units": 50000
+            }
+          },
+          "model_hash": null,
+          "inference_mode": "not_applicable"
+        }
+      },
+      "candidate": "candidate",
+      "paired_candidate_minus": {
+        "baseline": {
+          "mean_difference": -0.0001990000000000001,
+          "ci95": [
+            -0.0007816102831134994,
+            0.0003836102831134993
+          ],
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.00135,
+              "standard_error": 0.0009922112878136356,
+              "ci95": [
+                -0.003294734124114726,
+                0.0005947341241147256
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": -0.00137,
+              "standard_error": 0.0009481985254201106,
+              "ci95": [
+                -0.0032284691098234163,
+                0.0004884691098234167
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": -0.0014,
+              "standard_error": 0.0008968706080242294,
+              "ci95": [
+                -0.0031578663917274895,
+                0.0003578663917274895
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.00152,
+              "standard_error": 0.0008985376672120029,
+              "ci95": [
+                -0.003281133827735526,
+                0.00024113382773552567
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.00143,
+              "standard_error": 0.0009473526542639922,
+              "ci95": [
+                -0.003286811202357425,
+                0.0004268112023574247
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": 0.00061,
+              "standard_error": 0.0008976127629292286,
+              "ci95": [
+                -0.0011493210153412882,
+                0.002369321015341288
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": 0.00134,
+              "standard_error": 0.0008996556427909026,
+              "ci95": [
+                -0.00042332505987016894,
+                0.0031033250598701692
+              ],
+              "independent_units": 50000
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": 0.00105,
+              "standard_error": 0.0008709151048537381,
+              "ci95": [
+                -0.0006569936055133268,
+                0.0027569936055133267
+              ],
+              "independent_units": 50000
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": 0.00077,
+              "standard_error": 0.001095131100938406,
+              "ci95": [
+                -0.0013764569578392756,
+                0.0029164569578392753
+              ],
+              "independent_units": 50000
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": 0.00131,
+              "standard_error": 0.0009327824396190105,
+              "ci95": [
+                -0.0005182535816532607,
+                0.003138253581653261
+              ],
+              "independent_units": 50000
+            }
+          }
+        },
+        "basic": {
+          "mean_difference": -6.300000000000004e-05,
+          "ci95": [
+            -0.0006682385764059915,
+            0.0005422385764059915
+          ],
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": 0.00018,
+              "standard_error": 0.0010068861049754177,
+              "ci95": [
+                -0.0017934967657518186,
+                0.0021534967657518187
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": 0.00027,
+              "standard_error": 0.0009818950169730404,
+              "ci95": [
+                -0.001654514233267159,
+                0.002194514233267159
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": -0.00213,
+              "standard_error": 0.0009024552900343653,
+              "ci95": [
+                -0.0038988123684673558,
+                -0.0003611876315326441
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.00089,
+              "standard_error": 0.000952104137185508,
+              "ci95": [
+                -0.0027561241088835957,
+                0.0009761241088835958
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.00125,
+              "standard_error": 0.000923084932016461,
+              "ci95": [
+                -0.0030592464667522634,
+                0.0005592464667522634
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": 0.00159,
+              "standard_error": 0.0009305196157712671,
+              "ci95": [
+                -0.00023381844691168344,
+                0.0034138184469116838
+              ],
+              "independent_units": 50000
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": 0.00047,
+              "standard_error": 0.0009153755187062875,
+              "ci95": [
+                -0.0013241360166643236,
+                0.0022641360166643235
+              ],
+              "independent_units": 50000
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": -0.00069,
+              "standard_error": 0.0009021678092988703,
+              "ci95": [
+                -0.0024582489062257855,
+                0.0010782489062257858
+              ],
+              "independent_units": 50000
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": 0.0013,
+              "standard_error": 0.001260792604657816,
+              "ci95": [
+                -0.0011711535051293193,
+                0.003771153505129319
+              ],
+              "independent_units": 50000
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": 0.00052,
+              "standard_error": 0.0009365960368497855,
+              "ci95": [
+                -0.0013157282322255799,
+                0.0023557282322255796
+              ],
+              "independent_units": 50000
+            }
+          }
+        }
+      },
+      "inference": "Fixed equal-weight strata; normal 95% intervals over independent rounds or 100-round blocks. Scenario intervals are exploratory, without multiplicity correction.",
+      "pairing": "Identical initial RNG seeds per unit; different actions can diverge subsequent trajectories.",
+      "limitations": "The basic policy is a multi-deck heuristic. Fixed wagers, no insurance; these simulator results do not establish optimality or real-world profitability."
+    },
+    "continuous": {
+      "identity": {
+        "version": "paired-policy-v1",
+        "scenarios": {
+          "s17-6d-1p": {
+            "players": 1,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-2p": {
+            "players": 2,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-3p": {
+            "players": 3,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-4p": {
+            "players": 4,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-5p": {
+            "players": 5,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-6p": {
+            "players": 6,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-6d-7p": {
+            "players": 7,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "h17-no-das-6to5": {
+            "players": 3,
+            "decks": 6,
+            "hit_soft_17": true,
+            "double_after_split": false,
+            "surrender": true,
+            "blackjack_payout": 1.2,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "s17-2d-3p": {
+            "players": 3,
+            "decks": 2,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "basic"
+          },
+          "random-tablemates-7p": {
+            "players": 7,
+            "decks": 6,
+            "hit_soft_17": false,
+            "double_after_split": true,
+            "surrender": true,
+            "blackjack_payout": 1.5,
+            "penetration": 0.75,
+            "max_hands": 4,
+            "tablemate_policy": "random"
+          }
+        },
+        "mode": "continuous",
+        "units": 5000,
+        "rounds_per_unit": 100,
+        "seed": 239324845287449030880303474053315326362
+      },
+      "results": {
+        "candidate": {
+          "mean_units_per_round": -0.0055542000000000005,
+          "ci95": [
+            -0.008701244248590694,
+            -0.0024071557514093065
+          ],
+          "rounds": 500000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.011030000000000002,
+              "standard_error": 0.004800235694781133,
+              "ci95": [
+                -0.020438461961771022,
+                -0.0016215380382289812
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": 0.000870000000000001,
+              "standard_error": 0.0051996402488474975,
+              "ci95": [
+                -0.009321294887741093,
+                0.011061294887741095
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": -0.0026900000000000006,
+              "standard_error": 0.005180105673591916,
+              "ci95": [
+                -0.012843007120240155,
+                0.0074630071202401544
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.004060000000000001,
+              "standard_error": 0.0052151345194646915,
+              "ci95": [
+                -0.014281663658150796,
+                0.006161663658150794
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.006100000000000001,
+              "standard_error": 0.005051079767102006,
+              "ci95": [
+                -0.016000116343519933,
+                0.0038001163435199305
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.01142,
+              "standard_error": 0.005063283606688798,
+              "ci95": [
+                -0.021344035869110045,
+                -0.0014959641308899558
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": 0.0058000000000000005,
+              "standard_error": 0.005286910519924787,
+              "ci95": [
+                -0.004562344619052582,
+                0.016162344619052582
+              ],
+              "independent_units": 500
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": -0.025162000000000007,
+              "standard_error": 0.004894177915333061,
+              "ci95": [
+                -0.034754588714052806,
+                -0.015569411285947209
+              ],
+              "independent_units": 500
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": -0.0007200000000000004,
+              "standard_error": 0.005202720422970967,
+              "ci95": [
+                -0.010917332029023097,
+                0.009477332029023096
+              ],
+              "independent_units": 500
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.0010299999999999994,
+              "standard_error": 0.004855278122960888,
+              "ci95": [
+                -0.01054634512100334,
+                0.00848634512100334
+              ],
+              "independent_units": 500
+            }
+          },
+          "model_hash": "64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de",
+          "inference_mode": "sdk"
+        },
+        "baseline": {
+          "mean_units_per_round": -0.008300000000000002,
+          "ci95": [
+            -0.011435865151359258,
+            -0.005164134848640744
+          ],
+          "rounds": 500000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.010670000000000002,
+              "standard_error": 0.004692231481134013,
+              "ci95": [
+                -0.019866773703022665,
+                -0.001473226296977338
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": -0.0007000000000000002,
+              "standard_error": 0.005111837415599899,
+              "ci95": [
+                -0.010719201334575804,
+                0.009319201334575802
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": -0.005459999999999999,
+              "standard_error": 0.005138929264737543,
+              "ci95": [
+                -0.015532301358885583,
+                0.004612301358885586
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.007469999999999999,
+              "standard_error": 0.00525174827270307,
+              "ci95": [
+                -0.017763426614498014,
+                0.002823426614498017
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.010990000000000002,
+              "standard_error": 0.005054169472635067,
+              "ci95": [
+                -0.020896172166364732,
+                -0.0010838278336352692
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.01205,
+              "standard_error": 0.0050454144938577306,
+              "ci95": [
+                -0.021939012407961152,
+                -0.002160987592038848
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": 0.0035099999999999997,
+              "standard_error": 0.005148268557318718,
+              "ci95": [
+                -0.006580606372344689,
+                0.013600606372344688
+              ],
+              "independent_units": 500
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": -0.027630000000000005,
+              "standard_error": 0.004872052132722713,
+              "ci95": [
+                -0.03717922218013652,
+                -0.01808077781986349
+              ],
+              "independent_units": 500
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": -0.00422,
+              "standard_error": 0.005170381890904732,
+              "ci95": [
+                -0.014353948506173273,
+                0.005913948506173274
+              ],
+              "independent_units": 500
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.00732,
+              "standard_error": 0.005085800421945766,
+              "ci95": [
+                -0.0172881688270137,
+                0.0026481688270137017
+              ],
+              "independent_units": 500
+            }
+          },
+          "model_hash": "04e4b4fb3bf7332d1df15e6d61d2ec23173f35111aa3afe23898fbc453a36dd7",
+          "inference_mode": "sdk"
+        },
+        "basic": {
+          "mean_units_per_round": -0.008639599999999999,
+          "ci95": [
+            -0.011796237141417962,
+            -0.005482962858582036
+          ],
+          "rounds": 500000,
+          "voids": 0,
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.010119999999999997,
+              "standard_error": 0.004804199398830929,
+              "ci95": [
+                -0.01953623082170862,
+                -0.0007037691782913764
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": -0.00028000000000000025,
+              "standard_error": 0.005118950136600473,
+              "ci95": [
+                -0.010313142267736927,
+                0.009753142267736926
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": -0.005440000000000001,
+              "standard_error": 0.005116734774199167,
+              "ci95": [
+                -0.015468800157430369,
+                0.004588800157430365
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": -0.01064,
+              "standard_error": 0.005200853637347837,
+              "ci95": [
+                -0.02083367312920176,
+                -0.00044632687079823943
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": -0.01221,
+              "standard_error": 0.005016079535634939,
+              "ci95": [
+                -0.02204151588984448,
+                -0.0023784841101555203
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": -0.012000000000000002,
+              "standard_error": 0.005098056527807576,
+              "ci95": [
+                -0.021992190794502854,
+                -0.0020078092054971516
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": 0.002650000000000001,
+              "standard_error": 0.005194248302773147,
+              "ci95": [
+                -0.007530726673435366,
+                0.012830726673435369
+              ],
+              "independent_units": 500
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": -0.028666000000000004,
+              "standard_error": 0.004920940173623814,
+              "ci95": [
+                -0.03831104274030268,
+                -0.01902095725969733
+              ],
+              "independent_units": 500
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": -0.003130000000000001,
+              "standard_error": 0.005244914150765272,
+              "ci95": [
+                -0.013410031735499933,
+                0.007150031735499931
+              ],
+              "independent_units": 500
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": -0.006559999999999999,
+              "standard_error": 0.005197148593893966,
+              "ci95": [
+                -0.016746411244032172,
+                0.0036264112440321733
+              ],
+              "independent_units": 500
+            }
+          },
+          "model_hash": null,
+          "inference_mode": "not_applicable"
+        }
+      },
+      "candidate": "candidate",
+      "paired_candidate_minus": {
+        "baseline": {
+          "mean_difference": 0.0027457999999999996,
+          "ci95": [
+            0.0007175908350806224,
+            0.004774009164919377
+          ],
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.00035999999999999986,
+              "standard_error": 0.0032039774879806778,
+              "ci95": [
+                -0.0066397958764421285,
+                0.005919795876442128
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": 0.0015699999999999993,
+              "standard_error": 0.0030582472025498207,
+              "ci95": [
+                -0.004424164516997649,
+                0.007564164516997648
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.0027699999999999995,
+              "standard_error": 0.003137202300865073,
+              "ci95": [
+                -0.003378916509695543,
+                0.008918916509695542
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": 0.0034100000000000003,
+              "standard_error": 0.0030837741691395796,
+              "ci95": [
+                -0.002634197371513576,
+                0.009454197371513576
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": 0.004889999999999999,
+              "standard_error": 0.0031410201870779603,
+              "ci95": [
+                -0.001266399566672803,
+                0.0110463995666728
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": 0.0006299999999999999,
+              "standard_error": 0.0027580282158234993,
+              "ci95": [
+                -0.004775735303014058,
+                0.006035735303014059
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": 0.00229,
+              "standard_error": 0.002424989267170431,
+              "ci95": [
+                -0.0024629789636540444,
+                0.007042978963654044
+              ],
+              "independent_units": 500
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": 0.002468000000000001,
+              "standard_error": 0.0028568887936281867,
+              "ci95": [
+                -0.003131502035511245,
+                0.008067502035511247
+              ],
+              "independent_units": 500
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": 0.003499999999999999,
+              "standard_error": 0.002504364926957481,
+              "ci95": [
+                -0.0014085552568366632,
+                0.008408555256836661
+              ],
+              "independent_units": 500
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": 0.006289999999999999,
+              "standard_error": 0.005506743160932872,
+              "ci95": [
+                -0.00450321659542843,
+                0.017083216595428427
+              ],
+              "independent_units": 500
+            }
+          }
+        },
+        "basic": {
+          "mean_difference": 0.0030854000000000007,
+          "ci95": [
+            0.0009270502359398003,
+            0.005243749764060201
+          ],
+          "by_scenario": {
+            "s17-6d-1p": {
+              "mean_units_per_round": -0.0009099999999999997,
+              "standard_error": 0.003536106885235175,
+              "ci95": [
+                -0.007840769495060943,
+                0.006020769495060943
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-2p": {
+              "mean_units_per_round": 0.00115,
+              "standard_error": 0.0033030099529821272,
+              "ci95": [
+                -0.005323899507844969,
+                0.007623899507844969
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-3p": {
+              "mean_units_per_round": 0.0027500000000000007,
+              "standard_error": 0.0033421422515595173,
+              "ci95": [
+                -0.003800598813056653,
+                0.009300598813056653
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-4p": {
+              "mean_units_per_round": 0.00658,
+              "standard_error": 0.003174075725849472,
+              "ci95": [
+                0.00035881157733503536,
+                0.012801188422664964
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-5p": {
+              "mean_units_per_round": 0.006110000000000001,
+              "standard_error": 0.0033109758262246016,
+              "ci95": [
+                -0.000379512619400218,
+                0.012599512619400219
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-6p": {
+              "mean_units_per_round": 0.0005799999999999997,
+              "standard_error": 0.002866034806317265,
+              "ci95": [
+                -0.0050374282203818396,
+                0.006197428220381839
+              ],
+              "independent_units": 500
+            },
+            "s17-6d-7p": {
+              "mean_units_per_round": 0.0031500000000000005,
+              "standard_error": 0.0025525842537995665,
+              "ci95": [
+                -0.0018530651374471497,
+                0.00815306513744715
+              ],
+              "independent_units": 500
+            },
+            "h17-no-das-6to5": {
+              "mean_units_per_round": 0.003504000000000002,
+              "standard_error": 0.0030783431193941724,
+              "ci95": [
+                -0.0025295525140125756,
+                0.00953755251401258
+              ],
+              "independent_units": 500
+            },
+            "s17-2d-3p": {
+              "mean_units_per_round": 0.0024100000000000007,
+              "standard_error": 0.002868683057601508,
+              "ci95": [
+                -0.0032126187928989552,
+                0.008032618792898957
+              ],
+              "independent_units": 500
+            },
+            "random-tablemates-7p": {
+              "mean_units_per_round": 0.005530000000000001,
+              "standard_error": 0.005762582138747491,
+              "ci95": [
+                -0.005764660991945082,
+                0.016824660991945083
+              ],
+              "independent_units": 500
+            }
+          }
+        }
+      },
+      "inference": "Fixed equal-weight strata; normal 95% intervals over independent rounds or 100-round blocks. Scenario intervals are exploratory, without multiplicity correction.",
+      "pairing": "Identical initial RNG seeds per unit; different actions can diverge subsequent trajectories.",
+      "limitations": "The basic policy is a multi-deck heuristic. Fixed wagers, no insurance; these simulator results do not establish optimality or real-world profitability."
+    }
+  },
+  "research_evidence": true,
+  "activated": false,
+  "uploaded": false,
+  "published": false,
+  "interpretation": "Research incumbent retained under the predeclared selection rule. Continuous-shoe return advantages over basic and packaged v0.2 have positive familywise intervals; fresh-shoe differences are unresolved. Aggregate absolute returns remain negative. This establishes neither global optimality nor real-world profitability.",
+  "next": "Review presentation and usage examples, stage only the chosen model in a clean private Hub history, and verify a pinned download before activation or publication."
+}

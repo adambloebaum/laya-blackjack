@@ -62,4 +62,31 @@ The [real five-model smoke](results/final-release-smoke.json) completed in **206
 
 ## Full launch
 
-Run **`20260924-034132-final-release`** launched from immutable source **`16a356f`** at **20:41 Pacific, September 23**, with its original deadline at **08:41 Pacific, September 24**. Its Python source hashes match the verified smoke exactly. The [launch receipt](results/final-release-launch.json) freezes all five model identities, selection criterion, fresh counts, resource limits, and verified dashboard heartbeat. The run is generating new games; final selection and performance results are pending. General run pointers now identify this release study; completed visitation pointers retain their historical experiments.
+Run **`20260924-034132-final-release`** launched from immutable source **`16a356f`** at **20:41 Pacific, September 23**, with its original deadline at **08:41 Pacific, September 24**. Its Python source hashes match the verified smoke exactly. The [launch receipt](results/final-release-launch.json) freezes all five model identities, selection criterion, fresh counts, resource limits, and verified dashboard heartbeat. It completed at **05:25 Pacific, September 24**, in **8 hours 44 minutes**, before the original deadline. General run pointers now identify this release study; completed visitation pointers retain their historical experiments.
+
+## Completed results
+
+The [verified completion receipt](results/final-release-completed.json) records all **7,380 return shards**, **1,515,000 policy-unit records**, and **3,000,000 policy-rounds**. Both paired return reports and the four-contrast adjusted summary reproduced exactly from the saved raw records using the archived evaluator. All five selection audits, both final SDK audits, source hashes, and the package inventory passed verification. Final predictions followed the global selection freeze; original reports were preserved.
+
+The teacher-cost **research incumbent** was retained under the predeclared rule. No challenger qualified. This selects the best-supported nominee under that reference-imitation criterion; return outcomes were assessed afterward and did not change the selection.
+
+| Nominee | Selection reference regret | Eligible challenger |
+| --- | ---: | --- |
+| Research incumbent | 0.00091700 | Default retained |
+| Packaged v0.2 | 0.00321610 | No |
+| Composition | 0.00136920 | No |
+| Model-visited | 0.00115928 | No |
+| Replication control | 0.00097981 | No |
+
+On **16,384 fresh final-test states**, the selected model agreed with the reference on **95.9473%**, versus **92.8345%** for packaged v0.2. Mean reference regret was **0.00101425** versus **0.00320423** original-wager units per decision, a **68.35% lower point estimate**. These compare predictions with the hybrid reference, including approximate Monte Carlo labels; they are not win probabilities or proof of optimal play.
+
+| Paired return contrast | Units per 100 rounds | Familywise 95% interval |
+| --- | ---: | ---: |
+| Fresh: selected minus basic | −0.00630 | [−0.08343, +0.07083] |
+| Fresh: selected minus packaged v0.2 | −0.01990 | [−0.09414, +0.05434] |
+| Continuous: selected minus basic | +0.30854 | [+0.03349, +0.58359] |
+| Continuous: selected minus packaged v0.2 | +0.27458 | [+0.01612, +0.53304] |
+
+Intervals use the predeclared Bonferroni correction across these four aggregate comparisons, with independent rounds or independent 100-round blocks and a normal approximation. Continuous-play advantages are resolved under this design; fresh-shoe differences remain unresolved. These conclusions apply to the fixed equal-weight simulation scenarios. The selected model's absolute average returns remained negative: **−0.49368 units per 100 fresh rounds** and **−0.55542 per 100 continuous rounds**. Lower losses do not establish casino profitability.
+
+The verified local package contains exactly one model and excludes intermediate weights from its evaluation archive. Its weight hash is `64ea2841949f306ed76c3032596c24bdc6cc5a0e45cfe25f180ee62468f151de`; its package manifest hash is `26320cadfe1fa7cad548011d689752d1b802c8e1ea8832635699f03d7ea81f04`. All inference files match the frozen selected model. The generated card is a private review draft. Final presentation and usage review, clean private Hub staging, and pinned-download verification remain before activation or publication. The existing v0.2 dashboard/download pin is unchanged. These final test results are now inspected and must not be reused as untouched evidence for further tuning.

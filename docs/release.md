@@ -4,7 +4,7 @@ The project lives on [GitHub](https://github.com/adambloebaum/laya-blackjack); t
 
 The owner wants **one final public model**, chosen after research is complete. Existing private packages are research artifacts, not commitments to publish multiple versions. Keep intermediate checkpoint weights private; comparative reports can accompany the one selected model.
 
-The [final-selection protocol](final-release-selection.md) freezes five completed nominees, uses new selection games, and then evaluates the chosen model on fresh SDK states and three million return rounds. Its local package is a review artifact; it does not change the existing Hub revision or dashboard pin.
+The [completed final selection](final-release-selection.md#completed-results) retained the teacher-cost research incumbent from five frozen nominees and verified all three million return rounds. The [completion receipt](results/final-release-completed.json) binds the selected inference files, final evidence, and one local package (manifest `26320cadfe1fa7cad548011d689752d1b802c8e1ea8832635699f03d7ea81f04`). Presentation review, clean private Hub staging, and pinned-download verification remain. The existing Hub revision and dashboard pin still identify v0.2.
 
 ## Before publication
 

@@ -84,13 +84,13 @@ The completed [exact-reference and decision-cost follow-up](docs/teacher-cost-ex
 
 ![Latest research candidate: paired return differences and uncertainty](docs/figures/large-return-overview.svg)
 
-Intermediate checkpoints stay private; the project will publish one final selected model. These research results describe the latest local candidate; the download above remains the existing packaged model until final selection.
+Intermediate checkpoints stay private; the project will publish one final selected model. These research results describe the latest local candidate; the download above remains the existing packaged model until the selected release is verified and activated.
 
 The stronger-label [model-visited-data pilot](docs/model-visited-pilot.md) qualified fresh collection and labeling. The subsequent [matched training study](docs/model-visited-training.md#completed-results) completed two 32,000-state training arms, three SDK audits, and **800,000 return rounds**. Model-visited training won the frozen selection rule, but its final return differences from the incumbent remain inconclusive: −0.025 units per 100 fresh rounds and +0.297 per 100 continuous rounds, with adjusted intervals spanning zero. Reference regret was 2.11% lower by point estimate, also unresolved. The candidate remains private and inactive; the report preserves the batch-parity failure and exact-SDK evaluation recovery.
 
-The independent [SDK replication](docs/model-visited-training.md#replication-results) completed **1.6 million return rounds** in 9 hours 33 minutes. It did not reproduce a benefit from model-visited training: that arm retained the incumbent weights. The standard-mixture control won selection, but its final reference regret was 17.9% higher and its small return gains remained inconclusive. The research incumbent is retained; one final public model still awaits final selection.
+The independent [SDK replication](docs/model-visited-training.md#replication-results) completed **1.6 million return rounds** in 9 hours 33 minutes. It did not reproduce a benefit from model-visited training: that arm retained the incumbent weights. The standard-mixture control won selection, but its final reference regret was 17.9% higher and its small return gains remained inconclusive. The research incumbent was retained for the final selection stage.
 
-The [final-selection stage](docs/final-release-selection.md) is running: it compares five frozen research candidates on fresh SDK selection games, then evaluates one chosen model in a fixed **3-million-round** benchmark and prepares its private release package. No additional fine-tuning is planned.
+The [final-selection stage](docs/final-release-selection.md#completed-results) completed in **8 hours 44 minutes**, retaining the research incumbent from five frozen nominees. Its fresh **3-million-round** benchmark measured continuous-play advantages of **+0.309 betting units per 100 rounds over basic strategy** and **+0.275 over the packaged v0.2 model**, both with positive multiplicity-adjusted intervals. Fresh-shoe differences remain inconclusive and average returns remain negative. A verified single-model package is ready locally for release review; upload and activation are pending. No additional fine-tuning is planned.
 
 ```bash
 uv run --no-sync pytest -q
