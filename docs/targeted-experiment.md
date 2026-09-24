@@ -6,7 +6,7 @@ The 0.2.0 release's largest confirmed errors cluster in depleted shoes and unusu
 
 | Component | Configuration |
 | --- | --- |
-| Warm start | Released model, pinned Hub revision in `blackjack/model_release.json` |
+| Warm start | Archived v0.2 package, manifest `c118e0679a88469fca053a0b1d99b3b2667a8289951c7543fd1501f6aa7289d5`; the current default pin now identifies the later selected model |
 | Training | 65,536 new states: 32,768 general and 32,768 depleted |
 | Selection | 4,096 new states: 2,048 per stratum |
 | Calibration | 2,048 new general states |
